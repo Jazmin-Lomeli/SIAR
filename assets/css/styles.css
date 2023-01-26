@@ -1,0 +1,48 @@
+body{
+    background-color: rgba(228, 215, 215, 0.1);
+}
+header{
+    background-color:  #65C27C;      /* Color */ 
+    font-size: 1.4em;
+    font-family: 'Segoe UI', sans-serif;  
+}
+
+header nav div ul li a:hover{
+ text-shadow: 1px 1px 6px #358048;
+ font-size: 1.1em;
+ font-weight: oblique;
+}
+
+.bienvenida{
+    font-style: oblique; 
+}
+
+.principal{
+    background-color: rgba(240, 240, 240, 0.911);
+    border-radius: 10 px;
+}
+ 
+.container nav div ul li a:hover{
+ text-shadow: 1px 1px 6px #666866;
+ font-size: 1.2em;
+ font-weight: oblique;
+}
+
+/*
+
+
+
+<select name="area" class="form-control <?php echo (!empty($area_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $area; ?>">
+                                        <option value="select">-- Seleccionar --</option>
+                          
+                                        <?php
+                                        $query ="SELECT * FROM tipo_empleado";
+                                        $resultado = $link->query($query);
+
+                                        while ($row = $resultado->fetch_assoc()) {
+                                            echo '<option value="'.$row['tipo'].'">'.$row['t_nombre'].'</option>';
+                                        }
+                                    ?>
+                                    </select>
+
+                                    */
