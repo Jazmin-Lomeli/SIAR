@@ -1,4 +1,12 @@
 <?php
+
+session_start();
+// Revisar si no se ha logeado 
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+  header("location: ../../login.php");
+  // exit;
+}
+
 /* Mostrar registros y hacer la busqueda en tiempo real */ 
 $sql = '';
 require '../config/config.php';
@@ -30,7 +38,6 @@ date_default_timezone_set("America/Mexico_City");
 $fecha_hoy = date("Y-m-d");
 /* Consulta Multitabla*/
 $sql = "SELECT  " . implode(", ", $columns) . " FROM " . " $table " . "INNER JOIN " . $table2 . " ON  $table.id=$table2.id_emp AND $table2.fecha < '$fecha_hoy' " . " $where " . "ORDER BY $table2.fecha";
-
 $resultado = $link->query($sql);
 
 $num_rows = $resultado->num_rows;
@@ -42,7 +49,7 @@ if ($num_rows > 0) {
     while ($row = $resultado->fetch_assoc()) {
         $html .= '<tr>';
         $html .= '<td>' . $row['id'] . '</td>';
-        $html .= '<td>' . $row['name'] . " " . $row['last_name'] . " " . $row['last_name2'] . '</td>';
+        $html .= '<td>' . $row['nombre'] . " " . $row['apellido'] . " " . $row['seg_apellido'] . '</td>';
         $html .= '<td>' . $row['fecha'] . '</td>';
 
         if ($row['entrada'] < '08:16:00') {         // entrada antes de las 8:15

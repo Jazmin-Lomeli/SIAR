@@ -14,6 +14,65 @@ $conexion = $link;
 if (!$conexion) {
   header('Location: login.php');
 }
+$fecha_hoy = date("Y-m-d");   
+$query ="SELECT * FROM empleados";
+$resultado = $link->query($query); 
+$conexion = $link;
+
+$id = $entrada  = $salida = "";
+$id_err = $entrada_err  = $salida_err = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+  /* Validar ID del usuario  */
+  if ($_POST["id"] == "select") {
+    $id_err = "ID vacio.";
+  }  else {
+    $param_id = trim($_POST["id"]);
+    $id = $param_id;
+  }
+  /* Validar HORA del registro  */
+  if (empty(trim($_POST["hora"]))) {
+    $entrada_err = "Hora de entrada vacia.";
+  } else {
+    $param_entrada = trim($_POST["hora"]);
+    $entrada = $param_entrada;
+  }
+
+  // Si no hay errores proseguimos a hacer la insercion en la tabla de aisistencia
+  if (empty($id_err) && empty($entrada_err) ){
+    /* Consulta */
+    $sql = "INSERT INTO asistencia (id_emp, entrada, fecha) VALUES (?,?,?)";
+
+    if ($stmt = mysqli_prepare($link, $sql)) {
+      /* Agregamos los parametros */
+      mysqli_stmt_bind_param($stmt, "sss", $param_id, $param_entrada, $fecha_hoy);
+      // Esteblecemos los parametros en los inpus, si hay un error no se borre lo que esta correcto  
+      // si la insercion se llevo a cabo de manera correcta 
+      if (mysqli_stmt_execute($stmt)) {
+        // Redirect to login page
+        header("location: admin_asistencia.php?mensaje=agregado");
+      } else {
+        header("location: admin_asistencia.php?mensaje=error");
+      }
+      // Close statement
+      mysqli_stmt_close($stmt);
+    }
+  }else{
+    header("location: admin_asistencia.php?mensaje=error");
+  }
+  // Close connection
+  mysqli_close($link);
+
+
+
+
+
+}
+
+
+
+
 
 
 ?>
@@ -78,6 +137,57 @@ if (!$conexion) {
         </div>
       </nav>
     </header>
+
+  <!-- Modal -->
+    <div class="modal fade pt-5" id="exampleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title " id="exampleModalLabel">Agregar entrada </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" id="formulario">
+              <div class="row">
+               
+                <div class="col-xl-6 col-lg-6 col-6 form-group text-center">
+                  <label for="id">ID de empleado</label>
+                    <select name="id" class="form-control <?php echo (!empty($area_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $area; ?>">
+                      <option value="select">-- Seleccionar --</option>
+                        <?php                              
+                          while ($row = $resultado->fetch_assoc()) {
+                          echo '<option value="'.$row['id'].'">'.$row['id']." - ".$row['nombre'].'</option>';
+                           }
+                        ?>
+                      </select>
+                  <!--<input id="id" type="text" name="id" class="form-control">-->
+                </div>
+                <div class="col-xl-6 col-lg-6 col-6 form-group text-center">
+                  <label for="fecha">Fecha</label>
+                  <input id="fecha" type="date" name="fecha" class="form-control" value="<?php echo $fecha_hoy; ?>" readonly>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-4 form-group"></div>
+                <div class="col-xl-4 col-lg-4 col-4 form-group text-center">
+                  <label for="hora">Hora</label>
+                  <input id="hora" type="time" name="hora" class="form-control">
+                </div>
+                <div class="col-xl-4 col-lg-4 col-4 form-group"></div>
+              </div>
+              <br>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary">Guardar cambios</button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- Modal -->
+
+
+
+
+
 
     <div class="px-4 pt-3  bienvenida">
         <div class="row">
@@ -170,9 +280,15 @@ if (!$conexion) {
     <div class="pt-2 pb-3">
       <div class="row">
         <div  class="col-md-auto align-self-start pe-2">
-          <abbr title='Agregar Asistencia, hora de entrada'>
-            <a class="btn btn-outline-primary ml-2" href="assets/scripts/add_asistencia.php">&nbsp;<i class="bi bi-person-plus-fill"> &nbsp;</i></a> 
-          </abbr> 
+        <abbr title='Agregar asistencia, hora de entrada'>
+            <a type="button" class="btn btn-outline-primary ml-2" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">
+              &nbsp;
+              <i class="bi bi-person-plus-fill">
+              </i>
+              &nbsp;
+            </a>
+          </abbr>
         </div>
             
             <div  class="col align-self-center">

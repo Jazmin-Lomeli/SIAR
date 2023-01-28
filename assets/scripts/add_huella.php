@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+// Revisar si no se ha logeado 
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+  header("location: ../../login.php");
+  // exit;
+}
+
 require '../config/config.php';
 /* Id que manda el boton de agregar huella de la vista reg_huella.php */ 
 $id_add = $_GET['id_add'];

@@ -57,7 +57,7 @@ if ($num_rows > 0) {
         }
         $html .= "<td>
         
-        <a href='empleado_detalles.php?id=".$row['id']."'>  
+        <a href='empleado_detalles.php?id=".$row['id']."&info=-'>  
             <abbr title='Detalles'>
                 <button  class='btn btn-outline-primary '><i class='bi bi-info-square p-1'></i></button>
              </abbr>

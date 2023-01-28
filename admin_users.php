@@ -80,7 +80,7 @@ $id_user = $_SESSION['id'];
             </li>
 
             <li class="nav-item">
-              <a class="nav-link active" href="admin_users.php" tabindex="-1" aria-disabled="true">Usuarios</a>
+              <a class="nav-link active" href="admin_users.php" tabindex="-1" aria-disabled="true">Recoradatorios</a>
             </li>
             <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
               <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
@@ -92,10 +92,6 @@ $id_user = $_SESSION['id'];
 
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp; &nbsp;<i class="bi bi-box-arrow-right"></i></a> </li>
-<!--
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something</a></li>
--->
                 </ul>  
 
               </ul>

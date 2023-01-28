@@ -57,9 +57,9 @@ if ($num_rows > 0) {
         }
         $html .= '<td>' . $row['salida'] . '</td>';
         $html .= "<td>
-        <a href='add_salida.php?id=".$row['id']."'>  
+        <a href='empleado_detalles.php?id=".$row['id']."&info=salida'>  
             <abbr title='Registrar salida manualmente'>
-                <button  class='btn btn-success' ><i class='bi bi-box-arrow-right'></i></button>
+                <button  class='btn btn-outline-success ml-2' ><i class='bi bi-box-arrow-right'></i></button>
             </abbr>
          </a>   
         </td>";

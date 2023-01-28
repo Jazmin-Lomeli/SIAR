@@ -20,13 +20,13 @@ $id = $_GET['id'];/* Extraemos el ID*/
 $name = $last_name = $last_name2 =  $tel= "";
 $name_err = $last1_err = $last2_err = $tel_err= "";
  
-$sql = "SELECT * FROM users WHERE id = '$id'";
+$sql = "SELECT * FROM empleados WHERE id = '$id'";
 $result = mysqli_query($conexion, $sql);
 /* Extarer los datos del registro */ 
 while($mostrar = mysqli_fetch_array($result)) {
-       $name = $mostrar['name'];
-       $last_name = $mostrar['last_name'];
-       $last_name2 = $mostrar['last_name2'];
+       $name = $mostrar['nombre'];
+       $last_name = $mostrar['apellido'];
+       $last_name2 = $mostrar['seg_apellido'];
        $tel = $mostrar['telefono'];
 }
 /* Validar los nuevos datos */ 
@@ -77,7 +77,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
      if($a == TRUE){
       header('Location: admin_reg.php?mensaje=editado');
      }else{
-      die(" No se puede Modificar el registro ");
+      die(" No se puede modificar el registro ");
       header('Location: admin_reg.php?mensaje=error');
       exit();
      }
@@ -114,42 +114,45 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
 
 <header >
-      <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow " style="background-color:  #65C27C">
-        <div class="container-fluid dernav">
-          <a class="navbar-brand"> 
-            <img src="./assets/img/logo.png" width="120" height="40" alt="">   <!-- Logo -->
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
-              </li>
+  <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
+      <div class="container-fluid dernav">
+        <a class="navbar-brand">
+          <img src="./assets/img/logo.png" width="140" height="50" alt=""> <!-- Logo -->
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+            <li class="nav-item ">
+              <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
+            </li>
 
-              <li class="nav-item">
-                <a class="nav-link active" href="#" tabindex="-1" aria-disabled="true">Usuarios</a>
-              </li>
-              <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item">
+              <a class="nav-link active" href="admin_users.php" tabindex="-1" aria-disabled="true">Recoradatorios</a>
+            </li>
+            <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
+              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
-                </a>
-                <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item " href="logout.php">Salir</a></li>
+              </a>
+              <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item"  href="#"> &nbsp; Cuenta &nbsp; &nbsp;<i class="bi bi-person-circle"></i> </a></li>
+
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item">Id: <?php echo htmlspecialchars($id_user); ?></a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something</a></li>
+                  <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp; &nbsp;<i class="bi bi-box-arrow-right"></i></a> </li>
                 </ul>  
-              </li>
-            </ul>
-          </div>
+
+              </ul>
+            </li>
+          </ul>
         </div>
-      </nav>
+      </div>
+    </nav>
 </header>
  
 
@@ -160,38 +163,41 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <div class="row text-center justify-content-center my-4">
             <div class="col-md-6 wrapper shadow p-3" >
                 <form method="post" id="formulario">
-                    <h2>Editar registro</h2>
-                    <p> Por favor edita los campos erroneos </p>
+                  <h2 class="pb-2">Editar registro</h2>
+                  <p> Por favor modifica solo los campos erroneos </p>
                     
-                    <div class="row g-3">
-                        <div class="col-sm-12 text-start mt-2 form-group">  
+                    <div class="row g-3 pt-2">
+                        <div class="col-sm-12 center mt-2 form-group">  
                             <label for= "nombre" class= "espacio">Nombre</label>
                             <input id="nombre" type="text" name="nombre" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
                             <span class="invalid-feedback"><?php echo $name_err; ?></span>
                         </div>
-                        <div class="col-sm-12 text-start form-group">
+                        <div class="col-sm-6 centert form-group">
                             <label for= "ape1">Apellido Paterno</label>
                             <input id= "ape1"type="text" name="ape1" class="form-control <?php echo (!empty($last1_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name; ?>">
                             <span class="invalid-feedback"><?php echo $last1_err; ?></span>   
                         </div>
-                        <div class="col-sm-12 text-start form-group">
+                        <div class="col-sm-6 centert form-group">
                             <label for= "ape2">Apellido Materno</label>
                             <input id= "ape2" type="text" name="ape2" class="form-control <?php echo (!empty($last2_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name2; ?>">
                             <span class="invalid-feedback"><?php echo $last2_err; ?></span>             
                         </div>
-                        <div class="col-sm-12 text-start form-group">
+                        <div class="col-sm-6 center form-group">
                             <label for= "tel">Telefono</label>
                             <input id= "tel" type="text" name="tel" class="form-control <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $tel; ?>">
                             <span class="invalid-feedback"><?php echo $tel_err; ?></span>   
                         </div>
-                        
-                       
-                        <div class="form-group col-md-12 botnones">
-                            <input type="submit" class="btn btn-outline-success" value="Editar" onclick="return confirm('Estás seguro de editar el registro?');">
-                            <a class="btn btn-outline-danger ml-2" href="register.php">Cancelar</a> 
+                        <div class="col-sm-6 text-center form-group">
+                            <label for= "tel">Telefono</label>
+                            <input id= "tel" type="text" name="tel" class="form-control <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $tel; ?>">
+                            <span class="invalid-feedback"><?php echo $tel_err; ?></span>   
                         </div>
+                    <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-4">
+                      <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
+                      <a class="btn btn-outline-danger ps-4 px-4" href="admin_reg.php" ><i class="bi bi-x-circle"></i> &nbsp; Cancelar</a> 
+                    </div>
                 </form>
-              </div>
+            </div>
         </div>
     </div>
   </div>   
