@@ -42,7 +42,7 @@ if ($num_rows > 0) {
     while ($row = $resultado->fetch_assoc()) {
         $html .= '<tr>';
         $html .= '<td>' . $row['id'] . '</td>';
-        $html .= '<td>' . $row['name'] . " " . $row['last_name'] . " " . $row['last_name2'] . '</td>';
+        $html .= '<td>' . $row['nombre'] . " " . $row['apellido'] . " " . $row['seg_apellido'] . '</td>';
         $html .= '<td>' . $row['fecha'] . '</td>';
 
         if ($row['entrada'] < '08:16:00') {         // entrada antes de las 8:15
