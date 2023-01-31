@@ -427,9 +427,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="row align-items-start">
           <div class="container">
             <div class="row pb-3">
+              <div class="col-3">
+              <span class="lead"> <strong> ID de empleado: </strong><?php echo $id_emp ?></span>
+              </div>
               <div class="col-4">
                 <span class="lead"> <strong >Nombre: </strong><?php echo  $name  ?></span>
               </div>
+
               <div class="col-4">
               <span class="lead"> <strong >Teléfono: </strong><?php echo $tel ?></span>
               </div>
@@ -437,16 +441,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </div>
             </div>
             <div class="row pb-3">
-              <div class="col-4">
+              <div class="col-3 pb-3">
               <span class="lead"><strong> Área laboral: </strong><?php echo  $area ?></span>
               </div>
-              <div class="col-4">
+              <div class="col-4 pb-3">
               <span class="lead"><strong> Fecha de registro: </strong> <?php echo $f_reg ?></span>
               </div>
-              <div class="col-2">
-              <span class="lead"> <strong> ID de empleado: </strong><?php echo $id_emp ?></span>
-              </div>
-              <div class="col-2">
+              
+              <div class="col-2 pb-3">
                 <?php 
                  if($id_huella =="- -"){
                 ?>
@@ -459,11 +461,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php
                  }
                 ?>
-
+              </div>
+              <div class="col-2 pb-3"></div>
+              <div class="col-4 ">
+                <span class="lead"> <strong> Asistencia:</strong> <?php echo "ENTRADA" ?> </span>
 
               </div>
             </div>
-
           </div>
            
         </div>

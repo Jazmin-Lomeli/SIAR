@@ -3,109 +3,49 @@ CONFIGURACION DE XAMPP COMO SERVIDOR LOCAL
 
 
 
-
-   <!-- Modal -->
-<div class="modal fade pt-5" id="nuevo_empleado" tabindex="-1" aria-labelledby="nuevo_empleado" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title " id="exampleModalLabel" > Registro</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        
-      <form method="post" id="formulario">  
-      <div class="row" >
-        <div class="col-xl-12 col-lg-6 col-12 form-group">  
-          <label for= "nombre" class="">Nombre</label>
-          <input id="nombre" type="text" name="nombre" class="form-control">
-         </div>
-         <div class="col-xl-12 col-lg-6 col-12 form-group">  
-          <label for= "ape1" class="">Apellido</label>
-          <input id="ape1" type="text" name="ape1" class="form-control">
-         </div>
-         <div class="col-xl-12 col-lg-6 col-12 form-group">  
-          <label for= "ape2" class="">Segundo apellido</label>
-          <input id="ape2" type="text" name="ape2" class="form-control">
-         </div>
-         <div class="col-xl-12 col-lg-6 col-12 form-group">  
-          <label for= "tel" class="">Telefono</label>
-          <input id="tel" type="text" name="tel" class="form-control">
-         </div>
-         <div class="col-xl-12 col-lg-6 col-12 form-group">  
-          <label for="area">Puesto</label>
-            <select name="area" class="form-control <?php echo (!empty($area_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $area; ?>">
-               <option value="select">-- Seleccionar --</option>
-                 <?php                              
-                   while ($row = $resultado->fetch_assoc()) {
-                     echo '<option value="'.$row['tipo'].'">'.$row['t_nombre'].'</option>';
-                        }
-                         ?>
-             </select>
-                <span class="invalid-feedback">
-                  <?php echo $area_err; ?>
-                 </span>      
-         </div>
-      </div> 
-      <br>
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      <button type="submit" class="btn btn-primary">Guardar cambios</button>
-
-      </form>
-      </div> 
-    </div>
-  </div>
-</div>
-  <!-- Modal -->
-
-
-
-
-  
-
-<div class="container">
- <!-- Formulario para cambiar los datos -->       
-  <div class="container shadow-none p-1">
-        <div class="row text-center justify-content-center my-4">
-            <div class="col-md-6 wrapper shadow p-3" >
-                <form method="post" id="formulario">
-                    <h2 class="pb-2">Editar registro</h2>
-                    <p> Por favor modifica solo los campos erroneos </p>
-                    
-                    <div class="row g-3">
-                        <div class="col-sm-12 text-start mt-2 form-group">  
-                            <label for= "nombre" class= "espacio">Nombre</label>
-                            <input id="nombre" type="text" name="nombre" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
-                            <span class="invalid-feedback"><?php echo $name_err; ?></span>
-                        </div>
-                        <div class="col-sm-6 text-start form-group">
-                            <label for= "ape1">Apellido Paterno</label>
-                            <input id= "ape1"type="text" name="ape1" class="form-control <?php echo (!empty($last1_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name; ?>">
-                            <span class="invalid-feedback"><?php echo $last1_err; ?></span>   
-                        </div>
-                        <div class="col-sm-6 text-start form-group">
-                            <label for= "ape2">Apellido Materno</label>
-                            <input id= "ape2" type="text" name="ape2" class="form-control <?php echo (!empty($last2_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name2; ?>">
-                            <span class="invalid-feedback"><?php echo $last2_err; ?></span>             
-                        </div>
-                        <div class="col-sm-6 text-start form-group">
-                            <label for= "tel">Telefono</label>
-                            <input id= "tel" type="text" name="tel" class="form-control <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $tel; ?>">
-                            <span class="invalid-feedback"><?php echo $tel_err; ?></span>   
-                        </div>
-                        <div class="col-sm-6 text-start form-group">
-                            <label for= "tel">Telefono</label>
-                            <input id= "tel" type="text" name="tel" class="form-control <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $tel; ?>">
-                            <span class="invalid-feedback"><?php echo $tel_err; ?></span>   
-                        </div>
-                        
-                       
-                        <div class="form-group col-md-12 botnones">
-                            <input type="submit" class="btn btn-outline-success" value="Editar" onclick="return confirm('Estás seguro de editar el registro?');">
-                            <a class="btn btn-outline-danger ml-2" href="register.php">Cancelar</a> 
-                        </div>
-                </form>
-              </div>
-        </div>
-    </div>
-  </div>   
+   <form method="post" id="formulario"  class="px-4">
+              <p> Por favor modifica solo los campos erroneos </p>
+              <div class="row g-3 pt-2">
+                <div class="col-sm-2 center mt-2 form-group">  
+                  <label for= "id" class= "espacio">ID</label>
+                  <input id="id" type="text" name="id" class="form-control text-center" value="<?php echo $id; ?>" readonly>
+                </div>  
+                <div class="col-sm-10 center mt-2 form-group">  
+                  <label for= "nombre" class= "espacio">Nombre</label>
+                  <input id="nombre" type="text" name="nombre" class="form-control text-center <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
+                  <span class="invalid-feedback"><?php echo $name_err; ?></span>
+                </div>
+                <div class="col-sm-6 centert form-group">
+                  <label for= "ape1">Apellido Paterno</label>
+                  <input id= "ape1"type="text" name="ape1" class="form-control text-center <?php echo (!empty($last1_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name; ?>">
+                  <span class="invalid-feedback"><?php echo $last1_err; ?></span>   
+                </div>
+                <div class="col-sm-6 centert form-group">
+                  <label for= "ape2">Apellido Materno</label>
+                    <input id= "ape2" type="text" name="ape2" class="form-control text-center <?php echo (!empty($last2_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name2; ?>">
+                    <span class="invalid-feedback"><?php echo $last2_err; ?></span>             
+                </div>
+                <div class="col-sm-6 center form-group">
+                  <label for= "tel">Telefono</label>
+                  <input id= "tel" type="text" name="tel" maxlength="10" class="form-control text-center <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $tel; ?>">
+                  <span class="invalid-feedback"><?php echo $tel_err; ?></span>   
+                  </div>
+                  <div class="col-sm-6 text-center form-group">
+                    <label for= "puesto">Puesto</label>
+                      <select name="puesto" class="form-control <?php echo (!empty($area_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $puesto; ?>">
+                        <option value="<?php echo $tipo_puesto ?>"><?php echo $puesto?></option>
+                        <?php                              
+                          while ($row = $resultado->fetch_assoc()) {
+                            echo '<option value="'.$row['tipo'].'">'.$row['t_nombre'].'</option>';
+                          }
+                        ?>
+                      </select>
+                        <span class="invalid-feedback">
+                          <?php echo $area_err; ?>
+                        </span>              
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-4 pb-4">
+                    <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
+                    <a class="btn btn-outline-danger ps-4 px-4" href="admin_reg.php" ><i class="bi bi-x-circle"></i> &nbsp; Cancelar</a> 
+                  </div>
+            </form>

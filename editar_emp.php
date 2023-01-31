@@ -178,7 +178,7 @@ $conexion = $link;
     <div class="row px-5 aling-items-center">
       <div class="col-xl-2 col-lg-2 col-2 "> </div>
 
-      <div class="col-xl-8 col-lg-8 col-8 px-3">
+      <div class="col-xl-8 col-lg-8 col-8 px-4">
          
         <div class="card text-center">
           <div class="card-header">
@@ -186,14 +186,13 @@ $conexion = $link;
           </div>
           <div class="card-body px-5">
             <h3 class="card-title">Editar registro</h3>
-
-            <form method="post" id="formulario">
-              <p> Por favor modifica solo los campos erroneos </p>
+            <form method="post" id="formulario"  class="px-4">
+            <p> Por favor modifica solo los campos erroneos </p>
               <div class="row g-3 pt-2">
                 <div class="col-sm-2 center mt-2 form-group">  
                   <label for= "id" class= "espacio">ID</label>
                   <input id="id" type="text" name="id" class="form-control text-center" value="<?php echo $id; ?>" readonly>
-                </div>  
+                </div> 
                 <div class="col-sm-10 center mt-2 form-group">  
                   <label for= "nombre" class= "espacio">Nombre</label>
                   <input id="nombre" type="text" name="nombre" class="form-control text-center <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
@@ -211,10 +210,10 @@ $conexion = $link;
                 </div>
                 <div class="col-sm-6 center form-group">
                   <label for= "tel">Telefono</label>
-                  <input id= "tel" type="text" name="tel" class="form-control text-center <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $tel; ?>">
+                  <input id= "tel" type="text" name="tel" maxlength="10" class="form-control text-center <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $tel; ?>">
                   <span class="invalid-feedback"><?php echo $tel_err; ?></span>   
-                  </div>
-                  <div class="col-sm-6 text-center form-group">
+                </div>
+                <div class="col-sm-6 text-center form-group">
                     <label for= "puesto">Puesto</label>
                       <select name="puesto" class="form-control <?php echo (!empty($area_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $puesto; ?>">
                         <option value="<?php echo $tipo_puesto ?>"><?php echo $puesto?></option>
@@ -232,9 +231,12 @@ $conexion = $link;
                     <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
                     <a class="btn btn-outline-danger ps-4 px-4" href="admin_reg.php" ><i class="bi bi-x-circle"></i> &nbsp; Cancelar</a> 
                   </div>
+
+              </div>
             </form>
+          
           </div>
-         <div class="card-footer text-muted">
+          <div class="card-footer text-muted">
           2 days ago
          </div>
         </div>
