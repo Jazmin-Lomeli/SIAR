@@ -346,7 +346,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'area') {
     ?>
     <div class="alerta alert alert-success alert-dismissible fade show  text-center " role="alert">
-      <strong>EXITO!</strong> se agrego correctamete el area de trabajo.
+      <strong>¡EXITO!</strong> se agrego correctamete el area de trabajo.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <?php
@@ -356,12 +356,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'error') {
     ?>
     <div class="alerta alert alert-danger alert-dismissible fade show  text-center" role="alert">
-      <strong>ERROR!</strong>  No se pudo realizar la acción.
+      <strong>¡ERROR!</strong>  No se pudo realizar la acción.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <?php
            }
    ?>
+  <?php
+    if(isset($_GET['info']) and $_GET['info'] == 'edit'){
+      ?>
+      <div class="alerta alerta_error alert alert-success alert-dismissible fade show  text-center" role="alert">
+        <strong>¡Éxito!</strong> Registro editado.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+      </div>
+      <?php
+    }
+     ?>
 
 
     <h3 style="text-align: center; padding-top: 1rem;">Detalles del empleado </h3>
@@ -417,26 +428,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <div class="container">
             <div class="row pb-3">
               <div class="col-4">
-                Nombre: <?php echo  $name  ?>
+                <span class="lead"> <strong >Nombre: </strong><?php echo  $name  ?></span>
               </div>
               <div class="col-4">
-                Teléfono:  <?php echo $tel ?>
+              <span class="lead"> <strong >Teléfono: </strong><?php echo $tel ?></span>
               </div>
               <div class="col-4">
               </div>
             </div>
             <div class="row pb-3">
               <div class="col-4">
-                Área laboral:  <?php echo  $area ?>
+              <span class="lead"><strong> Área laboral: </strong><?php echo  $area ?></span>
               </div>
               <div class="col-4">
-                Fecha de registro:  <?php echo $f_reg ?>
+              <span class="lead"><strong> Fecha de registro: </strong> <?php echo $f_reg ?></span>
               </div>
               <div class="col-2">
-                ID de empleado:  <?php echo $id_emp ?>
+              <span class="lead"> <strong> ID de empleado: </strong><?php echo $id_emp ?></span>
               </div>
               <div class="col-2">
-                ID de huella: <?php echo $id_huella ?>
+                <?php 
+                 if($id_huella =="- -"){
+                ?>
+                 <span class="lead"> <strong> ID de huella: </strong> <span class="text-danger"><?php echo $id_huella ?></span></span>
+
+                <?php
+                 }else{
+                ?>
+                   <span class="lead"> <strong> ID de huella:</strong> <?php echo $id_huella ?> </span>
+                <?php
+                 }
+                ?>
+
+
               </div>
             </div>
 
