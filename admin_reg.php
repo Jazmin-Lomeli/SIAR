@@ -69,51 +69,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
   <!-- NAV BAR -->
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
-      <div class="container-fluid dernav">
-        <a class="navbar-brand">
-          <img src="./assets/img/logo.png" width="140" height="50" alt=""> <!-- Logo -->
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-            <li class="nav-item ">
-              <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
-            </li>
-            <li class="nav-item px-2">
-              <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
-            </li>
+  <header >
+      <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow " >
+        <div class="container-fluid dernav">
+          <a class="navbar-brand"> 
+            <img src="./assets/img/logo.png" width="140" height="50" alt="">   <!-- Logo -->
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+              <li class="nav-item ">
+                <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
+              </li>
+              <li class="nav-item px-2">
+                <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
+              </li>
 
-            <li class="nav-item">
-              <a class="nav-link active" href="admin_users.php" tabindex="-1" aria-disabled="true">Recoradatorios</a>
-            </li>
-            <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
-              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
+              <li class="nav-item">
+                <a class="nav-link active" href="admin_users.php" tabindex="-1" aria-disabled="true">Recordatorios</a>
+              </li>
+              <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
-              </a>
-              <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#"> &nbsp; Cuenta &nbsp; &nbsp;<i class="bi bi-person-circle"></i>
-                  </a></li>
+                </a>
 
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
-                    &nbsp;<i class="bi bi-box-arrow-right"></i></a> </li>
-              </ul>
+                <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item"  href="#"> &nbsp; Cuenta &nbsp; &nbsp;<i class="bi bi-person-circle"></i> </a></li>
 
-          </ul>
-          </li>
-          </ul>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp; &nbsp;<i class="bi bi-box-arrow-right"></i></a> </li>
+<!--
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something</a></li>
+-->
+                </ul>  
+
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
-  </header>
+      </nav>
+    </header>
   <!-- NAV BAR -->
 
   <div class="px-4 pt-3 bienvenida">
