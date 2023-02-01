@@ -7,49 +7,18 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   // exit;
 }
 
+/* Datos que vienen con la URL */
+$id_emp = $_GET['id'];
+$info = $_GET['info'];
+/* Llamar a los archivos */ 
 require_once 'assets/config/config.php';
-// require_once 'assets/config/functions.php';
-
+require('assets/scripts/consultas_detalles.php');
+ 
 $conexion = $link;
 if (!$conexion) {
   header('Location: login.php');
 }
-$select = " ";
-//  Consulta para extaer el area o tipo de empleado 
-$query ="SELECT * FROM tipo_empleado";
-$resultado = $link->query($query); 
-$conexion = $link;
 
-/* Datos que vienen con la URL */
-$id_emp = $_GET['id'];
-$info = $_GET['info'];
-
-$area = $asig_area = $err_area= '';
-$name = $tel = $fecha_r = $id_huella = $area = $id_huella = $f_reg = $status_huella = $area = "";
-// Detalles empleado 
-$sql_dato = "SELECT * FROM empleados LEFT JOIN tipo_empleado ON empleados.tipo=tipo_empleado.tipo  LEFT JOIN huella ON huella.id_emp=empleados.id Where empleados.id = '$id_emp'";
-$result = mysqli_query($conexion, $sql_dato);
-while($mostrar = mysqli_fetch_array($result)) {
-  $name = $mostrar['nombre'] ." ". $mostrar['apellido'] ." ". $mostrar['seg_apellido'] ;
-  $tel = $mostrar['telefono'];
-  $status_huella = $mostrar['huella'];
-  $f_reg = $mostrar['f_registro'];
-  $area = $mostrar['t_nombre'];
-  $id_huella  = $mostrar['id_huella'];
-}
-// Aun no tiene ID de huella en el sensor 
-if($status_huella == 0){
-  $id_huella = "- -";
-}
-
-$fecha_a = $h_entrada = $h_salida = $h_salida_err = "";
-// Detalles asistencia 
-$sql_asistencias = "SELECT * FROM `asistencia` WHERE id_emp = '$id_emp' LIMIT 1";
-$result_a = mysqli_query($conexion, $sql_asistencias);
-while($row = mysqli_fetch_array($result_a)) {
-  $fecha_a = $row['fecha'];
-  $h_entrada = $row['entrada'];
-}
 
 // Variables para el registro de una area de trabajo
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -76,7 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $h_salida = $_POST["h_salida"];
     }
     if(empty($h_salida_err)){
-      $add_salida = mysqli_query($link, "UPDATE asistencia SET salida = '$h_salida' WHERE id_emp = '$id_emp'");
+      $add_salida = mysqli_query($link, "UPDATE asistencia SET salida = '$h_salida' WHERE id_emp = '$id_emp' AND fecha = '$fecha_act' AND entrada = '$h_entrada'");
+ 
       if($add_salida == TRUE){
         header('Location: admin_asistencia.php?mensaje=agregado');
        }else{
@@ -346,7 +316,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'area') {
     ?>
     <div class="alerta alert alert-success alert-dismissible fade show  text-center " role="alert">
-      <strong>EXITO!</strong> se agrego correctamete el area de trabajo.
+      <strong>¡EXITO!</strong> se agrego correctamete el area de trabajo.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <?php
@@ -356,12 +326,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'error') {
     ?>
     <div class="alerta alert alert-danger alert-dismissible fade show  text-center" role="alert">
-      <strong>ERROR!</strong>  No se pudo realizar la acción.
+      <strong>¡ERROR!</strong>  No se pudo realizar la acción.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <?php
            }
    ?>
+  <?php
+    if(isset($_GET['info']) and $_GET['info'] == 'edit'){
+      ?>
+      <div class="alerta alerta_error alert alert-success alert-dismissible fade show  text-center" role="alert">
+        <strong>¡Éxito!</strong> Registro editado.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+      </div>
+      <?php
+    }
+     ?>
 
 
     <h3 style="text-align: center; padding-top: 1rem;">Detalles del empleado </h3>
@@ -378,14 +359,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="ps-2">
               <abbr title='Eliminar registro'>
-                <a class="btn btn-outline-danger ml-2" href="eliminar_emp.php"><i class="bi bi-trash3-fill">
+                <a class="btn btn-outline-danger btn-lg ml-2" href="eliminar_emp.php"><i class="bi bi-trash3-fill">
                    </i></a>
                 </abbr>
               </div>
 
             <div class="ps-2">
               <abbr title='Editar registro '>
-                  <a class="btn btn-outline-secondary ml-2" href="editar_emp.php?id=<?php echo $id_emp ?>"><i class="bi bi-pencil-square">
+                  <a class="btn btn-outline-secondary btn-lg ml-2" href="editar_emp.php?id=<?php echo $id_emp ?>"><i class="bi bi-pencil-square">
                       </i></a>
                 </abbr>
             </div>
@@ -416,41 +397,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="row align-items-start">
           <div class="container">
             <div class="row pb-3">
-              <div class="col-4">
-                Nombre: <?php echo  $name  ?>
+              <div class="col-3">
+              <span class="lead"> <strong> ID de empleado: </strong><?php echo $id_emp ?></span>
               </div>
               <div class="col-4">
-                Teléfono:  <?php echo $tel ?>
+                <span class="lead"> <strong >Nombre: </strong><?php echo  $name  ?></span>
+              </div>
+
+              <div class="col-4">
+              <span class="lead"> <strong >Teléfono: </strong><?php echo $tel ?></span>
               </div>
               <div class="col-4">
               </div>
             </div>
             <div class="row pb-3">
-              <div class="col-4">
-                Área laboral:  <?php echo  $area ?>
+              <div class="col-3 pb-3">
+              <span class="lead"><strong> Área laboral: </strong><?php echo  $area ?></span>
               </div>
-              <div class="col-4">
-                Fecha de registro:  <?php echo $f_reg ?>
+              <div class="col-4 pb-3">
+              <span class="lead"><strong> Fecha de registro: </strong> <?php echo $f_reg ?></span>
               </div>
-              <div class="col-2">
-                ID de empleado:  <?php echo $id_emp ?>
-              </div>
-              <div class="col-2">
-                ID de huella: <?php echo $id_huella ?>
-              </div>
-            </div>
+              
+              <div class="col-2 pb-3">
+                <?php 
+                 if($id_huella =="- -"){
+                ?>
+                 <span class="lead"> <strong> ID de huella: </strong> <span class="text-danger"><?php echo $id_huella ?></span></span>
 
+                <?php
+                 }else{
+                ?>
+                   <span class="lead"> <strong> ID de huella:</strong> <?php echo $id_huella ?> </span>
+                <?php
+                 }
+                ?>
+              </div>
+              <div class="col-2 pb-3"></div>
+               
+            </div>
           </div>
            
         </div>
       </div>
-      
+ 
+      <h4 class="text-start pt-2 pb-3"> Estatus de asistencia Actual </h>
 
-      <div class="row pb-2">
-        <h6 style="text-align: left; padding-top: 1rem;">Historial de asistencias </h6>
-       
+      <div class="row pb-3">
+        <div class="col-3 pt-2">
+          <span class="lead"> <strong> Asistencia:</strong> <?php echo  $fecha_a ?> </span>
+        </div>
+        <div class="col-4 pt-2">
+          <span class="lead"> <strong> Hora de entrada:</strong> <?php echo $h_entrada  ?> </span>
+        </div>
+        <div class="col-4 pt-2">
+          <span class="lead"> <strong> Hora de salida :</strong> <?php echo $h_salida ?> </span>
+               
+      </div>
     </div>
-
   </div>
  <!-- Detalles del registro  -->
 

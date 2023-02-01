@@ -72,6 +72,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     // Check input errors before inserting in database
     if(empty($name_err) && empty($last1_err) && empty($last2_err) && empty($tel_err) && empty($area_err)){
+        date_default_timezone_set("America/Mexico_City");      
         $fecha = date('Y-m-d');
         // Prepare an insert statement
         $sql = "INSERT INTO empleados (nombre, apellido, seg_apellido, telefono, tipo, f_registro) VALUES (?,?,?,?,?,?)";
@@ -89,9 +90,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Redirect to login page
-                header("location: admin_reg.php?mensaje=add");
+                header("location: ../../admin_reg.php?mensaje=add");
             } else{
-                header("location: admin_reg.php?mensaje=error");
+                header("location: ../../admin_reg.php?mensaje=error");
             }
 
             // Close statement

@@ -17,10 +17,10 @@ if (!$conexion) {
  
 $id = $_GET['id'];/* Extraemos el ID*/ 
 
-$name = $last_name = $last_name2 =  $tel= "";
-$name_err = $last1_err = $last2_err = $tel_err= "";
+$name = $last_name = $last_name2 = $tel = $puesto =  "";
+$name_err = $last1_err = $last2_err = $tel_err = $area_err = "";
  
-$sql = "SELECT * FROM empleados WHERE id = '$id'";
+$sql = "SELECT * FROM empleados INNER JOIN tipo_empleado ON empleados.tipo=tipo_empleado.tipo WHERE id = '$id'";
 $result = mysqli_query($conexion, $sql);
 /* Extarer los datos del registro */ 
 while($mostrar = mysqli_fetch_array($result)) {
@@ -28,6 +28,8 @@ while($mostrar = mysqli_fetch_array($result)) {
        $last_name = $mostrar['apellido'];
        $last_name2 = $mostrar['seg_apellido'];
        $tel = $mostrar['telefono'];
+       $puesto = $mostrar['t_nombre'];
+       $tipo_puesto = $mostrar['tipo'];
 }
 /* Validar los nuevos datos */ 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -68,23 +70,34 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $param_tel= trim($_POST["tel"]) ;  
         $tel = $param_tel;
     }
-/* Hacer la insercion de los nuevis datos */ 
-    if(empty($name_err) && empty($last1_err) && empty($last2_err) && empty($tel_err)){
-        echo $name. " ". $param_last1. " ". $param_last2 . " " .$id;
+    // Validar primer apellido
+    if(empty(trim($_POST["puesto"]))){
+      $area_err = "Por favor ingresa un tipo.";     
+   }else{
+      $param_area = trim($_POST["puesto"]) ;  
+      $puesto = $param_area;
+    }
 
-   $a =  mysqli_query($link, "UPDATE users SET name = '$name',  last_name = '$last_name',   last_name2 = '$last_name2',   telefono = '$tel' WHERE id = '$id'");
+
+/* Hacer la insercion de los nuevis datos */ 
+    if(empty($name_err) && empty($last1_err) && empty($last2_err) && empty($tel_err) && empty($area_err)){
+ 
+      $a =  mysqli_query($link, "UPDATE empleados SET nombre = '$name',  apellido = '$last_name',   seg_apellido = '$last_name2',   telefono = '$tel', tipo = '$puesto' WHERE id = '$id'");
        
      if($a == TRUE){
-      header('Location: admin_reg.php?mensaje=editado');
+      header('Location: empleado_detalles.php?id='.$id.'&info=edit');
      }else{
       die(" No se puede modificar el registro ");
-      header('Location: admin_reg.php?mensaje=error');
+      header('Location: empleado_detalles.php?id='.$id.'&info=error');
       exit();
      }
 }
-
 }
- 
+
+$query ="SELECT * FROM tipo_empleado";
+$resultado = $link->query($query); 
+$conexion = $link;
+
 
 ?>
 
@@ -154,53 +167,106 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       </div>
     </nav>
 </header>
- 
 
+      <style>
+        body{
+          background: rgba(128, 128, 128, 0.5);
+          height: 100%;
+        }
+      </style>
+  <div class="container p-5">
+    <div class="row px-5 aling-items-center">
+      <div class="col-xl-2 col-lg-2 col-2 "> </div>
 
-<div class="container">
- <!-- Formulario para cambiar los datos -->       
-  <div class="container shadow-none p-1">
-        <div class="row text-center justify-content-center my-4">
-            <div class="col-md-6 wrapper shadow p-3" >
-                <form method="post" id="formulario">
-                  <h2 class="pb-2">Editar registro</h2>
-                  <p> Por favor modifica solo los campos erroneos </p>
-                    
-                    <div class="row g-3 pt-2">
-                        <div class="col-sm-12 center mt-2 form-group">  
-                            <label for= "nombre" class= "espacio">Nombre</label>
-                            <input id="nombre" type="text" name="nombre" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
-                            <span class="invalid-feedback"><?php echo $name_err; ?></span>
-                        </div>
-                        <div class="col-sm-6 centert form-group">
-                            <label for= "ape1">Apellido Paterno</label>
-                            <input id= "ape1"type="text" name="ape1" class="form-control <?php echo (!empty($last1_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name; ?>">
-                            <span class="invalid-feedback"><?php echo $last1_err; ?></span>   
-                        </div>
-                        <div class="col-sm-6 centert form-group">
-                            <label for= "ape2">Apellido Materno</label>
-                            <input id= "ape2" type="text" name="ape2" class="form-control <?php echo (!empty($last2_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name2; ?>">
-                            <span class="invalid-feedback"><?php echo $last2_err; ?></span>             
-                        </div>
-                        <div class="col-sm-6 center form-group">
-                            <label for= "tel">Telefono</label>
-                            <input id= "tel" type="text" name="tel" class="form-control <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $tel; ?>">
-                            <span class="invalid-feedback"><?php echo $tel_err; ?></span>   
-                        </div>
-                        <div class="col-sm-6 text-center form-group">
-                            <label for= "tel">Telefono</label>
-                            <input id= "tel" type="text" name="tel" class="form-control <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $tel; ?>">
-                            <span class="invalid-feedback"><?php echo $tel_err; ?></span>   
-                        </div>
-                    <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-4">
-                      <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
-                      <a class="btn btn-outline-danger ps-4 px-4" href="admin_reg.php" ><i class="bi bi-x-circle"></i> &nbsp; Cancelar</a> 
-                    </div>
-                </form>
-            </div>
+      <div class="col-xl-8 col-lg-8 col-8 px-4">
+         
+        <div class="card text-center">
+          <div class="card-header">
+            Featured
+          </div>
+          <div class="card-body px-5">
+            <h3 class="card-title">Editar registro</h3>
+            <form method="post" id="formulario"  class="px-4">
+            <p> Por favor modifica solo los campos erroneos </p>
+              <div class="row g-3 pt-2">
+                <div class="col-sm-2 center mt-2 form-group">  
+                  <label for= "id" class= "espacio">ID</label>
+                  <input id="id" type="text" name="id" class="form-control text-center" value="<?php echo $id; ?>" readonly>
+                </div> 
+                <div class="col-sm-10 center mt-2 form-group">  
+                  <label for= "nombre" class= "espacio">Nombre</label>
+                  <input id="nombre" type="text" name="nombre" class="form-control text-center <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
+                  <span class="invalid-feedback"><?php echo $name_err; ?></span>
+                </div>
+                <div class="col-sm-6 centert form-group">
+                  <label for= "ape1">Apellido Paterno</label>
+                  <input id= "ape1"type="text" name="ape1" class="form-control text-center <?php echo (!empty($last1_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name; ?>">
+                  <span class="invalid-feedback"><?php echo $last1_err; ?></span>   
+                </div>
+                <div class="col-sm-6 centert form-group">
+                  <label for= "ape2">Apellido Materno</label>
+                    <input id= "ape2" type="text" name="ape2" class="form-control text-center <?php echo (!empty($last2_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name2; ?>">
+                    <span class="invalid-feedback"><?php echo $last2_err; ?></span>             
+                </div>
+                <div class="col-sm-6 center form-group">
+                  <label for= "tel">Telefono</label>
+                  <input id= "tel" type="text" name="tel" maxlength="10" class="form-control text-center <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $tel; ?>">
+                  <span class="invalid-feedback"><?php echo $tel_err; ?></span>   
+                </div>
+                <div class="col-sm-6 text-center form-group">
+                    <label for= "puesto">Puesto</label>
+                      <select name="puesto" class="form-control <?php echo (!empty($area_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $puesto; ?>">
+                        <option value="<?php echo $tipo_puesto ?>"><?php echo $puesto?></option>
+                        <?php                              
+                          while ($row = $resultado->fetch_assoc()) {
+                            echo '<option value="'.$row['tipo'].'">'.$row['t_nombre'].'</option>';
+                          }
+                        ?>
+                      </select>
+                        <span class="invalid-feedback">
+                          <?php echo $area_err; ?>
+                        </span>              
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-4 pb-4">
+                    <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
+                    <a class="btn btn-outline-danger ps-4 px-4" href="admin_reg.php" ><i class="bi bi-x-circle"></i> &nbsp; Cancelar</a> 
+                  </div>
+
+              </div>
+            </form>
+          
+          </div>
+          <div class="card-footer text-muted">
+          2 days ago
+         </div>
         </div>
+      </div>
+
+        <div class="col-xl-2 col-lg-2 col-2 "> </div> 
     </div>
-  </div>   
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
   <!-- JavaScript Bundle with Popper -->
  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>

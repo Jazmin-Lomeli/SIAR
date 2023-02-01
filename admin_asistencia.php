@@ -14,6 +14,8 @@ $conexion = $link;
 if (!$conexion) {
   header('Location: login.php');
 }
+date_default_timezone_set("America/Mexico_City");      
+
 $fecha_hoy = date("Y-m-d");   
 $query ="SELECT * FROM empleados";
 $resultado = $link->query($query); 
@@ -201,17 +203,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $dia = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
             ?>
             <p  class="d-flex">
-                <?php 
+                <?php
+                 
                 /* Establecer la hora de Mexico por que por defecto manda la del server  */  
                 date_default_timezone_set("America/Mexico_City");      
                 echo$dia[date('w')]. " ". date("d"). " de ". $mes[date("m")-1]. " de ". date("Y"). ".   ". date("h:i:sa");?> 
+               
             </p>
             </div>
         </div>
     </div>   
 <!-- Alertas de confirmacion o  error -->
     <div class="container mt-2 principal rounded-3 shadow mb-4">
-    <?php
+           <?php
             if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'error'){
             ?>
             <div class=" alerta_error alert alert-danger alert-dismissible fade show  text-center" role="alert">
