@@ -1,5 +1,5 @@
 body{
-    background-color: rgba(228, 215, 215, 0.1);
+    background-color: rgba(228, 224, 224, 0.4);
 }
 header{
     background-color:  #65C27C;      /* Color */ 
@@ -20,12 +20,22 @@ header nav div ul li a:hover{
 .principal{
     background-color: rgba(240, 240, 240, 0.911);
     border-radius: 10 px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+
 }
  
 .container nav div ul li a:hover{
  text-shadow: 1px 1px 6px #666866;
  font-size: 1.2em;
  font-weight: oblique;
+}
+
+.raise:hover,
+.raise:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
 }
 
 /*

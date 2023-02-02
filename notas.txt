@@ -1,51 +1,152 @@
 CONFIGURACION DE XAMPP COMO SERVIDOR LOCAL
 --> https://youtu.be/eWozquQyFRE
 
+SELECT empleados.nombre, tipo_empleado.t_nombre, recordatorios.r_nombre, recordatorios.descripcion
+FROM (empleados INNER JOIN tipo_empleado ON empleados.tipo = tipo_empleado.tipo) INNER JOIN recordatorios ON recordatorios.r_tipo = empleados.tipo
 
 
-   <form method="post" id="formulario"  class="px-4">
-              <p> Por favor modifica solo los campos erroneos </p>
-              <div class="row g-3 pt-2">
-                <div class="col-sm-2 center mt-2 form-group">  
-                  <label for= "id" class= "espacio">ID</label>
-                  <input id="id" type="text" name="id" class="form-control text-center" value="<?php echo $id; ?>" readonly>
-                </div>  
-                <div class="col-sm-10 center mt-2 form-group">  
-                  <label for= "nombre" class= "espacio">Nombre</label>
-                  <input id="nombre" type="text" name="nombre" class="form-control text-center <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
-                  <span class="invalid-feedback"><?php echo $name_err; ?></span>
-                </div>
-                <div class="col-sm-6 centert form-group">
-                  <label for= "ape1">Apellido Paterno</label>
-                  <input id= "ape1"type="text" name="ape1" class="form-control text-center <?php echo (!empty($last1_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name; ?>">
-                  <span class="invalid-feedback"><?php echo $last1_err; ?></span>   
-                </div>
-                <div class="col-sm-6 centert form-group">
-                  <label for= "ape2">Apellido Materno</label>
-                    <input id= "ape2" type="text" name="ape2" class="form-control text-center <?php echo (!empty($last2_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $last_name2; ?>">
-                    <span class="invalid-feedback"><?php echo $last2_err; ?></span>             
-                </div>
-                <div class="col-sm-6 center form-group">
-                  <label for= "tel">Telefono</label>
-                  <input id= "tel" type="text" name="tel" maxlength="10" class="form-control text-center <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $tel; ?>">
-                  <span class="invalid-feedback"><?php echo $tel_err; ?></span>   
+
+ <div class="col-6">
+                    <div class="table-responsive text-center">
+                    <h5 class="text-center pt-2 pb-3">  </h5>
+
+                      
+                    </div>
                   </div>
-                  <div class="col-sm-6 text-center form-group">
-                    <label for= "puesto">Puesto</label>
-                      <select name="puesto" class="form-control <?php echo (!empty($area_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $puesto; ?>">
-                        <option value="<?php echo $tipo_puesto ?>"><?php echo $puesto?></option>
-                        <?php                              
-                          while ($row = $resultado->fetch_assoc()) {
-                            echo '<option value="'.$row['tipo'].'">'.$row['t_nombre'].'</option>';
-                          }
-                        ?>
-                      </select>
-                        <span class="invalid-feedback">
-                          <?php echo $area_err; ?>
-                        </span>              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <div class="col-6 h-auto border border-secondary rounded shadow ">
+                    <div class="row pt-4 text-center">
+                      <div class="col-2">
+                        <abbr title='Mes de Enero'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 01 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                      <div class="col-2">
+                        <abbr title='Mes de Febrero'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 02 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                      <div class="col-2">
+                      <abbr title='Mes de Marzo'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 03 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                      <div class="col-2">
+                      <abbr title='Mes de Abril'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 04 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                      <div class="col-2">
+                      <abbr title='Mes de Mayo'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 05 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                      <div class="col-2">
+                      <abbr title='Mes de Junio'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 06 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                    </div>
+               <!-- 6 primeros meses-->
+                    <div class="row pt-4 text-center">
+                      <div class="col-2">
+                        <abbr title='Mes de Julio'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 07 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                      <div class="col-2">
+                        <abbr title='Mes de Agosto'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 08 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                      <div class="col-2">
+                      <abbr title='Mes de Septiembre'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 09 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                      <div class="col-2">
+                      <abbr title='Mes de Octubre'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 10 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                      <div class="col-2">
+                      <abbr title='Mes de Noviembre'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 11 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                      <div class="col-2">
+                      <abbr title='Mes de Diciembre'>
+                          <!-- Mandar datos por GET -->
+                          <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 " target="_blank"
+                            onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                            &nbsp; 12 &nbsp;
+                          </a>
+                        </abbr>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-4 pb-4">
-                    <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
-                    <a class="btn btn-outline-danger ps-4 px-4" href="admin_reg.php" ><i class="bi bi-x-circle"></i> &nbsp; Cancelar</a> 
-                  </div>
-            </form>
+                </div>
+
