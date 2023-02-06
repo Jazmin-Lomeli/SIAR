@@ -400,14 +400,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="ps-2">
                     <abbr title='Eliminar registro'>
                       <a type="button" class="btn btn-outline-danger btn-lg ml-2" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
+                        data-bs-target="#delete">
                         <i class="bi bi-trash3-fill"></i></a>
                     </abbr>
                   </div>
-
+<!-- -->
                   <div class="ps-2">
                     <abbr title='Editar registro '>
-                      <a class="btn btn-outline-secondary btn-lg ml-2" href="editar_emp.php?id=<?php echo $id_emp ?>">
+                      <a class="btn btn-outline-secondary btn-lg ml-2" data-bs-toggle="modal"
+                        data-bs-target="#edit">
+                      
                         <i class="bi bi-pencil-square"></i>
                       </a>
                     </abbr>
@@ -425,7 +427,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ?>
                     <div class="ps-2">
                       <abbr title='Registrar huella'>
-                        <a class="btn btn-outline-primary btn-lg ml-2"
+                        <a class="btn btn-outline-warning btn-lg ml-2"
                           href="assets/scripts/add_huella.php?id_add=<?php echo $id_emp ?>"><i class="bi bi-fingerprint">
                           </i></a>
                       </abbr>
@@ -523,212 +525,254 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                   </div>
                 </div>
-<br>
-<h4 class="text-start pt-2 pb-3">Asistencias</h4>
-<div class="container border rounded pb-3" style="border-color:rgb(220, 220, 220); background-color: rgba(228, 215, 215, 0.4);">
-                <div class="row pt-3">
-                  <div class="col-sm-8" >
-                    <div class="card shadow">
-                      <div class="card-body">
-                        <h5 class="card-title text-center pb-3">Historial 15 días habiles</h5>
-                        <table class="table table table-bordered table-hover border border-secondary text-center">
-                          <thead>
-                            <tr>
-                              <th>Fecha</th>
-                              <th>Hora de entrada</th>
-                              <th>Estatus</th>
-                              <th>Hora de salida</th>
-                            </tr>
-                          </thead>
-                          <tbody >
-                            <?php
-                            $query = "SELECT entrada, fecha, salida FROM empleados INNER JOIN asistencia ON empleados.id=asistencia.id_emp AND empleados.id='$id_emp' ORDER BY asistencia.fecha DESC limit 15";
-                            $result = $link->query($query);
-                            while ($mostrar = mysqli_fetch_array($result)) {
-                              ?>
+                <br>
+                <h4 class="text-start pt-2 pb-3">Asistencias</h4>
+                <div class="container border rounded pb-3"
+                  style="border-color:rgb(220, 220, 220); background-color: rgba(228, 215, 215, 0.4);">
+                  <div class="row pt-3">
+                    <div class="col-sm-8">
+                      <div class="card shadow">
+                        <div class="card-body">
+                          <h5 class="card-title text-center pb-3">Historial 15 días habiles</h5>
+                          <table class="table table table-bordered table-hover border border-secondary text-center">
+                            <thead>
                               <tr>
-                                <th>
-                                  <?php echo $mostrar['fecha']; ?>
-                                </th>
-                                <?php if ($mostrar['entrada'] < '08:16:00') { ?>
-                                  <th>
-                                    <?php echo $mostrar['entrada']; ?>
-                                  </th>
-                                  <th>
-                                    <?php echo "A tiempo"; ?>
-                                  </th>
-                                  <?php
-                                } else {
-                                  ?>
-                                  <th style="background-color: rgba(255, 0, 0, 0.6)">
-                                    <?php echo $mostrar['entrada']; ?>
-                                  </th>
-                                  <th>
-                                    <?php echo "Retardo"; ?>
-                                  </th>
-                                  <?php
-                                }
-                                ?>
-                                <th>
-                                  <?php echo $mostrar['salida']; ?>
-                                </th>
+                                <th>Fecha</th>
+                                <th>Hora de entrada</th>
+                                <th>Estatus</th>
+                                <th>Hora de salida</th>
                               </tr>
+                            </thead>
+                            <tbody>
                               <?php
-                            }
-                            ?>
-                          </tbody>
-                        </table>
+                              $query = "SELECT entrada, fecha, salida FROM empleados INNER JOIN asistencia ON empleados.id=asistencia.id_emp AND empleados.id='$id_emp' ORDER BY asistencia.fecha DESC limit 15";
+                              $result = $link->query($query);
+                              while ($mostrar = mysqli_fetch_array($result)) {
+                                ?>
+                                <tr>
+                                  <th>
+                                    <?php echo $mostrar['fecha']; ?>
+                                  </th>
+                                  <?php if ($mostrar['entrada'] < '08:16:00') { ?>
+                                    <th>
+                                      <?php echo $mostrar['entrada']; ?>
+                                    </th>
+                                    <th>
+                                      <?php echo "A tiempo"; ?>
+                                    </th>
+                                    <?php
+                                  } else {
+                                    ?>
+                                    <th style="background-color: rgba(255, 0, 0, 0.6)">
+                                      <?php echo $mostrar['entrada']; ?>
+                                    </th>
+                                    <th>
+                                      <?php echo "Retardo"; ?>
+                                    </th>
+                                    <?php
+                                  }
+                                  ?>
+                                  <th>
+                                    <?php echo $mostrar['salida']; ?>
+                                  </th>
+                                </tr>
+                                <?php
+                              }
+                              ?>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="col-sm-4">
-                    <div class="card shadow">
-                      <div class="card-body">
-                        <h5 class="card-title text-center">Reporte mensual </h5>
-                        <br>
-                        <div class="row">
-                          <div class="col  pb-4">
-                            <abbr title='Mes de Enero'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
-                                  01  
-                              </a>
-                            </abbr>
-                          </div>
-                          <div class="col pb-4">
-                            <abbr title='Mes de Febrero'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
-                                  02  
-                              </a>
-                            </abbr>
-                          </div>
-                          <div class="col pb-4">
-                            <abbr title='Mes de Marzo'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
-                                  03  
-                              </a>
-                            </abbr>
-                          </div>
-                          <div class="col pb-4">
-                            <abbr title='Mes de Abril'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                    <div class="col-sm-4">
+                      <div class="card shadow">
+                        <div class="card-body">
+                          <h5 class="card-title text-center">Reporte mensual </h5>
+                          <br>
+                          <div class="row">
+                            <div class="col  pb-4">
+                              <abbr title='Mes de Enero'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=1" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                                  01
+                                </a>
+                              </abbr>
+                            </div>
+                            <div class="col pb-4">
+                              <abbr title='Mes de Febrero'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=2" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                                  02
+                                </a>
+                              </abbr>
+                            </div>
+                            <div class="col pb-4">
+                              <abbr title='Mes de Marzo'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                                  03
+                                </a>
+                              </abbr>
+                            </div>
+                            <div class="col pb-4">
+                              <abbr title='Mes de Abril'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   04
-                              </a>
-                            </abbr>
+                                </a>
+                              </abbr>
+                            </div>
                           </div>
-                        </div>
-                         <div class="row pt-4">
-                          <div class="col pb-4">
-                            <abbr title='Mes de Mayo'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                          <div class="row pt-4">
+                            <div class="col pb-4">
+                              <abbr title='Mes de Mayo'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   05
-                              </a>
-                            </abbr>
-                          </div>
-                          <div class="col pb-4">
-                            <abbr title='Mes de Junio'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
-                                  06 
-                              </a>
-                            </abbr>
-                          </div>
-                          <div class="col pb-4">
-                            <abbr title='Mes de Julio'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                                </a>
+                              </abbr>
+                            </div>
+                            <div class="col pb-4">
+                              <abbr title='Mes de Junio'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                                  06
+                                </a>
+                              </abbr>
+                            </div>
+                            <div class="col pb-4">
+                              <abbr title='Mes de Julio'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   07
-                              </a>
-                            </abbr>
-                          </div>
-                          <div class="col pb-4">
-                            <abbr title='Mes de Agosto'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                                </a>
+                              </abbr>
+                            </div>
+                            <div class="col pb-4">
+                              <abbr title='Mes de Agosto'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   08
-                              </a>
-                            </abbr>
+                                </a>
+                              </abbr>
+                            </div>
                           </div>
-                        </div>
-                         <div class="row ">
-                          <div class="col  pb-4">
-                            <abbr title='Mes de Septiembre'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
-                                  09  
-                              </a>
-                            </abbr>
-                          </div>
-                          <div class="col pb-4">
-                            <abbr title='Mes de Octubre'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
-                                  10  
-                              </a>
-                            </abbr>
-                          </div>
-                          <div class="col pb-4">
-                            <abbr title='Mes de Noviembre'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
-                                  11  
-                              </a>
-                            </abbr>
-                          </div>
-                          <div class="col pb-4">
-                            <abbr title='Mes de Diciembre'>
-                              <!-- Mandar datos por GET -->
-                              <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
-                                target="_blank"
-                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                          <div class="row ">
+                            <div class="col  pb-4">
+                              <abbr title='Mes de Septiembre'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                                  09
+                                </a>
+                              </abbr>
+                            </div>
+                            <div class="col pb-4">
+                              <abbr title='Mes de Octubre'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                                  10
+                                </a>
+                              </abbr>
+                            </div>
+                            <div class="col pb-4">
+                              <abbr title='Mes de Noviembre'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                                  11
+                                </a>
+                              </abbr>
+                            </div>
+                            <div class="col pb-4">
+                              <abbr title='Mes de Diciembre'>
+                                <!-- Mandar datos por GET -->
+                                <a href="assets/scripts/reporte_mes.php" class="btn btn-primary btn-lg ml-2 raise"
+                                  target="_blank"
+                                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   12
-                              </a>
-                            </abbr>
+                                </a>
+                              </abbr>
+                            </div>
                           </div>
                         </div>
-                   </div>
 
                       </div>
                     </div>
                   </div>
                 </div>
 
+                <!-- Modal ELIMINAR REGISTRO-->
+                <div class="modal fade pt-5" id="delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header text-center">
+                        <h5 class="modal-title " id="staticBackdropLabel">Eliminar registro</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body text-center pt-2">
+                        <h5> ¿Estás seguro de eliminar el registro?</h5>
+                        <h6> Todos los registros con el ID de empleado <strong><?php echo $id_emp ?></strong> serán eliminados.</h6>
+                        <img src="assets/img/pregunta.png" class="rounded mx-auto d-block" alt="...">
+                      </div>
+                      <div class="modal-footer justify-content-center">
+                        <a href="admin_reg.php">
+                           <button type="button" class="btn btn-success px-4 mx-3">Confirmar</button>
+                        </a>
+                        <button type="button" class="btn btn-danger px-4"  data-bs-dismiss="modal">Cancelar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Modal ELIMINAR REGISTRO-->
+                <!-- Modal ELIMINAR REGISTRO-->
+                <div class="modal fade pt-5" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header text-center">
+                        <h5 class="modal-title " id="staticBackdropLabel">Editar registro</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body text-center pt-2">
+                        <h5> ¿Estás seguro de editar el registro?</h5>
+                        <br>
+                        
+                        <img src="assets/img/editar-codigo.png" class="rounded mx-auto d-block" alt="...">
+                      </div>
+                      <div class="modal-footer justify-content-center">
+                        <a href="editar_emp.php?id=<?php echo $id_emp ?>">
+                           <button type="button" class="btn btn-success px-4 mx-3">Confirmar</button>
+                        </a>
+                        <button type="button" class="btn btn-danger px-4"  data-bs-dismiss="modal">Cancelar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Modal ELIMINAR REGISTRO-->
 
-
-
-
-
-
-
-                <!-- Modal                     <h5 class="text-center pt-2 pb-3"> Historial por meses </h5>
-     -->
 
                 <?php
   }
