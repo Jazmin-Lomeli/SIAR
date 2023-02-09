@@ -6,11 +6,11 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   // exit;
 }
  /* Mostrar registros y hacer la busqueda en tiempo real */ 
-$sql = '';
+$sql = $id = '';
 require '../config/config.php';
 
 /* Un arreglo de las columnas a mostrar en la tabla */
-$columns = ['t_nombre', 'r_nombre', 'descripcion', 'inicio','fin', 'caracter'];
+$columns = ['t_nombre', 'r_nombre', 'descripcion', 'inicio','fin', 'caracter', 'id_recordatorio'];
 
 /* Nombre de las tablas */
 $table = "tipo_empleado";
@@ -44,6 +44,7 @@ $html = '';
 /* Motrar los datos enconrados */ 
 if ($num_rows > 0) {
     while ($row = $resultado->fetch_assoc()) {
+         
         $html .= '<tr>';
         $html .= '<td>' . $row['t_nombre'] . '</td>';
         $html .= '<td>' . $row['r_nombre']. '</td>';
@@ -51,9 +52,9 @@ if ($num_rows > 0) {
         $html .= '<td>' . $row['caracter'] . '</td>';
         $html .= '<td>' . $row['inicio'] . "- - ". $row['fin'] .'</td>';
          $html .= "<td>
-        <a href='#'>  
-            <abbr title='Registrar salida manualmente'>
-                <button  class='btn btn-outline-success ml-2' ><i class='bi bi-box-arrow-right'></i></button>
+        <a href='assets/scripts/eliminar_recordatorio.php?id=".$row['id_recordatorio']."'>  
+            <abbr title='Eliminar recordatorio'>
+                <button  class='btn btn-outline-danger ml-2' ><i class='bi bi-trash3-fill'></i></button>
             </abbr>
          </a>   
         </td>";

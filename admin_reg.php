@@ -187,6 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'editado') {
       ?>
+        <br>
       <div class=" alerta_edit alert alert-success alert-dismissible fade show text-center" role="alert">
         <strong>EXITO!</strong> Los datos fueron actualizados
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -197,8 +198,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'eliminado') {
       ?>
-      <div class=" alerta_delete alert alert-secondary alert-dismissible fade show text-center" role="alert">
-        <strong>Eliminado</strong> Los datos fueron eliminados
+      <br>
+      <div class=" alerta_delete alert alert-danger alert-dismissible fade show text-center" role="alert">
+        <strong>¡Eliminado!</strong> El registro fue eliminado
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
       </div>
