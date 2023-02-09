@@ -5,17 +5,17 @@ SELECT empleados.nombre, tipo_empleado.t_nombre, recordatorios.r_nombre, recorda
 FROM (empleados INNER JOIN tipo_empleado ON empleados.tipo = tipo_empleado.tipo) INNER JOIN recordatorios ON recordatorios.r_tipo = empleados.tipo
 
 
-
- <div class="col-6">
-                    <div class="table-responsive text-center">
-                    <h5 class="text-center pt-2 pb-3">  </h5>
-
-                      
-                    </div>
-                  </div>
-
-
-
+ 
+                            <div class="col-sm-12 center mt-12 form-group">
+                                <label for="descripcion" class="espacio">Descripcion del recordatorio</label>
+                                <textarea id="descripcion" name="descripcion" id="exampleFormControlTextarea1" rows="3" class="form-control <?php echo (!empty($descripcion_err)) ? 'is-invalid' : ''; ?>"
+                                    value="<?php echo $descripcion; ?>"> 
+                                </textarea>
+                                <span class="invalid-feedback">
+                                    <?php echo $descripcion_err; ?>
+                                </span>
+                            </div>
+                                       
 
 
 

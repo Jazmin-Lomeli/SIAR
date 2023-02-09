@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 // Revisar si no se ha logeado 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
@@ -8,6 +7,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 
 require '../config/config.php';
+
 //  Consulta para extaer el area o tipo de empleado 
 $query ="SELECT * FROM tipo_empleado";
 $resultado = $link->query($query); 
@@ -110,7 +110,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <head>
   <meta charset="UTF-8">
-  <title>Asistencia</title>
+  <title>Registrar</title>
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
@@ -118,7 +118,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <link rel="stylesheet" href="../css/root.css">
  
 </head>
-
 <body>
 
     <header >
@@ -141,7 +140,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link active" href="../../admin_users.php" tabindex="-1" aria-disabled="true">Recoradatorios</a>
+                <a class="nav-link active" href="../../admin_recordatorios.php" tabindex="-1" aria-disabled="true">Recoradatorios</a>
                 </li>
                 <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
                 <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"

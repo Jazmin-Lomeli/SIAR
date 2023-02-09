@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
+RewriteRule ^$ /modular/login.php [L]
+
+ErrorDocument 404 /modular/assets/scripts/error.html
+ErrorDocument 500 /modular/assets/scripts/error.html
+ErrorDocument 301 /modular/assets/scripts/error.html
+

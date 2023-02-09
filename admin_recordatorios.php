@@ -96,103 +96,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-<header >
-      <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow " >
-        <div class="container-fluid dernav">
-          <a class="navbar-brand"> 
-            <img src="./assets/img/logo.png" width="140" height="50" alt="">   <!-- Logo -->
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-              <li class="nav-item ">
-                <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
-              </li>
-              <li class="nav-item px-2">
-                <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
-              </li>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
+      <div class="container-fluid dernav">
+        <a class="navbar-brand">
+          <img src="./assets/img/logo.png" width="140" height="50" alt=""> <!-- Logo -->
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+            <li class="nav-item ">
+              <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
+            </li>
 
-              <li class="nav-item">
-                <a class="nav-link active" href="admin_recordatorios.php" tabindex="-1" aria-disabled="true">Recordatorios</a>
-              </li>
-              <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item">
+              <a class="nav-link active" href="admin_recordatorios.php" tabindex="-1"
+                aria-disabled="true">Recordatorios</a>
+            </li>
+            <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
+              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
-                </a>
+              </a>
 
-                <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item"  href="#"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                  <i class="bi bi-person-circle"></i> </a></li>
+              <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-person-circle"></i> </a></li>
 
-                <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="#">&nbsp; Agregar &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <i class="bi bi-person-plus"></i></a> 
-                  </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item " href="#">&nbsp; Agregar &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-person-plus"></i></a>
+                </li>
 
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
+                    &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                     <i class="bi bi-box-arrow-right"></i></a> </li>
- 
-                </ul>  
 
-              </li>
-            </ul>
-          </div>
+              </ul>
+
+            </li>
+          </ul>
         </div>
-      </nav>
-    </header>
-    
+      </div>
+    </nav>
+  </header>
+
   <!-- Modal -->
-  <div class="modal fade pt-5" id="exampleModal" data-bs-backdrop="static" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade pt-5" id="recordatorio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title " id="exampleModalLabel">Agregar entrada </h5>
+        <div class="modal-header text-center">
+          <h5 class="modal-title " id="staticBackdropLabel">Editar registro</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <form method="post" id="formulario">
-            <div class="row">
+        <div class="modal-body text-center pt-2">
+          <h5> ¿Estás seguro de editar el registro?</h5>
+          <br>
 
-              <div class="col-xl-6 col-lg-6 col-6 form-group text-center">
-                <label for="id">ID de empleado</label>
-                <select name="id" class="form-control <?php echo (!empty($area_err)) ? 'is-invalid' : ''; ?>"
-                  value="<?php echo $area; ?>">
-                  <option value="select">-- Seleccionar --</option>
-                  <?php
-                  while ($row = $resultado->fetch_assoc()) {
-                    echo '<option value="' . $row['id'] . '">' . $row['id'] . " - " . $row['nombre'] . '</option>';
-                  }
-                  ?>
-                </select>
-                <!--<input id="id" type="text" name="id" class="form-control">-->
-              </div>
-              <div class="col-xl-6 col-lg-6 col-6 form-group text-center">
-                <label for="fecha">Fecha</label>
-                <input id="fecha" type="date" name="fecha" class="form-control" value="<?php echo $fecha_hoy; ?>"
-                  readonly>
-              </div>
-              <div class="col-xl-4 col-lg-4 col-4 form-group"></div>
-              <div class="col-xl-4 col-lg-4 col-4 form-group text-center">
-                <label for="hora">Hora</label>
-                <input id="hora" type="time" name="hora" class="form-control">
-              </div>
-              <div class="col-xl-4 col-lg-4 col-4 form-group"></div>
-            </div>
-            <br>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar cambios</button>
-
-          </form>
+          <img src="assets/img/curriculum.png" class="rounded mx-auto d-block" alt="...">
+        </div>
+        <div class="modal-footer justify-content-center">
+          <a href="assets/scripts/editar_emp.php?id=<?php echo $id_emp ?>">
+            <button type="button" class="btn btn-success px-4 mx-3">Confirmar</button>
+          </a>
+          <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- Modal -->
 
+  <!-- Modal -->
 
   <div class="px-4 pt-3  bienvenida">
     <div class="row">
@@ -234,22 +219,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ?>
 
     <?php
-    if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'editado') {
+    if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'deleted') {
       ?>
       <br>
       <div class=" alerta_edit alert alert-success alert-dismissible fade show text-center" role="alert">
-        <strong>¡EXITO!</strong> La hora de SALIDA fue registrada
+        <strong>¡EXITO!</strong> El recirdatorio de borro correctamente
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
       <?php
     }
     ?>
     <?php
-    if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'agregado') {
+    if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'add') {
       ?>
       <br>
       <div class=" alerta_delete alert alert-success alert-dismissible fade show text-center" role="alert">
-        <strong>¡Exito!</strong> La hora de ENTRADA fue registrada
+        <strong>¡Exito!</strong> Recordatorio agregado correctamente
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
       </div>
@@ -259,17 +244,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Alertas de confirmacion o  error -->
 
     <h2 style="text-align: center; padding-top: 1rem; padding-bottom: 0.5rem;">Recordatorios</h2>
-    
-       <?php
-      echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . "."; ?>
+
+    <?php
+    echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . "."; ?>
     </p>
     <div class="pt-2 pb-3">
       <div class="row">
         <div class="col-md-auto align-self-start pe-2">
-          <abbr title='Agregar asistencia, hora de entrada'>
-            <a type="button" class="btn btn-outline-primary btn-lg ml-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <abbr title='Agregar un recordatorio'>
+            <a href="assets/scripts/add_recordatorio.php" type="button" class="btn btn-outline-primary btn-lg ml-2">
               &nbsp;
-              <i class="bi bi-person-plus-fill">
+              <i class="bi bi-chat-square-text">
               </i>
               &nbsp;
             </a>
@@ -297,7 +282,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <th>Descripcón</th>
             <th>Carácter</th>
             <th>Fechas</th>
-             <th>Opciones</th>
+            <th>Opciones</th>
           </tr>
         </thead>
         <tbody id="content">

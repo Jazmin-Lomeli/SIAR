@@ -7,7 +7,7 @@ session_start();
 
 //  Revisa si esta logeado te mada a welcome
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: welcome.php");
+    header("location:../../login.php");
 }
 
 // Define las variables para los inputs
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             // Redirect user to welcome page
                            
-                            header("location: welcome.php");
+                            header("location: assets/scripts/welcome.php");
                         } else {
                             // Password is not valid, display a generic error message
                             $login_err = "Invalid username or password.";    // aquiii
