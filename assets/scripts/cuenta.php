@@ -21,8 +21,21 @@ while ($row = mysqli_fetch_array($result_cuenta)) {
 if ($cambio_contra == NULL) {
     $cambio_contra = 0;
 }
+$name = $pass = $pass2 = '';
+$name_err = $pass_err = $pass2_err= '';
 
-?>
+
+
+
+
+
+
+
+
+
+
+
+    ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -87,140 +100,200 @@ if ($cambio_contra == NULL) {
             </div>
         </nav>
     </header>
-<?php
-if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'add'){
- ?>
-
-<div class="d-flex align-items-end flex-column ">
-        <div class="mt-auto p-2">
-            <a class="btn" data-bs-toggle="modal" data-bs-target="#password">
-                <img src="../img/pregunta.png" width="50px">
-            </a>
-        </div>
-
-        <div class="container rounded mt-0">
-            <div class="row justify-content-center">
-                <div class="col-sm-11 col-md-12 col-lg-10 wrapper shadow pt-3 pb-4 ps-2">
-                        
-                </div>
+    <?php
+    if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'add') {
+        ?>
+<!--
+        <div class="d-flex align-items-end flex-column ">
+            <div class="mt-auto p-2">
+                <a class="btn" data-bs-toggle="modal" data-bs-target="#password">
+                    <img src="../img/pregunta.png" width="50px">
+                </a>
             </div>
-        </div>
-    </div>
-<?php    
-}else{
-?>
-    <div class="d-flex align-items-end flex-column ">
-        <div class="mt-auto p-2">
-            <a class="btn" data-bs-toggle="modal" data-bs-target="#password">
-                <img src="../img/pregunta.png" width="50px">
-            </a>
-        </div>
+    -->
+            <div class="container rounded mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-sm-10 col-md-10 col-lg-9 wrapper pt-3 pb-4 ps-2">
+                        <div class="card text-center ">
+                            <div class="card-header">
+                                Featured
+                            </div>
+                            <div class="m-0 row align-items-center justify-content-center">
+                                <div class="row px-2 col-8  ">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Crear nuevo usuario</h5>
+                                        <div class="container justify-content-center align-items-center">
 
-        <div class="container rounded mt-0">
-            <div class="row justify-content-center">
-                <div class="col-sm-11 col-md-12 col-lg-10 wrapper shadow pt-3 pb-4 ps-2">
-                    <h3 class="text-center">Información de la cuenta</h3>
-                    <?php
-                    if ($cambio_contra == 0) {
-                        ?>
-                        <div class="row justify-content-center pt-2 px-5">
-                            <div class="alerta alert alert-info alert-dismissible fade show text-center" role="alert">
-                                <strong>Actualizá</strong> tu contraseña lo más pronto posible
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            <form class="col-md-12 col-xl-12 pb-3 pt-2" method="post" id="formulario">
+                                                <div class="row justify-content-center align-items-center">
+                                                    <div class="col-xl-6 col-lg-10 col-sm-10 form-group pb-2">
+                                                        <label for="nombre" class="">Nombre de usuario</label>
+                                                        <input id="nombre" type="text" name="nombre"
+                                                            class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>"
+                                                            value="<?php echo $name; ?>">
+                                                        <span class="invalid-feedback">
+                                                            <?php echo $name_err; ?>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row justify-content-center align-items-center">
+                                                    <div class="col-xl-6 col-lg-6 col-sm-10  form-group pb-2">
+                                                        <label for="pass" class="">Contaseña</label>
+                                                        <input id="pass" type="password" name="pass"
+                                                            class="form-control <?php echo (!empty($pass_err)) ? 'is-invalid' : ''; ?>"
+                                                            value="<?php echo $pass; ?>">
+                                                        <span class="invalid-feedback">
+                                                            <?php echo $pass_err; ?>
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6 col-sm-10 form-group pb-2">
+                                                        <label for="pass2" class="">Contaseña</label>
+                                                        <input id="pass2" type="password" name="pass2"
+                                                            class="form-control <?php echo (!empty($pass2_err)) ? 'is-invalid' : ''; ?>"
+                                                            value="<?php echo $pass2; ?>">
+                                                        <span class="invalid-feedback">
+                                                            <?php echo $pass2_err; ?>
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted">
+                                2 days ago
                             </div>
                         </div>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <?php
+    } else {
+        ?>
+        <div class="d-flex align-items-end flex-column ">
+            <div class="mt-auto p-2">
+                <a class="btn" data-bs-toggle="modal" data-bs-target="#password">
+                    <img src="../img/pregunta.png" width="50px">
+                </a>
+            </div>
+
+            <div class="container rounded mt-0">
+                <div class="row justify-content-center">
+                    <div class="col-sm-11 col-md-12 col-lg-10 wrapper shadow pt-3 pb-4 ps-2">
+                        <h3 class="text-center">Información de la cuenta</h3>
+                        <?php
+                        if ($cambio_contra == 0) {
+                            ?>
+                            <div class="row justify-content-center pt-2 px-5">
+                                <div class="alerta alert alert-info alert-dismissible fade show text-center" role="alert">
+                                    <strong>Actualizá</strong> tu contraseña lo más pronto posible
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+
+                            <?php
+                        }
+                        ?>
+                        <div class="row px-2">
+                            <div class="col-sm-3 col-md-3 col-lg-3 rounded ">
+                                <img src="../img/user.png" class="img-thumbnail" alt="...">
+                            </div>
+                            <div class="col-sm-4 col-md-4 col-lg-5 pt-4 ">
+                                <h5 class="lead">
+                                    <strong>Nombre de usuario: </strong>
+                                    <small class="text-muted">
+                                        <?php echo $_SESSION["username"]; ?>
+                                    </small>
+                                </h5>
+                                <br>
+                                <h5 class="lead">
+                                    <strong>Fecha de ingreso: </strong>
+                                    <small class="text-muted">
+                                        <?php echo $f_ingreso; ?>
+                                    </small>
+                                </h5>
+                            </div>
+                            <div class="col-sm-4 col-md-5 col-lg-4 pt-4 ">
+                                <h5 class="lead">
+                                    <strong>Última sesión: </strong>
+                                    <small class="text-muted">
+                                        <?php echo $ult_log; ?>
+                                    </small>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-end flex-column " style="margin-top: -3em;">
+
+                            <div class="mt-auto p-2">
+
+                                <a href="../../admin_reg.php" type="button" class="btn btn-outline-primary btn-lg "><i
+                                        class="bi bi-house-door-fill"></i></a>
+
+                                <abbr title='Agregar un nuevo usuario'>
+                                    <a href="cuenta.php?mensaje=add" type="button"
+                                        class="btn btn-outline-secondary btn-lg mx-1"><i
+                                            class="bi bi-person-plus-fill"></i></a>
+                                </abbr>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Modal informativo -->
+        <div class="modal fade pt-5" id="password" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title " id="staticBackdropLabel">Información</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <?php
+                    if ($cambio_contra == 0) {
+                        ?>
+                        <div class="modal-body text-center pt-2">
+                            <h5>Contraseña por defecto</h5>
+                            <h6> Actualmente la cuenta tiene la contraseña por defecto, por seguridad cambiala lo más pronto
+                                posible</h6>
+                            <img src="../img/contrasena.png" class="rounded mx-auto d-block" alt="...">
+                        </div>
+
+                        <?php
+                    } else {
+                        ?>
+                        <div class="modal-body text-center pt-2">
+                            <h5>Seguridad de la cuenta</h5>
+                            <h6> Para mentener tu cuenta segura, cambia tu contraseña con regularidad.</h6>
+                            <img src="../img/contrasena.png" class="rounded mx-auto d-block" alt="...">
+                        </div>
                         <?php
                     }
                     ?>
-                    <div class="row px-2">
-                        <div class="col-sm-3 col-md-3 col-lg-3 rounded ">
-                            <img src="../img/user.png" class="img-thumbnail" alt="...">
-                        </div>
-                        <div class="col-sm-4 col-md-4 col-lg-5 pt-4 ">
-                            <h5 class="lead">
-                                <strong>Nombre de usuario: </strong>
-                                <small class="text-muted">
-                                    <?php echo $_SESSION["username"]; ?>
-                                </small>
-                            </h5>
-                            <br>
-                            <h5 class="lead">
-                                <strong>Fecha de ingreso: </strong>
-                                <small class="text-muted">
-                                    <?php echo $f_ingreso; ?>
-                                </small>
-                            </h5>
-                        </div>
-                        <div class="col-sm-4 col-md-5 col-lg-4 pt-4 ">
-                            <h5 class="lead">
-                                <strong>Última sesión: </strong>
-                                <small class="text-muted">
-                                    <?php echo $ult_log; ?>
-                                </small>
-                            </h5>
-                        </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-outline-primary px-4"
+                            data-bs-dismiss="modal">Entendido</button>
                     </div>
-                    <div class="d-flex align-items-end flex-column " style="margin-top: -3em;">
-
-                        <div class="mt-auto p-2">
-                       
-                            <a href="../../admin_reg.php" type="button"
-                                class="btn btn-outline-primary btn-lg "><i class="bi bi-house-door-fill"></i></a>
-              
-                            <abbr title='Agregar un nuevo usuario'>
-                                <a href="../../admin_reg.php" type="button"
-                                class="btn btn-outline-secondary btn-lg mx-1"><i class="bi bi-person-plus-fill"></i></a>
-                        </abbr>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- Modal informativo -->
-    <div class="modal fade pt-5" id="password" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h5 class="modal-title " id="staticBackdropLabel">Información</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <?php
-                if ($cambio_contra == 0) {
-                    ?>
-                    <div class="modal-body text-center pt-2">
-                        <h5>Contraseña por defecto</h5>
-                        <h6> Actualmente la cuenta tiene la contraseña por defecto, por seguridad cambiala lo más pronto
-                            posible</h6>
-                        <img src="../img/contrasena.png" class="rounded mx-auto d-block" alt="...">
-                    </div>
-
-                    <?php
-                } else {
-                    ?>
-                    <div class="modal-body text-center pt-2">
-                        <h5>Seguridad de la cuenta</h5>
-                        <h6> Para mentener tu cuenta segura, cambia tu contraseña con regularidad.</h6>
-                        <img src="../img/contrasena.png" class="rounded mx-auto d-block" alt="...">
-                    </div>
-                    <?php
-                }
-                ?>   
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-outline-primary px-4" data-bs-dismiss="modal">Entendido</button>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Modal informativo -->
+        <!-- Modal informativo -->
 
 
-<?php
-}
-?>
+        <?php
+    }
+    ?>
 
 
 
