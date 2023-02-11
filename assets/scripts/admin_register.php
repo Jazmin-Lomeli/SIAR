@@ -148,7 +148,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <?php echo htmlspecialchars($_SESSION["username"]); ?>
                 </a>
                 <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item"  href="#"> &nbsp; Cuenta &nbsp; &nbsp;<i class="bi bi-person-circle"></i> </a></li>
+                    <li><a class="dropdown-item"  href="cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp;<i class="bi bi-person-circle"></i> </a></li>
 
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item " href="logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp; &nbsp;<i class="bi bi-box-arrow-right"></i></a> </li>
