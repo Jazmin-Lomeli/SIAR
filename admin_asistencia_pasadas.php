@@ -71,8 +71,8 @@ if (!$conexion) {
                   <i class="bi bi-person-circle"></i> </a></li>
 
                 <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="#">&nbsp; Agregar &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <i class="bi bi-person-plus"></i></a> 
+                  <li><a class="dropdown-item " href="#">&nbsp; Sistema &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-gear"></i></a> 
                   </li>
 
                   <li><hr class="dropdown-divider"></li>

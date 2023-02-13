@@ -100,8 +100,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <i class="bi bi-person-circle"></i> </a></li>
 
                 <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="#">&nbsp; Agregar &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <i class="bi bi-person-plus"></i></a> 
+                  <li><a class="dropdown-item " href="#">&nbsp; Sistema &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-gear"></i></a> 
                   </li>
 
                   <li><hr class="dropdown-divider"></li>
@@ -220,7 +220,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'add') {
       ?>
-      <div class=" alerta_delete alert alert-success alert-dismissible fade show text-center" role="alert">
+      <div class="alerta_delete alert alert-success alert-dismissible fade show text-center" role="alert">
         <strong>¡CORRECTO!</strong> El registro fue agregado
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
