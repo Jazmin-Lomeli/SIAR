@@ -22,7 +22,92 @@ if ($cambio_contra == NULL) {
     $cambio_contra = 0;
 }
 $name = $pass = $pass2 = '';
-$name_err = $pass_err = $pass2_err= '';
+$name_err = $pass_err = $pass2_err = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    if(empty(trim($_POST["nombre"]))){
+        $name_err = "Ingresa un Usuario.";
+    } elseif(!preg_match('/^[a-zA-Z0-9_]+$/', trim($_POST["nombre"]))){
+        $name_err = "Solo puede contener letras, numeros y guión bajo.";
+    }else{
+        // Prepare a select statement
+        $sql = "SELECT id FROM users WHERE username = ?";
+
+        if ($stmt = mysqli_prepare($link, $sql)) {
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_username);
+
+            // Set parameters
+            $param_username = trim($_POST["nombre"]);
+
+            // Attempt to execute the prepared statement
+            if (mysqli_stmt_execute($stmt)) {
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+
+                if (mysqli_stmt_num_rows($stmt) == 1) {
+                    $name_err = "El nombre de usuario no está disponible.";
+                } else {
+                    $name = trim($_POST["nombre"]);
+                }
+            } else {
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+
+            // Close statement
+            mysqli_stmt_close($stmt);
+        }
+    }
+
+    if (empty(trim($_POST["pass"]))) {
+        $pass_err = "Ingresa una Contraseña.";
+    } elseif (strlen(trim($_POST["pass"])) < 6) { // contraseña mayor a 6 caracteres 
+        $pass_err = "La Contaseña debe tener minímo 6 caracteres.";
+    } else {
+        $pass = trim($_POST["pass"]);
+    }
+    // Validate confirm password
+    if (empty(trim($_POST["pass2"]))) {
+        $pass2_err = "Confirma tu Contraseña.";
+    } else {
+        $pass2 = trim($_POST["pass2"]);
+        if (empty($pass2_err) && ($pass != $pass2)) {
+            $pass2_err = "La Contraseña no Coincide.";
+            $pass_err = "La Contraseña no Coincide.";
+        }
+    }
+
+    if (empty($name_err) && empty($pass2_err) && empty($pass_err)) {
+        date_default_timezone_set("America/Mexico_City");
+        $f_ingreso = date('Y-m-d');
+
+        $sql = "INSERT INTO users (username, password, f_ingreso) VALUES (?,?,?)";
+
+        if ($stmt = mysqli_prepare($link, $sql)) {
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "sss", $param_username, $param_password, $f_ingreso);
+
+            $param_username = $name;
+
+            $param_password = password_hash($pass, PASSWORD_DEFAULT); // Creates a password hash
+
+            // Attempt to execute the prepared statement
+            if (mysqli_stmt_execute($stmt)) {
+                // Redirect to login page
+                header("location: cuenta.php?mensaje=correcto");
+            } else {
+                header("location:  cuenta.php?mensaje=error");
+            }
+
+            // Close statement
+            mysqli_stmt_close($stmt);
+        }
+
+    }
+
+
+}
 
 
 
@@ -34,8 +119,7 @@ $name_err = $pass_err = $pass2_err= '';
 
 
 
-
-    ?>
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -103,73 +187,79 @@ $name_err = $pass_err = $pass2_err= '';
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'add') {
         ?>
-<!--
-        <div class="d-flex align-items-end flex-column ">
-            <div class="mt-auto p-2">
-                <a class="btn" data-bs-toggle="modal" data-bs-target="#password">
-                    <img src="../img/pregunta.png" width="50px">
-                </a>
-            </div>
-    -->
-            <div class="container rounded mt-5">
-                <div class="row justify-content-center">
-                    <div class="col-sm-10 col-md-10 col-lg-9 wrapper pt-3 pb-4 ps-2">
-                        <div class="card text-center ">
-                            <div class="card-header">
-                                Featured
-                            </div>
-                            <div class="m-0 row align-items-center justify-content-center">
-                                <div class="row px-2 col-8  ">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Crear nuevo usuario</h5>
-                                        <div class="container justify-content-center align-items-center">
+        <!--
+                    <div class="d-flex align-items-end flex-column ">
+                        <div class="mt-auto p-2">
+                            <a class="btn" data-bs-toggle="modal" data-bs-target="#password">
+                                <img src="../img/pregunta.png" width="50px">
+                            </a>
+                        </div>
+                -->
+        <div class="container rounded mt-5">
+            <div class="row justify-content-center">
+                <div class="col-sm-10 col-md-10 col-lg-9 wrapper pt-3 pb-4 ps-2">
+                    <div class="card text-center ">
+                        <div class="card-header">
+                            Featured
+                        </div>
+                        <div class="m-0 row align-items-center justify-content-center">
+                            <div class="row px-2 col-8  ">
+                                <div class="card-body">
+                                    <h5 class="card-title">Crear nuevo usuario</h5>
+                                    <div class="container justify-content-center align-items-center">
 
-                                            <form class="col-md-12 col-xl-12 pb-3 pt-2" method="post" id="formulario">
-                                                <div class="row justify-content-center align-items-center">
-                                                    <div class="col-xl-6 col-lg-10 col-sm-10 form-group pb-2">
-                                                        <label for="nombre" class="">Nombre de usuario</label>
-                                                        <input id="nombre" type="text" name="nombre"
-                                                            class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>"
-                                                            value="<?php echo $name; ?>">
-                                                        <span class="invalid-feedback">
-                                                            <?php echo $name_err; ?>
-                                                        </span>
-                                                    </div>
+                                        <form class="col-md-12 col-xl-12 pb-3 pt-2" method="post" id="formulario">
+                                            <div class="row justify-content-center align-items-center">
+                                                <div class="col-xl-6 col-lg-10 col-sm-10 form-group pb-2">
+                                                    <label for="nombre" class="">Nombre de usuario</label>
+                                                    <input id="nombre" type="text" name="nombre"
+                                                        class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>"
+                                                        value="<?php echo $name; ?>">
+                                                    <span class="invalid-feedback">
+                                                        <?php echo $name_err; ?>
+                                                    </span>
                                                 </div>
-                                                <div class="row justify-content-center align-items-center">
-                                                    <div class="col-xl-6 col-lg-6 col-sm-10  form-group pb-2">
-                                                        <label for="pass" class="">Contaseña</label>
-                                                        <input id="pass" type="password" name="pass"
-                                                            class="form-control <?php echo (!empty($pass_err)) ? 'is-invalid' : ''; ?>"
-                                                            value="<?php echo $pass; ?>">
-                                                        <span class="invalid-feedback">
-                                                            <?php echo $pass_err; ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-xl-6 col-lg-6 col-sm-10 form-group pb-2">
-                                                        <label for="pass2" class="">Contaseña</label>
-                                                        <input id="pass2" type="password" name="pass2"
-                                                            class="form-control <?php echo (!empty($pass2_err)) ? 'is-invalid' : ''; ?>"
-                                                            value="<?php echo $pass2; ?>">
-                                                        <span class="invalid-feedback">
-                                                            <?php echo $pass2_err; ?>
-                                                        </span>
-                                                    </div>
+                                            </div>
+                                            <div class="row justify-content-center align-items-center">
+                                                <div class="col-xl-6 col-lg-6 col-sm-10  form-group pb-2">
+                                                    <label for="pass" class="">Contraseña</label>
+                                                    <input id="pass" type="password" name="pass"
+                                                        class="form-control <?php echo (!empty($pass_err)) ? 'is-invalid' : ''; ?>"
+                                                        value="<?php echo $pass; ?>">
+                                                    <span class="invalid-feedback">
+                                                        <?php echo $pass_err; ?>
+                                                    </span>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-sm-10 form-group pb-2">
+                                                    <label for="pass2" class="">Contraseña</label>
+                                                    <input id="pass2" type="password" name="pass2"
+                                                        class="form-control <?php echo (!empty($pass2_err)) ? 'is-invalid' : ''; ?>"
+                                                        value="<?php echo $pass2; ?>">
+                                                    <span class="invalid-feedback">
+                                                        <?php echo $pass2_err; ?>
+                                                    </span>
+                                                </div>
 
-                                                </div>
-                                            </form>
-                                        </div>
+                                            </div>
+                                            <div class="col-xl-12 col-lg-12 col-12 form-group pt-4">
+                                                <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2"
+                                                    value="Crear">
+                                                <a class="btn btn-outline-danger ps-4 px-4" href="cuenta.php"><i
+                                                        class="bi bi-x-circle"></i> Cancelar</a>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer text-muted">
-                                2 days ago
-                            </div>
                         </div>
-
+                        <div class="card-footer text-muted">
+                            2 days ago
+                        </div>
                     </div>
+
                 </div>
             </div>
+        </div>
         </div>
 
 
@@ -191,6 +281,7 @@ $name_err = $pass_err = $pass2_err= '';
                 <div class="row justify-content-center">
                     <div class="col-sm-11 col-md-12 col-lg-10 wrapper shadow pt-3 pb-4 ps-2">
                         <h3 class="text-center">Información de la cuenta</h3>
+
                         <?php
                         if ($cambio_contra == 0) {
                             ?>
@@ -204,6 +295,37 @@ $name_err = $pass_err = $pass2_err= '';
                             <?php
                         }
                         ?>
+                        <?php
+                        if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'correcto') {
+                            ?>
+                            <div class="row justify-content-center pt-2 px-5">
+                                <div class="alerta alert alert-success alert-dismissible fade show text-center" role="alert">
+                                    <strong>¡Éxito!</strong> Usuario creado con éxito.
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+
+                            <?php
+                        }
+                        ?>
+                        <?php
+                        if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'error') {
+                            ?>
+                            <div class="row justify-content-center pt-2 px-5">
+                                <div class="alerta alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                    <strong>¡Error!</strong> No se pudo crear el usuario.
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+
+                            <?php
+                        }
+                        ?>
+
+
+
+
+
                         <div class="row px-2">
                             <div class="col-sm-3 col-md-3 col-lg-3 rounded ">
                                 <img src="../img/user.png" class="img-thumbnail" alt="...">
