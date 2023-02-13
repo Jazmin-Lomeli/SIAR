@@ -19,14 +19,14 @@ $inicio = $fechaActual . "-" . $reporte . "-01";
 $fin = $fechaActual . "-" . $reporte . "-31";
 
 /* consulta  */
-$datos = "SELECT * FROM empleados INNER JOIN huella ON id = id_emp Where id= '$id' LIMIT 1";
+$datos = "SELECT * FROM empleados LEFT JOIN tipo_empleado ON empleados.tipo=tipo_empleado.tipo  LEFT JOIN huella ON huella.id_emp=empleados.id Where empleados.id ='$id' LIMIT 1";
 $result_datos = mysqli_query($link, $datos);
 $nombre = $tel = $id_huella = '';
 while($mostrar = mysqli_fetch_array($result_datos)) {
     $nombre = $mostrar['nombre'] . " " . $mostrar['apellido'] . " " . $mostrar['seg_apellido'];
     $tel = $mostrar['telefono'];
     $id_huella = $mostrar['id_huella'];
-
+    $a_laboral = $mostrar['t_nombre'];
 }
 
 class PDF extends FPDF{
@@ -36,36 +36,52 @@ class PDF extends FPDF{
         $this->Cell(185,7,'Reporte mensual de asistencia',0,1,'C');  
     }
 
+    function Footer()
+{
+    $this->SetY(-25);// Posición: a 1,5 cm del final
+    $this->SetFont('Arial','I',8);
+    $this->SetTextColor(130);
+    $this->SetFont('Arial','B',10);
+    $this->Cell(200,5,utf8_decode('SIAR'),0,1,'C');
+    $this->SetFont('Arial','I',8);
+    $this->Cell(200,5,utf8_decode("Sistema de Asistencias y Rcordatorios"), 0,1,'C'); 
+}
+
 }
 
 $pdf = new PDF();    
 $pdf->AliasNbPages();    // Generar pagina
 $pdf->AddPage();
-$pdf->Ln(5);
+$pdf->Ln(7);
 
 //  Datos del empleado 
 $pdf->SetFont('Arial','B',12);     
-$pdf->Cell(19, 6,utf8_decode("Nombre: "),0,0,'L');  
+$pdf->Cell(19, 8,utf8_decode("Nombre:_______________________________________"),0,0,'L');  
 $pdf->SetFont('Arial','',12);     
-$pdf->Cell(100, 6,utf8_decode($nombre),0,0,'L'); 
+$pdf->Cell(100, 8,utf8_decode($nombre),0,0,'L'); 
 $pdf->SetFont('Arial','B',12);     
-$pdf->Cell(21, 6,utf8_decode("Teléfono: "),0,0,'L');  
+$pdf->Cell(21, 8,utf8_decode("Teléfono:_____________ "),0,0,'L');  
 $pdf->SetFont('Arial','',12);     
-$pdf->Cell(30, 6,utf8_decode($tel),0,1,'L');
+$pdf->Cell(30, 8,utf8_decode($tel),0,1,'L');
 $pdf->SetFont('Arial','B',12);     
-$pdf->Cell(35, 6,utf8_decode("ID de empleado: "),0,0,'L');  
+$pdf->Cell(28, 8,utf8_decode("Área laboral:___________________________"),0,0,'L');  
 $pdf->SetFont('Arial','',12);     
-$pdf->Cell(10, 6,utf8_decode($id),0,0,'L'); 
-$pdf->SetFont('Arial','B',12);     
-$pdf->Cell(35, 6,utf8_decode("ID  de huella: "),0,0,'L');  
-$pdf->SetFont('Arial','',12);     
-$pdf->Cell(39, 6,utf8_decode($id_huella),0,0,'L');
-$pdf->SetFont('Arial','B',12);     
-$pdf->Cell(39, 6,utf8_decode("Fecha de emisión: "),0,0,'L');  
-$pdf->SetFont('Arial','',12);     
-$pdf->Cell(35, 6,utf8_decode(date('Y-m-d')),0,1,'L');
+$pdf->Cell(65, 8,utf8_decode($a_laboral),0,0,'L');
 
-$pdf->Ln(8);  // espaciado
+$pdf->SetFont('Arial','B',12);     
+$pdf->Cell(34, 8,utf8_decode("ID de empleado:____"),0,0,'L');  
+$pdf->SetFont('Arial','',12);     
+$pdf->Cell(10, 8,utf8_decode($id),0,0,'L'); 
+$pdf->SetFont('Arial','B',12);     
+$pdf->Cell(28, 8,utf8_decode("ID  de huella:___"),0,0,'L');  
+$pdf->SetFont('Arial','',12);     
+$pdf->Cell(39, 8,utf8_decode($id_huella),0,1,'L');
+$pdf->SetFont('Arial','B',12);     
+$pdf->Cell(39, 8,utf8_decode("Fecha de emisión:___________"),0,0,'L');  
+$pdf->SetFont('Arial','',12);     
+$pdf->Cell(35, 8,utf8_decode(date('Y-m-d')),0,1,'L');
+
+$pdf->Ln(5);  // espaciado
 
 /* consulta correcta */
 if ($result = mysqli_query($link, "SELECT * FROM asistencia Where id_emp= '$id' AND fecha BETWEEN '$inicio' AND '$fin'")) {
@@ -74,7 +90,7 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where id_emp= '$id' 
 
     if(  $asistencias  == 0){  // No arroja registros 
 
-    $meses = array("", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+    $meses = array("", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio","Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
     $pdf->SetFont('Arial','B',14);
     $pdf->Cell(180,13,utf8_decode("Reporte de asistencia del mes de $meses[$reporte_mes]"),0,1,'C',0);
     $pdf->SetFont('Arial','B',12);
@@ -92,10 +108,10 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where id_emp= '$id' 
         $pdf->SetFont('Arial', 'B', 14);
         $pdf->Cell(180, 13, utf8_decode("Reporte de asistencia del mes de $meses[$reporte_mes]"), 0, 1, 'C', 0);
         $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(45, 10, utf8_decode('Fecha'), 1, 0, 'C', 0);
-        $pdf->Cell(45, 10, 'Hora de entrada', 1, 0, 'C', 0);
-        $pdf->Cell(45, 10, 'Hora de salida', 1, 0, 'C', 0);
-        $pdf->Cell(45, 10, utf8_decode('Observación'), 1, 1, 'C', 0);
+        $pdf->Cell(48, 10, utf8_decode('Fecha'), 1, 0, 'C', 0);
+        $pdf->Cell(48, 10, 'Hora de entrada', 1, 0, 'C', 0);
+        $pdf->Cell(48, 10, 'Hora de salida', 1, 0, 'C', 0);
+        $pdf->Cell(48, 10, utf8_decode('Observación'), 1, 1, 'C', 0);
 
         $pdf->SetFont('Arial', '', 12);
 /* extarer asistencias */ 
@@ -115,10 +131,10 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where id_emp= '$id' 
             } else {
                 $salida = $mostrar['salida'];
             }
-            $pdf->Cell(45, 8, $fecha, 1, 0, 'C', 0);
-            $pdf->Cell(45, 8, $entrada, 1, 0, 'C', 0);
-            $pdf->Cell(45, 8, $salida, 1, 0, 'C', 0);
-            $pdf->Cell(45, 8, $observacion, 1, 1, 'C', 0);
+            $pdf->Cell(48, 8, $fecha, 1, 0, 'C', 0);
+            $pdf->Cell(48, 8, $entrada, 1, 0, 'C', 0);
+            $pdf->Cell(48, 8, $salida, 1, 0, 'C', 0);
+            $pdf->Cell(48, 8, $observacion, 1, 1, 'C', 0);
         }
     } 
 }

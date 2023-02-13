@@ -124,12 +124,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </a>
 
                 <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item"  href="#"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                <li><a class="dropdown-item"  href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
                   <i class="bi bi-person-circle"></i> </a></li>
 
                 <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="#">&nbsp; Agregar &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <i class="bi bi-person-plus"></i></a> 
+                  <li><a class="dropdown-item " href="#">&nbsp; Sistema &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-gear"></i></a> 
                   </li>
 
                   <li><hr class="dropdown-divider"></li>

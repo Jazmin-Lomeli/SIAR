@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $param_area = trim($_POST["area"]);
     $area = $param_area;
   }
-  if ($area_err != "error") {
+  if ($area_err != "error"){
     $sql = "INSERT INTO tipo_empleado (t_nombre) VALUES (?)";
     if ($stmt = mysqli_prepare($link, $sql)) {
       // Bind variables to the prepared statement as parameters
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       mysqli_stmt_close($stmt);
     }
   }else{ // error entrada vacia 
-    header("location: admin_reg.php?mensaje=error_area");
+    header("location: admin_reg.php");
 
   }
 }
@@ -96,12 +96,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </a>
 
                 <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item"  href="#"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                <li><a class="dropdown-item"  href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
                   <i class="bi bi-person-circle"></i> </a></li>
 
                 <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="#">&nbsp; Agregar &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <i class="bi bi-person-plus"></i></a> 
+                  <li><a class="dropdown-item " href="#">&nbsp; Sistema &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-gear"></i></a> 
                   </li>
 
                   <li><hr class="dropdown-divider"></li>
@@ -220,7 +220,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'add') {
       ?>
-      <div class=" alerta_delete alert alert-success alert-dismissible fade show text-center" role="alert">
+      <div class="alerta_delete alert alert-success alert-dismissible fade show text-center" role="alert">
         <strong>¡CORRECTO!</strong> El registro fue agregado
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
@@ -270,7 +270,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="col align-self-end d-flex flex-row-reverse ">
         <!-- Abrir ventana para el PDF -->
             <abbr title='Imprimir registo de asistencia'>
-              <a href="assets/scripts/reporte_actual.php" class="navbar-brand" 
+              <a href="assets/scripts/reporte_empleados.php" class="navbar-brand" 
                 target="_blank" onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                 <img src="./assets/img/impresora.png" width="45" height="45" alt=""> <!-- Logo -->
               </a>
