@@ -2,13 +2,14 @@ body{
     background-color: rgba(228, 224, 224, 0.4);
 }
 header{
-    background-color:  #65C27C;      /* Color */ 
+    background-color:  #162e97;      /* Color */ 
     font-size: 1.4em;
     font-family: 'Segoe UI', sans-serif;  
 }
 
 header nav div ul li a:hover{
- text-shadow: 1px 1px 6px #358048;
+    font-weight: 500;
+ /*text-shadow: 1px 1px 6px #d0dad3;*/
  font-size: 1.1em;
  font-weight: oblique;
 }

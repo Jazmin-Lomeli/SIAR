@@ -16,21 +16,21 @@ if (!$conexion) {
 
 // Variables para el registro de un empleado
 $name = $last_name = $last_name2 = $tel = $area = "";
-$name_err = $last1_err = $last2_err = $tel_err ="";
+$name_err = $last1_err = $last2_err = $tel_err = "";
 
 // Variables para el registro de una area de trabajo
 $area = $area_err = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty(trim($_POST["area"]))){  // Validar que la entrada no está vacia 
+  if (empty(trim($_POST["area"]))) { // Validar que la entrada no está vacia 
     $area_err = "error";
-  }elseif(!preg_match('/^[ a-zA-ZáéíóúñÑÁÉÍÓÚ]+$/',trim($_POST["area"]))){ // validar entrada de solo letras
+  } elseif (!preg_match('/^[ a-zA-ZáéíóúñÑÁÉÍÓÚ]+$/', trim($_POST["area"]))) { // validar entrada de solo letras
     $area_err = "error";
-  }else {
+  } else {
     $param_area = trim($_POST["area"]);
     $area = $param_area;
   }
-  if ($area_err != "error"){
+  if ($area_err != "error") {
     $sql = "INSERT INTO tipo_empleado (t_nombre) VALUES (?)";
     if ($stmt = mysqli_prepare($link, $sql)) {
       // Bind variables to the prepared statement as parameters
@@ -40,13 +40,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if (mysqli_stmt_execute($stmt)) {
         // correcto
         header("location: admin_reg.php?mensaje=area");
-      } else {  // error de insercion 
+      } else { // error de insercion 
         header("location: admin_reg.php?mensaje=error");
       }
       // Close statement
       mysqli_stmt_close($stmt);
     }
-  }else{ // error entrada vacia 
+  } else { // error entrada vacia 
     header("location: admin_reg.php");
 
   }
@@ -69,53 +69,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
   <!-- NAV BAR -->
-  <header >
-      <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow " >
-        <div class="container-fluid dernav">
-          <a class="navbar-brand"> 
-            <img src="./assets/img/logo.png" width="140" height="50" alt="">   <!-- Logo -->
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-              <li class="nav-item ">
-                <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
-              </li>
-              <li class="nav-item px-2">
-                <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
-              </li>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
+      <div class="container-fluid dernav">
+        <a class="navbar-brand">
+          <img src="./assets/img/logo_3.png" width="140" height="50" alt=""> <!-- Logo -->
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+            <li class="nav-item ">
+              <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
+            </li>
 
-              <li class="nav-item">
-                <a class="nav-link active" href="admin_recordatorios.php" tabindex="-1" aria-disabled="true">Recordatorios</a>
-              </li>
-              <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item">
+              <a class="nav-link active" href="admin_recordatorios.php" tabindex="-1"
+                aria-disabled="true">Recordatorios</a>
+            </li>
+            <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
+              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
-                </a>
+              </a>
 
-                <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item"  href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                  <i class="bi bi-person-circle"></i> </a></li>
+              <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-person-circle"></i> </a></li>
 
-                <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="#">&nbsp; Sistema &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <i class="bi bi-gear"></i></a> 
-                  </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item " href="assets/scripts/sistema.php">&nbsp; Sistema &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-gear"></i></a>
+                </li>
 
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
+                    &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                     <i class="bi bi-box-arrow-right"></i></a> </li>
- 
-                </ul>  
 
-              </li>
-            </ul>
-          </div>
+              </ul>
+
+            </li>
+          </ul>
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
+  </header>
   <!-- NAV BAR -->
 
   <div class="px-4 pt-3 bienvenida">
@@ -142,7 +152,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <!-- Modal -->
-  <div class="modal fade pt-5" id="exampleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade pt-5" id="exampleModal" data-bs-backdrop="static" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -150,7 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <?php $modal = 1; ?>
+
           <form method="post" id="formulario">
             <div class="row">
               <div class="col-xl-12 col-lg-6 col-12 form-group">
@@ -158,10 +169,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input id="area" type="text" name="area" class="form-control">
               </div>
             </div>
-            <br>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar cambios</button>
 
+            <br>
+
+            <div class="align-items-center">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </div>
           </form>
         </div>
       </div>
@@ -171,11 +185,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   <!-- Alertas de confirmacion o  error -->
   <div class="container mt-2 principal rounded-3 shadow mb-4 ">
-   
+
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'error') {
       ?>
-       <br>
+      <br>
       <div class=" alerta_error alert alert-danger alert-dismissible fade show  text-center" role="alert">
         <strong>ERROR!</strong> Vuelve a intentar.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -187,7 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'editado') {
       ?>
-        <br>
+      <br>
       <div class=" alerta_edit alert alert-success alert-dismissible fade show text-center" role="alert">
         <strong>EXITO!</strong> Los datos fueron actualizados
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -242,10 +256,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     <h2 class="pb-3" style="text-align: center; padding-top: 1rem;">Empleados</h2>
-    
+
     <div class="container w-auto shadow pt-0 pb-0">
 
-    <nav class="navbar navbar-expand-lg navbar-light pl-4 rounded-4">
+      <nav class="navbar navbar-expand-lg navbar-light pl-4 rounded-4">
         <div class="container-fluid dernav">
           <abbr title='Agregar Empleado'>
             <a type="button" class="btn btn-outline-secondary btn-lg  ml-2" href="assets/scripts/admin_register.php">
@@ -266,15 +280,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </button>
 
           <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
-             
+
             <div class="col align-self-end d-flex flex-row-reverse ">
-        <!-- Abrir ventana para el PDF -->
-            <abbr title='Imprimir registo de asistencia'>
-              <a href="assets/scripts/reporte_empleados.php" class="navbar-brand" 
-                target="_blank" onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
-                <img src="./assets/img/impresora.png" width="45" height="45" alt=""> <!-- Logo -->
-              </a>
-            </abbr>
+              <!-- Abrir ventana para el PDF -->
+              <abbr title='Imprimir registo de asistencia'>
+                <a href="assets/scripts/reporte_empleados.php" class="navbar-brand" target="_blank"
+                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                  <img src="./assets/img/impresora.png" width="45" height="45" alt=""> <!-- Logo -->
+                </a>
+              </abbr>
             </div>
           </div>
         </div>
@@ -285,8 +299,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Barra de buscar -->
     <div class="pt-2 pb-3">
       <div class="row">
-        
- 
+
+
         <div class="col align-self-center">
         </div>
         <div class="col align-self-end d-flex flex-row-reverse ">

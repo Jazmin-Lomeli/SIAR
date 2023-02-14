@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
       <div class="container-fluid dernav">
         <a class="navbar-brand">
-          <img src="./assets/img/logo.png" width="140" height="50" alt=""> <!-- Logo -->
+          <img src="./assets/img/logo_2_chido.png" width="140" height="60" alt=""> <!-- Logo -->
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
