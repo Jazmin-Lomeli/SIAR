@@ -100,7 +100,7 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where id_emp= '$id' 
 	$pdf->Cell(45,10,utf8_decode('Observación'),1,1,'C',0);
 
     $pdf->SetFont('Arial','',12);
-    $pdf->Cell(180,15,'No hay registros de asisntecias para el mes seleccionado',1,1,'C');
+    $pdf->Cell(180,15,'No hay registros de asistencias para el mes seleccionado',1,1,'C');
     /* cerrar el resulset */
     mysqli_free_result($result);
     } else {   // Si hay registros

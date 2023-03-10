@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link rel="stylesheet" href="./assets/css/styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-
+  <link rel="shortcut icon" href="./assets/img/icono.png">
 
 <body>
   <!-- NAV BAR -->
@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
             <li class="nav-item ">
               <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
@@ -257,40 +257,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <h2 class="pb-3" style="text-align: center; padding-top: 1rem;">Empleados</h2>
 
-    <div class="container w-auto shadow pt-0 pb-0">
+    <div class="container w-auto shadow pt-0 -pb-0">
 
-      <nav class="navbar navbar-expand-lg navbar-light pl-4 rounded-4">
-        <div class="container-fluid dernav">
-          <abbr title='Agregar Empleado'>
-            <a type="button" class="btn btn-outline-secondary btn-lg  ml-2" href="assets/scripts/admin_register.php">
-              <!--  class="btn btn-outline-secondary  btn-lg  ml-2" href="admin_register.php"> -->
-              <i class="bi bi-person-plus-fill"></i></a>
-          </abbr>
-          &nbsp;&nbsp;
-          <abbr title='Agregar nueva área de trabajo'>
-            <a type="button" class="btn btn-outline-info btn-lg  ml-2" data-bs-toggle="modal"
-              data-bs-target="#exampleModal">
-              <i class="bi bi-folder-plus">
-              </i></a>
-          </abbr>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
 
-          <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
 
-            <div class="col align-self-end d-flex flex-row-reverse ">
-              <!-- Abrir ventana para el PDF -->
-              <abbr title='Imprimir registo de asistencia'>
-                <a href="assets/scripts/reporte_empleados.php" class="navbar-brand" target="_blank"
-                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
-                  <img src="./assets/img/impresora.png" width="45" height="45" alt=""> <!-- Logo -->
-                </a>
-              </abbr>
-            </div>
+
+
+
+
+      <nav class="navbar navbar-expand-lg navbar-light rounded-4">
+        <div class="container dernav">
+          
+          <div class="col-8 btn-group ">
+
+            <abbr title='Agregar Empleado'>
+              <a type="button" class="btn btn-outline-secondary btn-lg  ml-2" href="assets/scripts/admin_register.php">
+                <!--  class="btn btn-outline-secondary  btn-lg  ml-2" href="admin_register.php"> -->
+                <i class="bi bi-person-plus-fill"></i></a>
+            </abbr>
+
+            <abbr title='Agregar nueva área de trabajo'>
+              <a type="button" class="btn btn-outline-info btn-lg ml-2 mx-2" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
+                <i class="bi bi-folder-plus">
+                </i></a>
+            </abbr>
           </div>
+
+          <div class="container d-flex flex-row-reverse">
+                <!-- Abrir ventana para el PDF -->
+                <abbr title='Imprimir registo de asistencia'>
+                  <a href="assets/scripts/reporte_empleados.php" class="navbar-brand" target="_blank"
+                    onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                    <img src="./assets/img/impresora.png" width="45" height="45" alt=""> <!-- Logo -->
+                  </a>
+                </abbr>
+              </div>
         </div>
       </nav>
     </div>

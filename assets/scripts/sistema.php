@@ -23,6 +23,8 @@ if ($estado == "ENROLL") {
     $estado = "Registrar huella";
 } elseif ($estado == "REGISTER") {
     $estado = "Esperando huella";
+} else {
+    $estado = "Borrar huella";
 }
 
 if ($estatus == "Todo_bien") {
@@ -30,7 +32,19 @@ if ($estatus == "Todo_bien") {
 }
 
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    $change_st = $_POST['estado'];
+
+    $sql = mysqli_query($link, "UPDATE arduino SET finger_status = '$change_st'");
+
+    if ($sql == TRUE) {
+        header('Location: sistema.php?mensaje=changed');
+    } else {
+        header('Location: sistema.php?mensaje=no_changed');
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -108,19 +122,32 @@ if ($estatus == "Todo_bien") {
 
 
 
-    <div class="d-flex align-items-end flex-column">
-        
-        <div class="container rounded mt-5">
+    <div class="d-flex align-items-end flex-column pb-4">
+
+        <div class="container rounded mt-4">
             <div class="row justify-content-center pt-4">
                 <div class="col-sm-11 col-md-12 col-lg-10 wrapper shadow pb-4 ps-2 pt-2">
                     <h3 class="text-center pb-3 px-3 pt-2">Información del sistema</h3>
 
                     <?php
-                    if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'correcto') {
+                    if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'changed') {
                         ?>
                         <div class="row justify-content-center pt-2 px-5">
                             <div class="alerta alert alert-success alert-dismissible fade show text-center" role="alert">
-                                <strong>¡Éxito!</strong> Usuario creado con éxito.
+                                <strong>¡Éxito!</strong> Se cambio el estado del sistema.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+
+                        <?php
+                    }
+                    ?>
+                    <?php
+                    if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'no_changed') {
+                        ?>
+                        <div class="row justify-content-center pt-2 px-5">
+                            <div class="alerta alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                <strong>¡ERROR!</strong> No se pudo cambiar estado del sistema.
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         </div>
@@ -129,10 +156,9 @@ if ($estatus == "Todo_bien") {
                     }
                     ?>
 
-                    <div class="row mx-3 mb-5 mt-2 justify-content-center">
+                    <div class="row mx-2 mt-2 justify-content-center">
                         <div class="col-sm-10 col-lg-11 co-xl-11">
                             <h5 class="text-start pb-3 px-3">Resumen del estado del sistema</h5>
-
                             <div class="table-responsive text-center">
                                 <table class="table table table-bordered table-hover border border-secondary">
                                     <thead>
@@ -163,71 +189,102 @@ if ($estatus == "Todo_bien") {
                         </div>
                     </div>
 
-                    <div class="d-flex align-items-end flex-column " style="margin-top: -3em;">
-                        
-                            <div class="mt-auto p-2 px-3">
+                    <div class="d-flex align-items-end flex-column mt-0 mx-4">
+                        <div class="mt-auto p-2 px-3">
+                            <div class="btn-group">
 
-
-                                <div class="btn-group">
-                                
-                                    <abbr title='Cambiar estado del sistema'>
-                                        <a  data-bs-toggle="modal" data-bs-target="#password" type="button"
-                                            class="btn btn-outline-primary btn-lg mx-1"><i class="bi bi-wrench-adjustable"></i></a>
-                                    </abbr>
-                                </div>
+                                <abbr title='Cambiar estado del sistema'>
+                                    <a data-bs-toggle="modal" data-bs-target="#password" type="button"
+                                        class="btn btn-outline-primary btn-lg mx-1"><i
+                                            class="bi bi-wrench-adjustable"></i></a>
+                                </abbr>
                             </div>
-                
+                        </div>
+                    </div>
 
 
+                    <div class="row mx-2 mt-2 justify-content-center">
+                        <div class="col-sm-10 col-lg-11 co-xl-11">
+                            <h5 class="text-start pb-3 px-3">Usuarios del sistema</h5>
+
+                            <div class="col-8 d-flex">
+                                <form class="d-flex col-md-5 col-xl-5 pb-3" role="search" action="" method="post">
+                                    <input class="form-control me-2 light-table-filter" type="search"
+                                        placeholder="Buscar" aria-label="Buscar" name="campo" id="campo">
+                                </form>
+                            </div>
+
+
+                            <div class="table-responsive text-center">
+                                <table class="table table table-bordered table-hover border border-secondary">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre de usuario</th>
+                                            <th>Fecha de ingreso</th>
+                                            <th>Ùltima sesiòn</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="content">
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
- <!-- Modal -->
- <div class="modal fade pt-5" id="password" data-bs-backdrop="static" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title " id="exampleModalLabel"> Cambiar estado del sistema</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-center pt-3 pb-3">
-        <h5> El estado actual del sistema es </h5>
-        <h5 class="fst-italic"> <?php echo $estado; ?></h5>
 
-
-          <form method="post" id="formulario" class="pt-3 pb-1">
-            <div class="row justify-content-center">
-
-              <div class="col-xl-10 col-lg-10 col-10 form-group text-center pb-4">
-                <label for="fecha">Cambiar estado del sistema</label>
-                <select name="area" class="form-control text-center">
-                    <option value="ENROLL">Registrar una huella</option>
-                    <option value="REGISTER">Esperar una huella</option>
-                    <option value="DELETE">Borrar una huella</option>
-                 </select>
-              
+    <!-- Modal -->
+    <div class="modal fade pt-5" id="password" data-bs-backdrop="static" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title " id="exampleModalLabel"> Cambiar estado del sistema</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                
-                <div class="row border"></div>
-                
-                <div class="pt-3">
-                    <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"> Cancelar </button>
-                    <button type="submit" class="btn btn-primary"> Guardar </button>
-                    </div>
- 
-             </div>
-            
+                <div class="modal-body text-center pt-3 pb-3">
+                    <h5> El estado actual del sistema es </h5>
+                    <h5 class="fst-italic">
+                        <?php echo $estado; ?>
+                    </h5>
+
+
+                    <form method="post" id="formulario" class="pt-3 pb-1">
+                        <div class="row justify-content-center">
+
+                            <div class="col-xl-10 col-lg-10 col-10 form-group text-center pb-4">
+                                <label for="estado">Cambiar estado del sistema</label>
+                                <select name="estado" class="form-control text-center">
+                                    <option value="ENROLL">Registrar una huella</option>
+                                    <option value="REGISTER">Esperar una huella</option>
+                                    <option value="DELETE">Borrar una huella</option>
+                                </select>
+
+                            </div>
+
+                            <div class="row border-bottom-0"></div>
+
+                            <div class="pt-3">
+                                <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"> Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-primary"> Guardar </button>
+                            </div>
+
+                        </div>
+
+                </div>
+                </form>
             </div>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- Modal -->   
+    </div>
+    <!-- Modal -->
 
 
     <!--Funcion de JS para borrar la alerta automaticamente  -->
@@ -242,9 +299,35 @@ if ($estatus == "Todo_bien") {
         });
     </script>
 
+    <!--Funcion de JS para buscar en tiempo real  -->
+    <script>
+        /* Llamando a la función getData() */
+        getData()
+        /* Escuchar un evento keyup en el campo de entrada y luego llamar a la función getData. */
+        document.getElementById("campo").addEventListener("keyup", getData)
+        /* Peticion AJAX */
+        function getData() {
+            let input = document.getElementById("campo").value
+            let content = document.getElementById("content")
+            let url = "ajax_users.php"
+            let formaData = new FormData()
+            formaData.append('campo', input)
+            fetch(url, {
+                method: "POST",
+                body: formaData
+            }).then(response => response.json())
+                .then(data => {
+                    content.innerHTML = data
+                }).catch(err => console.log(err))
+        }
+    </script>
 
 
-
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <!-- Latest minified bootstrap js -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Bootstrap core JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>

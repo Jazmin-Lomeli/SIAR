@@ -228,7 +228,9 @@ $conexion = $link;
                         <option value="<?php echo $tipo_puesto ?>"><?php echo $puesto?></option>
                         <?php                              
                           while ($row = $resultado->fetch_assoc()) {
-                            echo '<option value="'.$row['tipo'].'">'.$row['t_nombre'].'</option>';
+                            if($row['tipo'] > 1){
+                              echo '<option value="'.$row['tipo'].'">'.$row['t_nombre'].'</option>';
+                            }
                           }
                         ?>
                       </select>

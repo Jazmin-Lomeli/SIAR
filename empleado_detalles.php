@@ -6,7 +6,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: login.php");
   // exit;
 }
-
+$user = $_SESSION['username'];
 /* Datos que vienen con la URL */
 $id_emp = $_GET['id'];
 $info = $_GET['info'];
@@ -75,54 +75,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
   <!-- NAV BAR -->
-  <!-- NAV BAR -->
-  <header >
-      <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow " >
-        <div class="container-fluid dernav">
-          <a class="navbar-brand"> 
-            <img src="./assets/img/logo.png" width="140" height="50" alt="">   <!-- Logo -->
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-              <li class="nav-item ">
-                <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
-              </li>
-              <li class="nav-item px-2">
-                <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
-              </li>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
+      <div class="container-fluid dernav">
+        <a class="navbar-brand">
+          <img src="./assets/img/logo_3.png" width="140" height="50" alt=""> <!-- Logo -->
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+            <li class="nav-item ">
+              <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
+            </li>
 
-              <li class="nav-item">
-                <a class="nav-link active" href="admin_recordatorios.php" tabindex="-1" aria-disabled="true">Recordatorios</a>
-              </li>
-              <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item">
+              <a class="nav-link active" href="admin_recordatorios.php" tabindex="-1"
+                aria-disabled="true">Recordatorios</a>
+            </li>
+            <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
+              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
-                </a>
+              </a>
 
-                <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item"  href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                  <i class="bi bi-person-circle"></i> </a></li>
+              <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-person-circle"></i> </a></li>
 
-                <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="#">&nbsp; Sistema &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <i class="bi bi-gear"></i></a> 
-                  </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item " href="assets/scripts/sistema.php">&nbsp; Sistema &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-gear"></i></a>
+                </li>
 
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
+                    &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                     <i class="bi bi-box-arrow-right"></i></a> </li>
- 
-                </ul>  
 
-              </li>
-            </ul>
-          </div>
+              </ul>
+
+            </li>
+          </ul>
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
+  </header>
   <!-- NAV BAR -->
 
   <?php
@@ -221,8 +230,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <!-- Ventana para agregar salida  -->
       <?php
   } elseif ($info == "salida") { // Opcion para agregar hora de salida
-  
     ?>
+
       <style>
         body {
           background: rgba(128, 128, 128, 0.5);
@@ -294,9 +303,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="card-footer text-muted">
                   <?php
+                  $mes = array("enero", "febrero", "marzo", "abril", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "noviembre", "diciembre");
+                  $dia = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+
                   /* Establecer la hora de Mexico por que por defecto manda la del server  */
                   date_default_timezone_set("America/Mexico_City");
-                  echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . ".   " . date("h:i:sa");
+                  echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y");
                   ?>
                 </div>
               </div>
@@ -399,9 +411,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   </div>
                   <div class="ps-2">
                     <abbr title='Editar registro '>
-                      <a class="btn btn-outline-secondary btn-lg ml-2" data-bs-toggle="modal"
-                        data-bs-target="#edit">
-                      
+                      <a class="btn btn-outline-secondary btn-lg ml-2" data-bs-toggle="modal" data-bs-target="#edit">
+
                         <i class="bi bi-pencil-square"></i>
                       </a>
                     </abbr>
@@ -416,13 +427,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                   <?php
                   if ($status_huella == 0) {
-                   
-
                     ?>
                     <div class="ps-2">
                       <abbr title='Registrar huella'>
-                        <a class="btn btn-outline-warning btn-lg ml-2" data-bs-toggle="modal"
-                        data-bs-target="#huella">
+                        <a class="btn btn-outline-warning btn-lg ml-2" data-bs-toggle="modal" data-bs-target="#huella">
                           <i class="bi bi-fingerprint">
                           </i></a>
                       </abbr>
@@ -589,8 +597,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col  pb-4">
                               <abbr title='Mes de Enero'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=1" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=1"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   01
                                 </a>
@@ -599,8 +607,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col pb-4">
                               <abbr title='Mes de Febrero'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=2" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=2"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   02
                                 </a>
@@ -609,8 +617,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col pb-4">
                               <abbr title='Mes de Marzo'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=3" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=3"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   03
                                 </a>
@@ -619,8 +627,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col pb-4">
                               <abbr title='Mes de Abril'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=4" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=4"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   04
                                 </a>
@@ -631,8 +639,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col pb-4">
                               <abbr title='Mes de Mayo'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=5" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=5"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   05
                                 </a>
@@ -641,8 +649,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col pb-4">
                               <abbr title='Mes de Junio'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=6" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=6"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   06
                                 </a>
@@ -651,8 +659,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col pb-4">
                               <abbr title='Mes de Julio'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=7" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=7"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   07
                                 </a>
@@ -661,8 +669,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col pb-4">
                               <abbr title='Mes de Agosto'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=8" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=8"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   08
                                 </a>
@@ -673,8 +681,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col  pb-4">
                               <abbr title='Mes de Septiembre'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=9" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=9"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   09
                                 </a>
@@ -683,8 +691,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col pb-4">
                               <abbr title='Mes de Octubre'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=10" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=10"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   10
                                 </a>
@@ -693,8 +701,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col pb-4">
                               <abbr title='Mes de Noviembre'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=11" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=11"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   11
                                 </a>
@@ -703,8 +711,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col pb-4">
                               <abbr title='Mes de Diciembre'>
                                 <!-- Mandar datos por GET -->
-                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=12" class="btn btn-primary btn-lg ml-2 raise"
-                                  target="_blank"
+                                <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=12"
+                                  class="btn btn-primary btn-lg ml-2 raise" target="_blank"
                                   onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                                   12
                                 </a>
@@ -729,14 +737,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       </div>
                       <div class="modal-body text-center pt-2">
                         <h5> ¿Estás seguro de eliminar el registro?</h5>
-                        <h6> Todos los registros con el ID de empleado <strong><?php echo $id_emp ?></strong> serán eliminados.</h6>
+                        <h6> Todos los registros con el ID de empleado <strong>
+                            <?php echo $id_emp ?>
+                          </strong> serán eliminados.</h6>
                         <img src="assets/img/pregunta.png" class="rounded mx-auto d-block" alt="...">
                       </div>
                       <div class="modal-footer justify-content-center">
                         <a href="assets/scripts/eliminar_emp.php?id=<?php echo $id_emp ?>">
-                           <button type="button" class="btn btn-success px-4 mx-3">Confirmar</button>
+                          <button type="button" class="btn btn-success px-4 mx-3">Confirmar</button>
                         </a>
-                        <button type="button" class="btn btn-danger px-4"  data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
                       </div>
                     </div>
                   </div>
@@ -754,14 +764,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       <div class="modal-body text-center pt-2">
                         <h5> ¿Estás seguro de editar el registro?</h5>
                         <br>
-                        
+
                         <img src="assets/img/curriculum.png" class="rounded mx-auto d-block" alt="...">
                       </div>
                       <div class="modal-footer justify-content-center">
                         <a href="assets/scripts/editar_emp.php?id=<?php echo $id_emp ?>">
-                           <button type="button" class="btn btn-success px-4 mx-3">Confirmar</button>
+                          <button type="button" class="btn btn-success px-4 mx-3">Confirmar</button>
                         </a>
-                        <button type="button" class="btn btn-danger px-4"  data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
                       </div>
                     </div>
                   </div>
@@ -778,16 +788,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       </div>
                       <div class="modal-body text-center pt-2">
                         <h5> Agregar huella dactilar a la base de datos </h5>
-                        <h6>Una vez que das clic al boton de <strong>Registrar</strong> debes dirigirte a el lector de huella.</h6>
-                        <img src="assets/img/huella.png" class="rounded mx-auto d-block" alt="..." style="width:15em;height:10rem">
-                        <h6>Ya que el sistema estará en modo registrar huella y no cambiará hasta que detecte una huella</h6>
+                        <h6>Una vez que das clic al boton de <strong>Registrar</strong> debes dirigirte a el lector de
+                          huella.</h6>
+                        <img src="assets/img/huella.png" class="rounded mx-auto d-block" alt="..."
+                          style="width:15em;height:10rem">
+                        <h6>Ya que el sistema estará en modo registrar huella y no cambiará hasta que detecte una huella
+                        </h6>
 
                       </div>
                       <div class="modal-footer justify-content-center">
-                        <a href="assets/scripts/add_huella.php?id_add=<?php echo $id_emp?>">
-                           <button type="button" class="btn btn-success px-4 mx-3">Registrar</button>
+                        <a href="assets/scripts/add_huella.php?id_add=<?php echo $id_emp ?>">
+                          <button type="button" class="btn btn-success px-4 mx-3">Registrar</button>
                         </a>
-                        <button type="button" class="btn btn-danger px-4"  data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
                       </div>
                     </div>
                   </div>

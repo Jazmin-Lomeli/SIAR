@@ -216,7 +216,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <option value="select">-- Seleccionar --</option>
                                         <?php                              
                                             while ($row = $resultado->fetch_assoc()) {
-                                                echo '<option value="'.$row['tipo'].'">'.$row['t_nombre'].'</option>';
+                                                if($row['tipo'] > 1){
+                                                    echo '<option value="'.$row['tipo'].'">'.$row['t_nombre'].'</option>';
+                                                }
                                             }
                                         ?>
                                     </select>
@@ -225,7 +227,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     </span>                
                         </div>
 
-                              
                         <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-4">
                             <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
                             <a class="btn btn-outline-danger ps-4 px-4" href="../../admin_reg.php" ><i class="bi bi-x-circle"></i> &nbsp; Cancelar</a> 
