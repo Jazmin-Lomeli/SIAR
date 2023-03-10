@@ -1,5 +1,5 @@
 body{
-    font-family: arial;
+    font-family: sans-serif;
     
 }
 h1{
@@ -10,4 +10,8 @@ h1{
 
 .bienvenida{
     font-style: oblique; 
+}
+
+header{
+    color: white;
 }

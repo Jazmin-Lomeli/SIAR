@@ -256,12 +256,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                 </span>
                             </textarea>
                         </div>
-                       
- 
-
-                        
-
-                              
+                    
                         <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-4">
                             <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
                             <a class="btn btn-outline-danger ps-4 px-4" href="../../admin_recordatorios.php" ><i class="bi bi-x-circle"></i> &nbsp; Cancelar</a> 
@@ -292,7 +287,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-    Hola mundo
 </body>
 
 </html>

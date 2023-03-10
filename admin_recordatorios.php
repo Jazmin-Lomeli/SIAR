@@ -67,15 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   mysqli_close($link);
 
 
-
-
-
 }
-
-
-
-
-
 
 ?>
 
@@ -90,17 +82,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="./assets/css/styles.css">
-  <style>
+  <link rel="shortcut icon" href="./assets/img/icono.png">
 
-  </style>
 </head>
 
 <body>
-  <header>
+   <!-- NAV BAR -->
+   <header>
     <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
       <div class="container-fluid dernav">
         <a class="navbar-brand">
-          <img src="./assets/img/logo.png" width="140" height="50" alt=""> <!-- Logo -->
+          <img src="./assets/img/logo_3.png" width="140" height="50" alt=""> <!-- Logo -->
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,14 +118,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </a>
 
               <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <li><a class="dropdown-item" href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp;
                     <i class="bi bi-person-circle"></i> </a></li>
 
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item " href="#">&nbsp; Agregar &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <i class="bi bi-person-plus"></i></a>
+                <li><a class="dropdown-item " href="assets/scripts/sistema.php">&nbsp; Sistema &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-gear"></i></a>
                 </li>
 
                 <li>
@@ -151,6 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </nav>
   </header>
+  <!-- NAV BAR -->
 
   <!-- Modal -->
   <div class="modal fade pt-5" id="recordatorio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -223,7 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       ?>
       <br>
       <div class=" alerta_edit alert alert-success alert-dismissible fade show text-center" role="alert">
-        <strong>¡EXITO!</strong> El recirdatorio de borro correctamente
+        <strong>¡EXITO!</strong> El recordatorio de borro correctamente.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
       <?php
@@ -234,7 +229,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       ?>
       <br>
       <div class=" alerta_delete alert alert-success alert-dismissible fade show text-center" role="alert">
-        <strong>¡Exito!</strong> Recordatorio agregado correctamente
+        <strong>¡Exito!</strong> Recordatorio agregado correctamente.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
       </div>

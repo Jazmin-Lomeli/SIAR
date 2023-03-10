@@ -90,61 +90,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="./assets/css/styles.css">
-  <style>
+  <link rel="shortcut icon" href="./assets/img/icono.png">
 
-  </style>
 </head>
 
 <body>
+ <!-- NAV BAR -->
+ <header>
+    <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
+      <div class="container-fluid dernav">
+        <a class="navbar-brand">
+          <img src="./assets/img/logo_3.png" width="140" height="50" alt=""> <!-- Logo -->
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+            <li class="nav-item ">
+              <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
+            </li>
+            <li class="nav-item px-2">
+              <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
+            </li>
 
-<header >
-      <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow " >
-        <div class="container-fluid dernav">
-          <a class="navbar-brand"> 
-            <img src="./assets/img/logo.png" width="140" height="50" alt="">   <!-- Logo -->
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-              <li class="nav-item ">
-                <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
-              </li>
-              <li class="nav-item px-2">
-                <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link active" href="admin_recordatorios.php" tabindex="-1" aria-disabled="true">Recordatorios</a>
-              </li>
-              <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item">
+              <a class="nav-link active" href="admin_recordatorios.php" tabindex="-1"
+                aria-disabled="true">Recordatorios</a>
+            </li>
+            <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
+              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
-                </a>
+              </a>
 
-                <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item"  href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                  <i class="bi bi-person-circle"></i> </a></li>
+              <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-person-circle"></i> </a></li>
 
-                <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="#">&nbsp; Sistema &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <i class="bi bi-gear"></i></a> 
-                  </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item " href="assets/scripts/sistema.php">&nbsp; Sistema &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <i class="bi bi-gear"></i></a>
+                </li>
 
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
+                    &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                     <i class="bi bi-box-arrow-right"></i></a> </li>
- 
-                </ul>  
 
-              </li>
-            </ul>
-          </div>
+              </ul>
+
+            </li>
+          </ul>
         </div>
-      </nav>
-    </header>
-
+      </div>
+    </nav>
+  </header>
+  <!-- NAV BAR -->
   <!-- Modal -->
   <div class="modal fade pt-5" id="exampleModal" data-bs-backdrop="static" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -341,6 +350,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </table>
     </div>
   </div>
+ 
+
 
 
   <!--Funcion de JS para buscar en tiempo real  -->

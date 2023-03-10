@@ -44,13 +44,24 @@ $html = '';
 /* Motrar los datos enconrados */ 
 if ($num_rows > 0) {
     while ($row = $resultado->fetch_assoc()) {
-         
+        date_default_timezone_set("America/Mexico_City");
+        $fecha_a = date('Y-m-d');
         $html .= '<tr>';
         $html .= '<td>' . $row['t_nombre'] . '</td>';
         $html .= '<td>' . $row['r_nombre']. '</td>';
         $html .= '<td>' . $row['descripcion'] . '</td>';
         $html .= '<td>' . $row['caracter'] . '</td>';
-        $html .= '<td>' . $row['inicio'] . "- - ". $row['fin'] .'</td>';
+        $fin = $row['fin'];
+        if($fin > $fecha_a) {
+
+            $html .= '<td>' . $row['inicio'] . "- - ". $row['fin'] .'</td>';
+
+        }else{
+            
+            $html .= '<td style="background-color: rgba(255, 0, 0, 0.7)" >' . $row['inicio'] . "- - ". $row['fin'] .'</td>';
+            
+        }
+        
          $html .= "<td>
         <a href='assets/scripts/eliminar_recordatorio.php?id=".$row['id_recordatorio']."'>  
             <abbr title='Eliminar recordatorio'>
