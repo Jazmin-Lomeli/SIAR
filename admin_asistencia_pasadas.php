@@ -163,10 +163,10 @@ if (!$conexion) {
     <h2 style="text-align: center; padding-top: 1rem; padding-bottom: 0.5rem;">Asistencia</h2>
     <div class="container w-auto shadow pt-0 pb-0">
 
-      <nav class="navbar navbar-expand-lg navbar-light pl-5 rounded-4">
+      <nav class="navbar navbar-expand-lg navbar-light pl-4 rounded-4">
         <div class="container-fluid dernav">
           <a class="navbar-brand">
-            <img src="./assets/img/asistencia_icono.png" width="40" height="40" alt=""> <!-- Logo -->
+            <img src="./assets/img/asistencia_icono.png" width="45" height="45" alt=""> <!-- Logo -->
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -177,13 +177,19 @@ if (!$conexion) {
           <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
               <li class="nav-item pe-1">
-                <a class="nav-link active" aria-current="page" href="admin_asistencia.php">Actual</a>
+                <a class="nav-link active" style="font-size: 1.2em;" aria-current="page" href="admin_asistencia.php">Actual</a>
               </li>
               <li class="nav-item pe-1">
-                <a class="nav-link active" href="admin_asistencia_pasadas.php">Anteriores</a>
+                <a class="nav-link active" style="font-size: 1.2em;" href="admin_asistencia_pasadas.php">Anteriores</a>
               </li>
 
             </ul>
+        <!-- Abrir ventana para el PDF -->
+            <abbr title='Imprimir registo de asistencia'>
+              <a class="navbar-brand">
+                <img src="./assets/img/impresora.png" width="45" height="45" alt=""> <!-- Logo -->
+              </a>
+            </abbr>
           </div>
         </div>
       </nav>

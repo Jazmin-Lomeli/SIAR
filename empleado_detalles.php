@@ -594,7 +594,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                           <h5 class="card-title text-center">Reporte mensual </h5>
                           <br>
                           <div class="row">
-                            <div class="col  pb-4">
+                            <div class="col pb-4">
                               <abbr title='Mes de Enero'>
                                 <!-- Mandar datos por GET -->
                                 <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=1"
@@ -604,7 +604,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </a>
                               </abbr>
                             </div>
-                            <div class="col pb-4">
+                            <div class="col pb-4 px-1">
                               <abbr title='Mes de Febrero'>
                                 <!-- Mandar datos por GET -->
                                 <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=2"
@@ -614,7 +614,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </a>
                               </abbr>
                             </div>
-                            <div class="col pb-4">
+                            <div class="col pb-3 px-0">
                               <abbr title='Mes de Marzo'>
                                 <!-- Mandar datos por GET -->
                                 <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=3"
@@ -656,7 +656,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </a>
                               </abbr>
                             </div>
-                            <div class="col pb-4">
+                            <div class="col pb-4 px-0">
                               <abbr title='Mes de Julio'>
                                 <!-- Mandar datos por GET -->
                                 <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=7"
@@ -678,7 +678,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                           </div>
                           <div class="row ">
-                            <div class="col  pb-4">
+                            <div class="col  pb-4 ">
                               <abbr title='Mes de Septiembre'>
                                 <!-- Mandar datos por GET -->
                                 <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=9"
@@ -698,7 +698,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </a>
                               </abbr>
                             </div>
-                            <div class="col pb-4">
+                            <div class="col pb-4 px-0">
                               <abbr title='Mes de Noviembre'>
                                 <!-- Mandar datos por GET -->
                                 <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=11"
