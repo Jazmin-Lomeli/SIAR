@@ -67,14 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   mysqli_close($link);
 
 
-
-
-
 }
-
-
-
-
 
 
 ?>
@@ -95,8 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
- <!-- NAV BAR -->
- <header>
+  <!-- NAV BAR -->
+  <header>
     <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
       <div class="container-fluid dernav">
         <a class="navbar-brand">
@@ -285,17 +278,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
               <li class="nav-item pe-1">
-                <a class="nav-link active" style="font-size: 1.2em;" aria-current="page" href="admin_asistencia.php">Actual</a>
+                <a class="nav-link active" style="font-size: 1.2em;" aria-current="page"
+                  href="admin_asistencia.php">Actual</a>
               </li>
               <li class="nav-item pe-1">
                 <a class="nav-link active" style="font-size: 1.2em;" href="admin_asistencia_pasadas.php">Anteriores</a>
               </li>
 
             </ul>
-        <!-- Abrir ventana para el PDF -->
+            <!-- Abrir ventana para el PDF -->
             <abbr title='Imprimir registo de asistencia'>
-              <a href="assets/scripts/reporte_actual.php" class="navbar-brand" 
-                target="_blank" onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+              <a href="assets/scripts/reporte_actual.php" class="navbar-brand" target="_blank"
+                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
                 <img src="./assets/img/impresora.png" width="45" height="45" alt=""> <!-- Logo -->
               </a>
             </abbr>
@@ -313,10 +307,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="row">
         <div class="col-md-auto align-self-start pe-2">
           <abbr title='Agregar asistencia, hora de entrada'>
-            <a type="button" class="btn btn-outline-primary btn-lg ml-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-               <i class="bi bi-person-plus-fill">
+            <a type="button" class="btn btn-outline-primary btn-lg ml-2" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">
+              <i class="bi bi-person-plus-fill">
               </i>
-             </a>
+            </a>
           </abbr>
         </div>
 
@@ -350,8 +345,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </table>
     </div>
   </div>
+
+  <?php
+
  
 
+  ?>
 
 
   <!--Funcion de JS para buscar en tiempo real  -->

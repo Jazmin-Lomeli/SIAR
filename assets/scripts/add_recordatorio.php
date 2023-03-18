@@ -10,7 +10,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 require '../config/config.php';
 
 //  Consulta para extaer el area o tipo de empleado 
-$query ="SELECT * FROM tipo_empleado";
+$query ="SELECT * FROM tipo_empleado ORDER BY tipo";
 $resultado = $link->query($query); 
 $conexion = $link;
 
