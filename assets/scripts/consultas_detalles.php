@@ -11,7 +11,7 @@ $query ="SELECT * FROM tipo_empleado";
 $resultado = $link->query($query); 
 $conexion = $link;
 
-$area = $asig_area = $err_area= '';
+$area = $asig_area = $err_area = $motivo = $motivo_err = '';
 $name = $tel = $fecha_r = $id_huella = $area = $id_huella = $f_reg = $status_huella = $area = "";
 // Detalles empleado 
 $sql_dato = "SELECT * FROM empleados LEFT JOIN tipo_empleado ON empleados.tipo=tipo_empleado.tipo  LEFT JOIN huella ON huella.id_emp=empleados.id Where empleados.id = '$id_emp'";

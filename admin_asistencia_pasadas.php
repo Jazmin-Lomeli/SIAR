@@ -228,6 +228,7 @@ if (!$conexion) {
             <th>Fecha</th>
             <th>Entrada</th>
             <th>Salida</th>
+            <th>Justificación</th>
           </tr>
         </thead>
         <tbody id="content">

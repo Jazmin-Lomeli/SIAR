@@ -12,7 +12,7 @@ $sql = '';
 require '../config/config.php';
 
 /* Un arreglo de las columnas a mostrar en la tabla */
-$columns = ['id', 'nombre', 'apellido', 'seg_apellido','id_emp', 'entrada', 'fecha', 'salida'];
+$columns = ['id', 'nombre', 'apellido', 'seg_apellido','id_emp', 'entrada', 'fecha', 'salida', 'observacion'];
 
 /* Nombre de las tablas */
 $table = "empleados";
@@ -52,13 +52,32 @@ if ($num_rows > 0) {
         $html .= '<td>' . $row['nombre'] . " " . $row['apellido'] . " " . $row['seg_apellido'] . '</td>';
         $html .= '<td>' . $row['fecha'] . '</td>';
 
-        if ($row['entrada'] < '08:16:00') {         // entrada antes de las 8:15
-            $html .= '<td>' . $row['entrada'] . '</td>';
-        } else {                                    // Entrada despues de las 8:15
-            $html .= '<td style="background-color: rgba(255, 0, 0, 0.6)" >' . $row['entrada'] . '</td>';
-        }
+        
+        if( $row['observacion'] != NULL && $row['entrada'] == '00:00:00' && $row['salida'] == '00:00:00'){
 
-        $html .= '<td>' . $row['salida'] . '</td>';
+            $html .= '<td>' . "Justificada" . '</td>';
+            $html .= '<td>' . "Justificada" . '</td>';
+            $html .= "<td>
+             
+                <abbr title='$row[observacion]' >
+                    <button  class='btn btn-outline rounded-circle'> Motivo </button>
+                </abbr>
+             
+            </td>";
+
+        }else{
+
+            if ($row['entrada'] < '08:16:00') {         // entrada antes de las 8:15
+                $html .= '<td>' . $row['entrada'] . '</td>';
+            } else {                                    // Entrada despues de las 8:15
+                $html .= '<td style="background-color: rgba(255, 0, 0, 0.6)" >' . $row['entrada'] . '</td>';
+            }
+            $html .= '<td>' . $row['salida'] . '</td>';
+            $html .= '<td> -- </td>';
+           
+
+            
+        }
 
         $html .= '</tr>';
     }

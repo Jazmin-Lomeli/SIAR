@@ -23,21 +23,43 @@ if (!$conexion) {
 // Variables para el registro de una area de trabajo
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-  if ($info == "-") { // Asignar area laboral 
-    $asig_area = $_POST['area'];
-    if ($asig_area == 'select') {
-      $err_area = "Por favor, selecciona un área.";
+  if ($info == "justificar") {
+    $dato_vacio = "00:00:00";
+    if (empty(trim($_POST["motivo"]))) {
+      $motivo_err = "Por favor ingresa un motivo para la inasistencia";
+    } elseif (!preg_match('/^[ a-zA-ZáéíóúñÑÁÉÍÓÚ0-9.,= )(]+$/', trim($_POST["motivo"]))) { // Letras mayusculas y min
+      $motivo_err = " Descripción no valida.";
     } else {
-      $add_area = mysqli_query($link, "UPDATE empleados SET tipo = '$asig_area' WHERE id = '$id_emp'");
-
-      if ($add_area == TRUE) {
-        header('Location: empleado_detalles.php?id=' . $id_emp . '&mensaje=area&info=-');
-      } else {
-        die(" No se puede Modificar el registro ");
-        header('Location: empleado_detalles.phpid=' . $id_emp . '&mensaje=error&info=-');
-        exit();
-      }
+      $param_mot = trim($_POST["motivo"]);
+      $motivo = $param_mot;
     }
+
+
+    // Check input errors before inserting in database
+    if(empty($motivo_err)){
+      // Prepare an insert statement
+
+      $sql = "INSERT INTO asistencia (id_emp, fecha, entrada, salida, observacion) VALUES (?,?,?,?,?)";
+       
+      if($stmt = mysqli_prepare($link, $sql)){
+          mysqli_stmt_bind_param($stmt, "sssss", $id_emp, $fecha_a, $dato_vacio, $dato_vacio, $param_mot );
+          $param_mot = $motivo;
+
+          if(mysqli_stmt_execute($stmt)){
+              // Redirect to login page
+              header("location: admin_asistencia.php?mensaje=justificada");
+            } else{
+              header("location: admin_asistencia.php?mensaje=error");
+          }
+         
+
+          // Close statement
+          mysqli_stmt_close($stmt);
+      }
+  }
+
+
+
   } else { // Agregar hora de salida 
     if (empty(trim($_POST["h_salida"]))) {
       $h_salida_err = "Por favor, agrega un  dato.";
@@ -58,6 +80,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } // else
 
 } // METHOD POST
+
+date_default_timezone_set('America/Mexico_City');
+$fin = date("Y-m-d");
+$antiguedad = "";
+function meses($fecha1, $fecha2)
+{
+
+  $datetime1 = new DateTime($fecha1);
+  $datetime2 = new DateTime($fecha2);
+
+  # obtenemos la diferencia entre las dos fechas
+  $interval = $datetime2->diff($datetime1);
+
+  # obtenemos la diferencia en meses
+  $intervalMeses = $interval->format("%m");
+  # obtenemos la diferencia en años y la multiplicamos por 12 para tener los meses
+  $intervalAnos = $interval->format("%y") * 12;
+  return $intervalMeses + $intervalAnos;
+}
+
+
+
+/* Calculamos los meses */
+$meses = meses($fin, $f_reg);
+$anios = 0;
+$mes = $anios = 0;
+
+if ($meses > 11) {
+  $anios = intval($meses / 12); //Aqui realizamos la operacion de la división
+  $mes = $meses % 12; //Y aqui determinamos el modulo
+
+}
+
+if ($anios == 0) {
+  if ($meses == 0) {
+
+    $antiguedad = "Menos de un mes.";
+
+  } elseif ($meses == 1) {
+    $antiguedad = $meses . " mes.";
+
+  } else {
+    $antiguedad = $meses . " meses.";
+  }
+
+  //  $pdf->Cell(40, 8, utf8_decode( $imprime), 1, 1, 'C', 0);
+
+} else {
+  if ($anios == 1) {
+    if ($meses == 1) {
+      $antiguedad = $anios . " año " . $mes . " mes.";
+    } elseif ($mes == 0) {
+      $antiguedad = $anios . " año ";
+    } else {
+      $antiguedad = $anios . " año " . $mes . " meses.";
+    }
+  } else {
+    if ($meses == 1) {
+      $antiguedad = $anios . " años " . $mes . " mes.";
+    } elseif ($mes == 0) {
+      $antiguedad = $anios . " años ";
+    } else {
+      $antiguedad = $anios . " años " . $mes . " meses.";
+    }
+  }
+
+  //$pdf->Cell(40, 8, utf8_decode( $imprime), 1, 1, 'C', 0);
+
+}
+
 
 ?>
 
@@ -133,9 +225,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </nav>
   </header>
   <!-- NAV BAR -->
-
+  <!-- Vista para agregar la salida de algun empleado -->
   <?php
-  if ($area == NULL) {
+  /* Agregar salida de un empleado */
+  if ($info == "salida") {
     ?>
     <style>
       body {
@@ -148,49 +241,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="col-auto  p-4 text-center">
         <div class="row">
           <div class="col-sm-3">
+
           </div>
           <div class="col-sm-6">
             <div class="card text-center">
               <div class="card-header">
-                Area Laboral
+                Jornada Laboral
               </div>
               <div class="card-body">
-                <h4 class="card-title pb-2">Aun no se ha agregado un área laboral para</h4>
-                <h5 class="pb-4 ">
+                <h4 class="card-title pb-1">Agregar Hora de salida </h4>
+                <h5 class="pb-2 ">
                   <?php echo $name ?>
                 </h5>
 
-                <h7 class="card-text">Por favor selecciona una Área laboral </h7>
+                <h7 class="card-text">Datos de asistencia</h7>
                 <br>
-                <form method="post" id="formulario">
-                  <div class="row justify-content-center align-items-center">
-                    <div class="col-xl-6 col-lg-6 col-6 form-group">
-                      <select name="area" class="form-control <?php echo (!empty($err_area)) ? 'is-invalid' : ''; ?>"
-                        value="<?php echo $area; ?>">
-                        <option value="select">-- Seleccionar --</option>
-                        <?php
-                        while ($row = $resultado->fetch_assoc()) {
-                          echo '<option value="' . $row['tipo'] . '">' . $row['t_nombre'] . '</option>';
-                        }
-                        ?>
-                      </select>
+                <form method="post" id="formulario" class="pt-3">
+                  <div class="row d-flex justify-content-center ">
+                    <div class="col-xl-4 col-lg-4 col-4 form-group pb-2">
+                      <label for="id" class="">ID de empleado</label>
+                      <input id="id" type="text" name="id" class="form-control" value="<?php echo $id_emp; ?>" readonly>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-4 form-group pb-2">
+                      <label for="fecha" class="">Fecha</label>
+                      <input id="fecha" type="" name="fecha" class="form-control" value="<?php echo $fecha_a; ?>"
+                        readonly>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-4 form-group pb-2">
+                      <label for="h_entrada" class="">Hora de entrada</label>
+                      <input id="h_entrada" type="time" name="h_entrada" class="form-control"
+                        value="<?php echo $h_entrada; ?>" readonly>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-4 form-group pb-2">
+                      <label for="h_salida" class="">Hora de salida</label>
+                      <input id="h_salida" type="time" name="h_salida"
+                        class="form-control <?php echo (!empty($h_salida_err)) ? 'is-invalid' : ''; ?>"
+                        value="<?php echo $h_salida; ?>">
                       <span class="invalid-feedback">
-                        <?php echo $err_area; ?>
+                        <?php echo $h_salida_err; ?>
                       </span>
                     </div>
-                  </div>
-                  <br>
-                  <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-2 pb-2">
-                    <input type="submit" class="btn btn-outline-success">
-                    <a type="button" class="btn btn-outline-info " data-bs-toggle="modal" data-bs-target="#info">
-                      <i class="bi bi-info-circle"></i>
-                    </a>
-                    <a class="btn btn-outline-danger" href="admin_reg.php"><i class="bi bi-x-circle"></i></a>
+
+                    <br>
+                    <!-- Cambiar botones  -->
+                    <div class="col-xl-10 col-lg-10 form-group mx-2 pb-2 pt-3">
+
+                      <input type="submit" class="btn btn-outline-success px-4" value="Ingresar">
+                      &ensp;
+                      <a class="btn btn-outline-danger px-5" href="admin_reg.php">
+                        <i class="bi bi-x-circle"></i>
+                      </a>
+
+
+                    </div>
+
                   </div>
                 </form>
+
+
               </div>
               <div class="card-footer text-muted">
-                2 days ago
+                <?php
+                $mes = array("enero", "febrero", "marzo", "abril", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "noviembre", "diciembre");
+                $dia = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+
+                /* Establecer la hora de Mexico por que por defecto manda la del server  */
+                date_default_timezone_set("America/Mexico_City");
+                echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y");
+                ?>
               </div>
             </div>
           </div>
@@ -198,40 +316,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </div>
         </div>
       </div>
-      <!-- Modal -->
-      <div class="modal fade pt-5" id="info" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog ">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title " id="exampleModalLabel">Área de trabajo </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <?php $modal = 1; ?>
-              <div class="row text-center">
-                <div class="col-xl-12 col-lg-12 col-12 ">
-                  <h5 class=""> ¿El area de trabajo no está?</h5>
-                  <h6> Haz clic en el botón Cancelar, posteriemente haz clic en siguiente el botón </h6>
-                  <a class="btn btn-outline-info btn-lg  ml-2">
-                    <i class="bi bi-folder-plus">
-                    </i></a>
-                </div>
-              </div>
-              <br>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Modal -->
-
       <!-- Ventana para agregar salida  -->
-      <?php
-  } elseif ($info == "salida") { // Opcion para agregar hora de salida
-    ?>
 
+      <?php
+  } elseif ($info == "justificar") {
+    ?>
+      <!-- Vista para agregar la falta justificada de algun empleado -->
       <style>
         body {
           background: rgba(128, 128, 128, 0.5);
@@ -239,68 +329,84 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
       </style>
       <br>
-      <div class="pt-1 m-0 justify-content-center aling-items-center">
-        <div class="col-auto  p-4 text-center">
+      <div class="pt-0 m-0 justify-content-center aling-items-center">
+        <div class="col-auto p-3 text-center">
           <div class="row">
             <div class="col-sm-3">
-
             </div>
             <div class="col-sm-6">
               <div class="card text-center">
                 <div class="card-header">
-                  Jornada Laboral
+                  Faltas
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title pb-2">Agregar Hora de salida </h4>
-                  <h5 class="pb-4 ">
+                  <div class="row p-0 m-0">
+                    <div class="col-1">
+
+                    </div>
+                    <div class="col-10 pt-4">
+                      <h4 class="card-title pb-1">Falta justificada para el empleado </h4>
+                    </div>
+
+                    <div class="col-1 d-flex justify-content-end">
+                      <abbr title='Motivos'>
+                        <a class="btn btn-outline-info btn-sm rounded-circle" data-bs-toggle="modal"
+                          data-bs-target="#exampleModal">
+                          <i class="bi bi-info"></i>
+                        </a>
+                      </abbr>
+                    </div>
+                  </div>
+
+
+                  <h5 class="pb-2">
                     <?php echo $name ?>
                   </h5>
 
-                  <h7 class="card-text">Datos de asistancia</h7>
+
                   <br>
-                  <form method="post" id="formulario">
-                    <div class="row">
-                      <div class="col-xl-2 col-lg-2 col-2 form-group pb-2"> </div>
+                  <form method="post" id="formulario" class="">
+                    <div class="row d-flex justify-content-center ">
+
                       <div class="col-xl-4 col-lg-4 col-4 form-group pb-2">
                         <label for="id" class="">ID de empleado</label>
                         <input id="id" type="text" name="id" class="form-control" value="<?php echo $id_emp; ?>" readonly>
                       </div>
-                      <div class="col-xl-4 col-lg-4 col-4 form-group pb-2">
+                      <div class="col-xl-4 col-lg-4 col-4 form-group pb-2 text-center">
                         <label for="fecha" class="">Fecha</label>
                         <input id="fecha" type="" name="fecha" class="form-control" value="<?php echo $fecha_a; ?>"
                           readonly>
                       </div>
-                      <div class="col-xl-2 col-lg-2 col-2 form-group pb-2"> </div>
-                      <div class="col-xl-2 col-lg-2 col-2 form-group pb-2"> </div>
 
-                      <div class="col-xl-4 col-lg-4 col-4 form-group pb-2">
-                        <label for="h_entrada" class="">Hora de entrada</label>
-                        <input id="h_entrada" type="time" name="h_entrada" class="form-control"
-                          value="<?php echo $h_entrada; ?>" readonly>
-                      </div>
-                      <div class="col-xl-4 col-lg-4 col-4 form-group pb-2">
-                        <label for="h_salida" class="">Hora de salida</label>
-                        <input id="h_salida" type="time" name="h_salida"
-                          class="form-control <?php echo (!empty($h_salida_err)) ? 'is-invalid' : ''; ?>"
-                          value="<?php echo $h_salida; ?>">
+                      <div class="col-xl-8 col-lg-8 col-8 form-group pb-2">
+
+
+                        <label for="descripcion" class="espacio">Motivo de la falta</label>
+                        <textarea id="motivo" name="motivo" rows="2" col="5"
+                          class="form-control <?php echo (!empty($motivo_err)) ? 'is-invalid' : ''; ?>"
+                          value="<?php echo $motivo; ?>">
+                                            </textarea>
                         <span class="invalid-feedback">
-                          <?php echo $h_salida_err; ?>
+                          <?php echo $motivo_err; ?>
                         </span>
-                      </div>
-                      <div class="col-xl-2 col-lg-2 col-2 form-group pb-2"> </div>
+                        </textarea>
 
-                    </div>
-                    <br>
-                    <!-- Cambiar botones  -->
-                    <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-2 pb-2">
-                      <input type="submit" class="btn btn-outline-success">
-                      <a type="button" class="btn btn-outline-info " data-bs-toggle="modal" data-bs-target="#info">
-                        <i class="bi bi-info-circle"></i>
-                      </a>
-                      <a class="btn btn-outline-danger" href="admin_reg.php"><i class="bi bi-x-circle"></i></a>
+
+                        <!-- Botones -->
+                        <div class="col-xl-10 col-lg-10 form-group mx-2 pb-2 pt-3">
+                          <input type="submit" class="btn btn-outline-success px-4" value="Ingresar">
+                          &ensp;
+                          <a class="btn btn-outline-danger px-5" href="admin_reg.php">
+                            <i class="bi bi-x-circle"></i>
+                          </a>
+                        </div>
+
+                      </div>
                     </div>
                   </form>
+
                 </div>
+
                 <div class="card-footer text-muted">
                   <?php
                   $mes = array("enero", "febrero", "marzo", "abril", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "noviembre", "diciembre");
@@ -313,11 +419,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
               </div>
             </div>
-            <div class="col-sm-3">
+
+          </div>
+        </div>
+
+        <!-- Modal informativo -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Motivos </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body ">
+                <div class="text-center">
+                  <h6>Por favor agrega un motivo resumido y conciso en campo de motivo</h6>
+                  <h6>Por ejemplo</h6>
+
+                </div>
+
+                <div class="row col-12 pt-1" style="font-size: 1em;">
+                  <div class="col-6">
+                    <ul>
+                      <li> Problemas de salud.</li>
+                      <li> Cita medica.</li>
+                      <li> Emergencia familiar.</li>
+                      <li> Muerte de un ser querido.</li>                      
+                    </ul>
+                  </div>
+                  <div class="col-6">
+                  <ul>
+                      <li> Problemas con el auto.</li>
+                      <li> Cita medica</li>
+                      <li> Emergencia familiar</li>
+                    </ul>
+                  </div>
+                </div>
+
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+               </div>
             </div>
           </div>
         </div>
-        <!-- Ventana para agregar salida  -->
+
+
         <?php
   } else {
     ?>
@@ -445,46 +593,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="container px-4">
-              <div class="row">
+              <div class="row ">
                 <div class="heading-layout1">
-
-
                   <div class="container pt-3">
                     <div class="row align-items-start">
                       <div class="container">
-                        <div class="row pb-3">
-                          <div class="col-3">
+                        <div class="row pb-3 pt-2">
+
+                          <div class="col w-auto">
                             <span class="lead"> <strong> ID de empleado: </strong>
                               <?php echo $id_emp ?>
                             </span>
                           </div>
-                          <div class="col-4">
+                          <div class="col-5 w-auto pe-2">
                             <span class="lead"> <strong>Nombre: </strong>
                               <?php echo $name ?>
                             </span>
                           </div>
-
-                          <div class="col-4">
+                          <div class="col w-auto">
                             <span class="lead"> <strong>Teléfono: </strong>
                               <?php echo $tel ?>
                             </span>
                           </div>
-                          <div class="col-4">
-                          </div>
-                        </div>
-                        <div class="row pb-3">
-                          <div class="col-3 pb-3">
-                            <span class="lead"><strong> Área laboral: </strong>
-                              <?php echo $area ?>
-                            </span>
-                          </div>
-                          <div class="col-4 pb-3">
-                            <span class="lead"><strong> Fecha de registro: </strong>
-                              <?php echo $f_reg ?>
-                            </span>
-                          </div>
-
-                          <div class="col-2 pb-3">
+                          <div class="col w-auto">
                             <?php
                             if ($id_huella == "- -") {
                               ?>
@@ -501,33 +632,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                               <?php
                             }
                             ?>
+                            </span>
                           </div>
-                          <div class="col-2 pb-3"></div>
+
+                        </div>
+
+                        <div class="row pb-3 pt-2">
+                          <div class="col-4 pb-3 ">
+                            <span class="lead"><strong> Área laboral: </strong>
+                              <?php echo $area ?>
+                            </span>
+                          </div>
+                          <div class="col-4 pb-3 ">
+                            <span class="lead"><strong> Fecha de registro: </strong>
+                              <?php echo $f_reg ?>
+                            </span>
+                          </div>
+
+                          <div class="col-4 pb-3 ">
+                            <span class="lead"><strong> Antiguedad: </strong>
+                              <?php echo $antiguedad ?>
+                            </span>
+
+                          </div>
                         </div>
                       </div>
 
                     </div>
                   </div>
-
-                  <h4 class="text-start pt-2 pb-3"> Estatus de asistencia Actual </h4>
+                  <h4 class="text-start pt- pb-3"> Estatus de asistencia Actual </h4>
                   <div class="row pb-3">
                     <div class="col-3 pt-2">
                       <span class="lead"> <strong> Asistencia:</strong>
                         <?php echo $fecha_a ?>
                       </span>
                     </div>
-                    <div class="col-4 pt-2">
+                    <div class="col-3 pt-2">
                       <span class="lead"> <strong> Hora de entrada:</strong>
                         <?php echo $h_entrada ?>
                       </span>
                     </div>
-                    <div class="col-4 pt-2">
+                    <div class="col-3 pt-2">
                       <span class="lead"> <strong> Hora de salida :</strong>
                         <?php echo $h_salida ?>
                       </span>
                     </div>
+                    <div class="col-3 d-flex justify-content-end border">
+
+                      <abbr title='Justificar falta'>
+
+                        <a href="empleado_detalles.php?id=<?php echo $id_emp ?>&info=justificar" type="button"
+                          class="btn btn-outline-success btn-lg ml-2">
+                          Justificar falta
+                        </a>
+                      </abbr>
+                    </div>
                   </div>
                 </div>
+
+
                 <br>
                 <h4 class="text-start pt-2 pb-3">Asistencias</h4>
                 <div class="container border rounded pb-3"
@@ -536,7 +699,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-sm-8">
                       <div class="card shadow">
                         <div class="card-body">
-                          <h5 class="card-title text-center pb-3">Historial 15 días habiles</h5>
+                          <h5 class="card-title text-center pb-3">Historial 10 días habiles</h5>
                           <table class="table table table-bordered table-hover border border-secondary text-center">
                             <thead>
                               <tr>
@@ -548,7 +711,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </thead>
                             <tbody>
                               <?php
-                              $query = "SELECT entrada, fecha, salida FROM empleados INNER JOIN asistencia ON empleados.id=asistencia.id_emp AND empleados.id='$id_emp' ORDER BY asistencia.fecha DESC limit 15";
+                              $query = "SELECT entrada, fecha, salida FROM empleados INNER JOIN asistencia ON empleados.id=asistencia.id_emp AND empleados.id='$id_emp' ORDER BY asistencia.fecha DESC limit 10";
                               $result = $link->query($query);
                               while ($mostrar = mysqli_fetch_array($result)) {
                                 ?>
@@ -556,7 +719,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                   <th>
                                     <?php echo $mostrar['fecha']; ?>
                                   </th>
-                                  <?php if ($mostrar['entrada'] < '08:16:00') { ?>
+                                  <?php if ($mostrar['entrada'] == '00:00:00') { ?>
+                                    <th>
+                                      <?php echo $mostrar['entrada']; ?>
+                                    </th>
+                                    <th>
+                                      <?php echo "Justificada"; ?>
+                                    </th>
+                                    <?php
+                                  }elseif($mostrar['entrada'] < '08:16:00') { ?>
                                     <th>
                                       <?php echo $mostrar['entrada']; ?>
                                     </th>

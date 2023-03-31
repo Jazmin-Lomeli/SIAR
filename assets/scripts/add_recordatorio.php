@@ -59,7 +59,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     if(empty(trim($_POST["descripcion"]))){
         $descripcion_err = "Por favor ingresa una descripción.";     
-    }elseif(!preg_match('/^[ a-zA-ZáéíóúñÑÁÉÍÓÚ0-9.,]+$/', trim($_POST["descripcion"]))){  // Letras mayusculas y min
+    }elseif(!preg_match('/^[ a-zA-ZáéíóúñÑÁÉÍÓÚ0-9.,= )(]+$/', trim($_POST["descripcion"]))){  // Letras mayusculas y min
         $descripcion_err = " Descripción no valida.";
     }else{
         $param_desc = trim($_POST["descripcion"]) ;  

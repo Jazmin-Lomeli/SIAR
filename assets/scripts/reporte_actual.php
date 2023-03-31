@@ -56,7 +56,7 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where fecha = '$fech
         $pdf->Cell(30, 10, utf8_decode('Observación'), 1, 1, 'C', 0);
 
     $pdf->SetFont('Arial','',12);
-    $pdf->Cell(180,15,'Por el momento NO hay registros de asistencias',1,1,'C');
+    $pdf->Cell(192,15,'Por el momento NO hay registros de asistencias',1,1,'C');
     /* cerrar el resulset */
     mysqli_free_result($result);
     } else {   // Si hay registros
@@ -71,14 +71,12 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where fecha = '$fech
 
         $pdf->SetFont('Arial', '', 12);
 /* extarer asistencias */ 
-$query = "SELECT * FROM asistencia LEFT JOIN empleados ON asistencia.id_emp=empleados.id INNER JOIN tipo_empleado ON tipo_empleado.tipo = tipo_empleado.tipo Where tipo_empleado.tipo > 1 AND fecha = '$fecha_rep' ORDER BY entrada ASC";
+$query = "SELECT * FROM asistencia LEFT JOIN empleados ON asistencia.id_emp=empleados.id INNER JOIN tipo_empleado ON tipo_empleado.tipo = empleados.tipo Where tipo_empleado.tipo > 1 AND fecha = '$fecha_rep' ORDER BY entrada ASC";
 $result = mysqli_query($link, $query);
 
 while ($mostrar = mysqli_fetch_array($result)) {
     $id = $mostrar['id'];
-    $nombre = $mostrar['nombre']." ".$mostrar['apellido']." ". $mostrar['seg_apellido'] ;
     $fecha = $mostrar['fecha'];
-    $area = $mostrar['t_nombre'];
 
     $entrada = $mostrar['entrada'];
     if ($mostrar['entrada'] < "08:16:00") {
@@ -91,10 +89,9 @@ while ($mostrar = mysqli_fetch_array($result)) {
     } else {
         $salida = $mostrar['salida'];
     }
-
-    $pdf->Cell(12, 8, $id, 1, 0, 'C', 0);
-    $pdf->Cell(60, 8, $nombre, 1, 0, 'L', 0);
-    $pdf->Cell(34, 8, $area, 1, 0, 'L', 0);
+    $pdf->Cell(12, 8.,utf8_decode($mostrar['id']), 1, 0, 'C', 0);
+    $pdf->Cell(60, 8, utf8_decode($mostrar['nombre']." ".$mostrar['apellido']." ".$mostrar['seg_apellido'] ), 1, 0, 'L', 0);
+    $pdf->Cell(34, 8.,utf8_decode($mostrar['t_nombre']), 1, 0, 'C', 0);
     $pdf->Cell(28, 8,utf8_decode($entrada), 1, 0, 'C', 0);
     $pdf->Cell(28, 8, $salida, 1, 0, 'C', 0);
     $pdf->Cell(30, 8, $observacion, 1, 1, 'C', 0);
