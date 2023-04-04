@@ -12,8 +12,39 @@ require_once 'assets/config/config.php';
 
 $conexion = $link;
 if (!$conexion) {
-  header('Location: login.php');
+  header('Location: assets/scripts/reporte_actual.php');
 }
+
+
+$fecha_final = $fecha_inicial = "  --  ";
+$fecha_final_err = $fecha_inicial_err = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Validar primer apellido
+  if (empty(trim($_POST["fecha_i"]))) {
+    $fecha_inicial_err = "Por favor una fecha inicial ";
+  } elseif (trim($_POST["fecha_i"]) > date('Y-m-d')) { // Letras mayusculas y min
+    $fecha_inicial_err = "Fecha inicial no valida.";
+  } else {
+    $fecha_inicial = $_POST["fecha_i"];
+  }
+
+  if (empty(trim($_POST["fecha_f"]))) {
+    $fecha_final_err = "Por favor una fecha final ";
+  } elseif (trim($_POST["fecha_f"]) == $fecha_inicial) { // Letras mayusculas y min
+    $fecha_final_err = "Fecha final no valida.";
+    $fecha_inicial_err = "Fecha inicial no valida.";
+  } elseif (trim($_POST["fecha_f"]) < $fecha_inicial) {
+    $fecha_final_err = "Fecha final no valida.";
+  } else {
+    $fecha_final = $_POST["fecha_f"];
+
+  }
+
+
+}
+
+
 
 ?>
 
@@ -34,14 +65,15 @@ if (!$conexion) {
 
 
   <style>
+    
 
   </style>
 </head>
 
 <body>
 
-   <!-- NAV BAR -->
-   <header>
+  <!-- NAV BAR -->
+  <header>
     <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
       <div class="container-fluid dernav">
         <a class="navbar-brand">
@@ -160,7 +192,51 @@ if (!$conexion) {
     }
     ?>
 
-    <h2 style="text-align: center; padding-top: 1rem; padding-bottom: 0.5rem;">Asistencia</h2>
+    <h2 style="text-align: center; padding-top: 1rem; padding-bottom: 0.5rem;">Asistencias</h2>
+    <div class="row">
+      <div class="col-6"></div>
+      <div class="col-6 align-self-end px-0">
+        <div class=" col-12 text-center">
+          <p>Reporte de las fechas
+            <?php
+            echo $fecha_inicial . " a " . $fecha_final; ?>
+          </p>
+        </div>
+        <form method="post">
+          <div class="row align-items-start pt-0 mt-0 pb-4">
+            <div class="col-2"></div>
+            <div class="col-4 mx-0 px-0">
+              <input id="fecha_i" type="date" name="fecha_i"
+                class="form-control <?php echo (!empty($fecha_inicial_err)) ? 'is-invalid' : ''; ?>"
+                value="<?php echo $fecha_inicial; ?>">
+              <span class="invalid-feedback text-center">
+                <?php echo $fecha_inicial_err; ?>
+              </span>
+
+            </div>
+            <div class="col-4 mx-0 px-1">
+              <input id="fecha_f" type="date" name="fecha_f"
+                class="form-control <?php echo (!empty($fecha_final_err)) ? 'is-invalid' : ''; ?>"
+                value="<?php echo $fecha_final; ?>">
+              <span class="invalid-feedback text-center">
+                <?php echo $fecha_final_err; ?>
+              </span>
+            </div>
+            <div class="col-1 ">
+              <abbr title="Establecer intervalo de fecha para el reporte">
+                <button type="submit" class="btn btn-outline-success rounded-circle text-center" value="">
+                  <i class="bi bi-check-circle"></i>
+                </button>
+              </abbr>
+
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+
     <div class="container w-auto shadow pt-0 pb-0">
 
       <nav class="navbar navbar-expand-lg navbar-light pl-4 rounded-4">
@@ -177,19 +253,29 @@ if (!$conexion) {
           <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
               <li class="nav-item pe-1">
-                <a class="nav-link active" style="font-size: 1.2em;" aria-current="page" href="admin_asistencia.php">Actual</a>
+                <a class="nav-link active" style="font-size: 1.2em;" aria-current="page"
+                  href="admin_asistencia.php">Actual</a>
               </li>
               <li class="nav-item pe-1">
                 <a class="nav-link active" style="font-size: 1.2em;" href="admin_asistencia_pasadas.php">Anteriores</a>
               </li>
-
             </ul>
-        <!-- Abrir ventana para el PDF -->
-            <abbr title='Imprimir registo de asistencia'>
-              <a class="navbar-brand">
-                <img src="./assets/img/impresora.png" width="45" height="45" alt=""> <!-- Logo -->
-              </a>
-            </abbr>
+
+            <!-- Abrir ventana para el PDF  -->
+            <?php
+            if ($fecha_inicial != "  --  " && $fecha_final != "  --  ") {
+              ?>
+              <abbr title='Imprimir registo de asistencia'>
+                <a href="assets/scripts/reporte_intervalo.php?inicio=<?php echo $fecha_inicial; ?>&final=<?php echo $fecha_final; ?>"
+                  class="navbar-brand" target="_blank"
+                  onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                  <img src="./assets/img/impresora.png" width="45" height="45" alt=""> <!-- Imagen  -->
+                </a>
+              </abbr>
+              <?php
+            }
+            ?>
+
           </div>
         </div>
       </nav>
@@ -217,8 +303,6 @@ if (!$conexion) {
         </div>
       </div>
     </div>
-
-
     <div class="table-responsive text-center">
       <table class="table table table-bordered table-hover border border-secondary">
         <thead>
@@ -228,6 +312,7 @@ if (!$conexion) {
             <th>Fecha</th>
             <th>Entrada</th>
             <th>Salida</th>
+            <th>Justificación</th>
           </tr>
         </thead>
         <tbody id="content">
@@ -235,6 +320,7 @@ if (!$conexion) {
         </tbody>
       </table>
     </div>
+
   </div>
 
 

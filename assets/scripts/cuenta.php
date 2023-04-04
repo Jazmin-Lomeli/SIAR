@@ -124,9 +124,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $param_password = password_hash($pass, PASSWORD_DEFAULT); /*  Agregar el HASH  a la contraseña */
                 date_default_timezone_set("America/Mexico_City");
+
                 $f_change = date('Y-m-d');
 
-                $a = mysqli_query($link, "UPDATE users SET password = '$param_password', cambio_contrasena = $f_change WHERE id = '$id'");
+                $a = mysqli_query($link, "UPDATE users SET password = '$param_password', cambio_contrasena = '$f_change' WHERE id = '$id'");
                 if ($a == TRUE) {
                     header("location:  cuenta.php?mensaje=new_pass");
                 } else {
@@ -155,12 +156,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/root.css">
+    <link rel="shortcut icon" href="../img/icono.png">
+
 
 </head>
 
 <body>
+    <style>
+        body {
+            background: rgba(128, 128, 128, 0.2);
+            height: 100%;
+        }
+
+        .cont {
+            background: ghostwhite;
+            height: 100%;
+            border-radius: 10px;
+            padding-bottom: 1em;
+            padding-top: 0.5em;
+            margin-top: 1em;
+        }
+    </style>
 
     <header>
+
         <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
             <div class="container-fluid dernav">
                 <a class="navbar-brand">
@@ -204,8 +223,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item " href="logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-                    <i class="bi bi-box-arrow-right"></i></a> </li>
+                                <li><a class="dropdown-item " href="logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
+                                        &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+                                        <i class="bi bi-box-arrow-right"></i></a> </li>
                             </ul>
                     </ul>
                     </li>
@@ -301,17 +321,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         ?>
         <div class="d-flex align-items-end flex-column ">
-            <div class="mt-auto p-2">
+            <div class="mt-auto">
                 <a class="btn" data-bs-toggle="modal" data-bs-target="#password">
                     <img src="../img/pregunta.png" width="50px">
                 </a>
             </div>
 
-            <div class="container rounded mt-0">
-                <div class="row justify-content-center">
-                    <div class="col-sm-11 col-md-12 col-lg-10 wrapper shadow pt-3 pb-4 ps-2">
-                        <h3 class="text-center">Información de la cuenta</h3>
 
+
+            <div class="container shadow-none mt-0">
+                <div class="row text-center justify-content-center  ">
+                    <div class="cont col-md-8 wrapper shadow px-5">
+                        <h3 class="pt-2">Cuenta</h3>
+                        <h6  class="pb-2"> Información general se la sesión actual </h6>
+                        <!-- Alertas -->
                         <?php
                         if ($cambio_contra == 0) {
                             ?>
@@ -414,12 +437,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         }
                         ?>
 
-
-                        <div class="row px-2">
-                            <div class="col-sm-3 col-md-3 col-lg-3 rounded ">
+                        <!-- Alertas -->
+                        <div class="row px-1 text-start">
+                            <div class="col-sm-4 col-md-3 col-lg-3 rounded ">
                                 <img src="../img/user.png" class="img-thumbnail" alt="...">
                             </div>
-                            <div class="col-sm-4 col-md-4 col-lg-5 pt-4 ">
+                            <div class="col-sm-8 col-md-8 col-lg-8 ">
                                 <h5 class="lead">
                                     <strong>Nombre de usuario: </strong>
                                     <small class="text-muted">
@@ -433,144 +456,146 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <?php echo $f_ingreso; ?>
                                     </small>
                                 </h5>
-                            </div>
-                            <div class="col-sm-4 col-md-5 col-lg-4 pt-4 ">
+                                <br>
                                 <h5 class="lead">
-                                    <strong>Última sesión: </strong>
+                                    <strong>Última contraseña: </strong>
                                     <small class="text-muted">
-                                        <?php echo $ult_log; ?>
+                                        <?php echo $cambio_contra; ?>
                                     </small>
                                 </h5>
                             </div>
-                        </div>
-                        <div class="d-flex align-items-end flex-column " style="margin-top: -3em;">
 
-                            <div class="mt-auto p-2 px-3">
+                            <div class="d-flex align-items-end flex-column " >
 
+                                <div class="mt-auto p-2 px-2 border rounded" style="background-color: ;">
+                                    <div class="btn-group">
+                                        <abbr title='Volver a inicio'>
+                                            <a href="../../admin_reg.php" type="button"
+                                                class="btn btn-outline-primary btn-lg mx-1"><i
+                                                    class="bi bi-house-door-fill"></i></a>
 
-                                <div class="btn-group">
-                                    <abbr title='Volver a inicio'>
-                                        <a href="../../admin_reg.php" type="button"
-                                            class="btn btn-outline-primary btn-lg mx-1"><i
-                                                class="bi bi-house-door-fill"></i></a>
+                                        </abbr>
+                                        <abbr title='Agregar un nuevo usuario'>
+                                            <a href="cuenta.php?mensaje=add" type="button"
+                                                class="btn btn-outline-secondary btn-lg mx-1"><i
+                                                    class="bi bi-person-plus-fill"></i></a>
+                                        </abbr>
 
-                                    </abbr>
-                                    <abbr title='Agregar un nuevo usuario'>
-                                        <a href="cuenta.php?mensaje=add" type="button"
-                                            class="btn btn-outline-secondary btn-lg mx-1"><i
-                                                class="bi bi-person-plus-fill"></i></a>
-                                    </abbr>
+                                        <abbr title='Cambiar contraseña'>
 
-                                    <abbr title='Cambiar contraseña'>
-
-                                        <a data-bs-toggle="modal" data-bs-target="#change_password" type="button"
-                                            class="btn btn-outline-success btn-lg mx-1"><i class="bi bi-key-fill"></i></a>
-                                    </abbr>
+                                            <a data-bs-toggle="modal" data-bs-target="#change_password" type="button"
+                                                class="btn btn-outline-success btn-lg mx-1"><i
+                                                    class="bi bi-key-fill"></i></a>
+                                        </abbr>
+                                    </div>
                                 </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal informativo -->
+                <div class="modal fade pt-5" id="password" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header text-center">
+                                <h5 class="modal-title " id="staticBackdropLabel">Información</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <?php
+                            if ($cambio_contra == 0) {
+                                ?>
+                                <div class="modal-body text-center pt-2">
+                                    <h5>Contraseña por defecto</h5>
+                                    <h6> Actualmente la cuenta tiene la contraseña por defecto, por seguridad cambiala lo más
+                                        pronto
+                                        posible</h6>
+                                    <img src="../img/contrasena.png" class="rounded mx-auto d-block" alt="...">
+                                </div>
+
+                                <?php
+                            } else {
+                                ?>
+                                <div class="modal-body text-center pt-2">
+                                    <h5>Seguridad de la cuenta</h5>
+                                    <h6> Para mantener tu cuenta segura, cambia tu contraseña con regularidad.</h6>
+                                    <img src="../img/contrasena.png" class="rounded mx-auto d-block" alt="...">
+                                </div>
+                                <?php
+                            }
+                            ?>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-outline-primary px-4"
+                                    data-bs-dismiss="modal">Entendido</button>
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
-        </div>
-        <!-- Modal informativo -->
-        <div class="modal fade pt-5" id="password" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                        <h5 class="modal-title " id="staticBackdropLabel">Información</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <?php
-                    if ($cambio_contra == 0) {
-                        ?>
-                        <div class="modal-body text-center pt-2">
-                            <h5>Contraseña por defecto</h5>
-                            <h6> Actualmente la cuenta tiene la contraseña por defecto, por seguridad cambiala lo más pronto
-                                posible</h6>
-                            <img src="../img/contrasena.png" class="rounded mx-auto d-block" alt="...">
+                <!-- Modal informativo -->
+
+                <div class="modal fade pt-5" id="change_password" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header text-center ">
+                                <h5 class="modal-title " id="staticBackdropLabel">Cambiar contraseña</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center pt-2">
+                                <h5>Escribe tu nueva contraseña</h5>
+                                <form method="post" id="formulario" class="">
+                                    <div class="row justify-content-center align-items-center">
+                                        <div class="col-xl-10 col-lg-10 col-sm-8 form-group pt-2">
+                                            <label for="pass1" class="">Contraseña</label>
+                                            <input id="pass1" type="password" name="pass1" class="form-control">
+                                        </div>
+                                        <div class="row justify-content-center align-items-center pt-3">
+                                            <div class="col-xl-10 col-lg-10 col-sm-8 form-group">
+                                                <label for="pass2" class="">Repite tu contraseña</label>
+                                                <input id="pass2" type="password" name="pass2" class="form-control">
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="col-xl-10 col-lg-10 col-sm-8 form-group pt-3 pb-4">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                        </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+
+                            </div>
                         </div>
-
-                        <?php
-                    } else {
-                        ?>
-                        <div class="modal-body text-center pt-2">
-                            <h5>Seguridad de la cuenta</h5>
-                            <h6> Para mentener tu cuenta segura, cambia tu contraseña con regularidad.</h6>
-                            <img src="../img/contrasena.png" class="rounded mx-auto d-block" alt="...">
-                        </div>
-                        <?php
-                    }
-                    ?>
-                    <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-outline-primary px-4"
-                            data-bs-dismiss="modal">Entendido</button>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- Modal informativo -->
-        <!-- Modal informativo -->
-        <div class="modal fade pt-5" id="change_password" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header text-center ">
-                        <h5 class="modal-title " id="staticBackdropLabel">Cambiar contraseña</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center pt-2">
-                        <h5>Escribe tu nueva contraseña</h5>
-                        <form method="post" id="formulario" class="">
-                            <div class="row justify-content-center align-items-center">
-                                <div class="col-xl-10 col-lg-10 col-sm-8 form-group pt-2">
-                                    <label for="pass1" class="">Contraseña</label>
-                                    <input id="pass1" type="password" name="pass1" class="form-control">
-                                </div>
-                                <div class="row justify-content-center align-items-center pt-3">
-                                    <div class="col-xl-10 col-lg-10 col-sm-8 form-group">
-                                        <label for="pass2" class="">Repite tu contraseña</label>
-                                        <input id="pass2" type="password" name="pass2" class="form-control">
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="col-xl-10 col-lg-10 col-sm-8 form-group pt-3 pb-4">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                                </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal informativo -->
+                <!-- Modal informativo -->
 
 
-        <!--Funcion de JS para borrar la alerta automaticamente  -->
-        <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-        <!-- Alertas de edicion, borrado y error
+                <!--Funcion de JS para borrar la alerta automaticamente  -->
+                <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+                <!-- Alertas de edicion, borrado y error
               -->
-        <script type="text/javascript">
-            $(document).ready(function () {
-                setTimeout(function () {
-                    $(".alerta").fadeOut(1500);
-                }, 2500);
-            });
-        </script>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        setTimeout(function () {
+                            $(".alerta").fadeOut(1500);
+                        }, 2500);
+                    });
+                </script>
 
 
-        <?php
+                <?php
     }
     ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                crossorigin="anonymous"></script>
 
 </body>
 

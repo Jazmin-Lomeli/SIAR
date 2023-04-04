@@ -65,10 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
   // Close connection
   mysqli_close($link);
-
-
 }
-
 
 ?>
 
@@ -176,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class="col-xl-6 col-lg-6 col-6 form-group text-center">
                 <label for="fecha">Fecha</label>
                 <input id="fecha" type="date" name="fecha" class="form-control" value="<?php echo $fecha_hoy; ?>"
-                  readonly>
+                  >
               </div>
               <div class="col-xl-4 col-lg-4 col-4 form-group"></div>
               <div class="col-xl-4 col-lg-4 col-4 form-group text-center">
@@ -259,6 +256,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <?php
     }
     ?>
+    <?php
+    if (isset($_GET['justificada']) and $_GET['mensaje'] == 'justificada') {
+      ?>
+      <br>
+      <div class=" alerta_delete alert alert-success alert-dismissible fade show text-center" role="alert">
+        <strong>¡Exito!</strong> Falta jistificada agregada con exito
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+      </div>
+      <?php
+    }
+    ?>
     <!-- Alertas de confirmacion o  error -->
 
     <h2 style="text-align: center; padding-top: 1rem; padding-bottom: 0.5rem;">Asistencia</h2>
@@ -305,7 +314,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </p>
     <div class="pt-2 pb-3">
       <div class="row">
-        <div class="col-md-auto align-self-start pe-2">
+        <div class="col-md-auto align-self-start pe-1">
           <abbr title='Agregar asistencia, hora de entrada'>
             <a type="button" class="btn btn-outline-primary btn-lg ml-2" data-bs-toggle="modal"
               data-bs-target="#exampleModal">
@@ -314,6 +323,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </a>
           </abbr>
         </div>
+
+        
 
         <div class="col align-self-center">
         </div>
@@ -346,9 +357,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 
-  <?php
+  <?php/*
+   $id_manipular = 0;       
+   $huecos_en_huella = 0;
+  $cont = 0;
+$query_avisos = "SELECT id_huella FROM huella ORDER by id_huella ASC";
+$res = mysqli_query($link, $query_avisos);
+foreach ($res as $datos) {
 
- 
+    if ($datos['id_huella'] == $cont) {
+        $cont++;            // Aumenta pues si existe
+    } else {
+        $id_manipular = $cont; /* este sera el ID a agregar a la tabla (SI HAY HUECO) 
+        echo $id_manipular;
+        $huecos_en_huella = 1;
+    }
+}
+$id_add = 1;
+$sql = "INSERT INTO huella (id_emp) VALUES (?)";
+if ($stmt = mysqli_prepare($link, $sql)) {
+    mysqli_stmt_bind_param($stmt, "s", $id_add);
+    echo " Se inserto el $id_add";
+/* como se genero eon el AuntoIncrement buscamos el id_huella mayor 
+    if (mysqli_stmt_execute($stmt)) {
+
+        $consulta = "SELECT MAX(id_huella) AS id FROM huella";
+        $resultado = mysqli_query($link, $consulta);
+        $linea = mysqli_fetch_array($resultado);
+        $id_manipular = $linea['id']; //   Se mandará a la esp32
+
+        echo "Uñtimo Id $id_manipular";
+        if($id_manipular == NULL){
+            $id_manipular = 1;
+        }else{
+            $id_manipular = $id_manipular + 1;
+        }
+
+
+
+
+    } else {
+        //header('Location: ../../admin_reg.php');
+        echo "error";
+    }
+
+
+}
+
+*/
+
 
   ?>
 

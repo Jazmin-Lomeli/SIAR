@@ -10,7 +10,7 @@ $sql = '';
 require '../config/config.php';
 
 /* Un arreglo de las columnas a mostrar en la tabla */
-$columns = ['id', 'nombre', 'apellido', 'seg_apellido','id_emp', 'entrada', 'fecha', 'salida'];
+$columns = ['id', 'nombre', 'apellido', 'seg_apellido','id_emp', 'entrada', 'fecha', 'salida', 'observacion'];
 
 /* Nombre de las tablas */
 $table = "empleados";
@@ -50,19 +50,38 @@ if ($num_rows > 0) {
         $html .= '<td>' . $row['id'] . '</td>';
         $html .= '<td>' . $row['nombre'] . " ". $row['apellido'] . " ". $row['seg_apellido'] . '</td>';
         $html .= '<td>' . $row['fecha'] . '</td>';
-        if($row['entrada'] < '08:16:00'){    // Entrada a las 8:15 
-            $html .= '<td>' . $row['entrada'] . '</td>';
-        }else{                               // entrada despues de las 8:15
-            $html .= '<td style="background-color: rgba(255, 0, 0, 0.6)" >' . $row['entrada'] . '</td>';
+
+        if( $row['observacion'] != NULL && $row['entrada'] == '00:00:00' && $row['salida'] == '00:00:00'){
+
+            $html .= '<td>' . "Justificada" . '</td>';
+            $html .= '<td>' . "Justificada" . '</td>';
+            $html .= "<td>
+             
+                <abbr title='$row[observacion]' >
+                    <button  class='btn btn-outline rounded-circle'> Motivo </button>
+                </abbr>
+             
+            </td>";
+
+        }else{
+
+            if ($row['entrada'] < '08:16:00') {         // entrada antes de las 8:15
+                $html .= '<td>' . $row['entrada'] . '</td>';
+            } else {                                    // Entrada despues de las 8:15
+                $html .= '<td style="background-color: rgba(255, 0, 0, 0.6)" >' . $row['entrada'] . '</td>';
+            }
+            $html .= '<td>' . $row['salida'] . '</td>';
+            $html .= "<td>
+            <a href='empleado_detalles.php?id=".$row['id']."&info=salida'>  
+                <abbr title='Registrar salida manualmente'>
+                    <button  class='btn btn-outline-success ml-2' ><i class='bi bi-box-arrow-right'></i></button>
+                </abbr>
+             </a>   
+            </td>";
+
+            
         }
-        $html .= '<td>' . $row['salida'] . '</td>';
-        $html .= "<td>
-        <a href='empleado_detalles.php?id=".$row['id']."&info=salida'>  
-            <abbr title='Registrar salida manualmente'>
-                <button  class='btn btn-outline-success ml-2' ><i class='bi bi-box-arrow-right'></i></button>
-            </abbr>
-         </a>   
-        </td>";
+
  
         $html .= '</tr>';
     }

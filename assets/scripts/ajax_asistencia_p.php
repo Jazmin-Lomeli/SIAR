@@ -12,7 +12,7 @@ $sql = '';
 require '../config/config.php';
 
 /* Un arreglo de las columnas a mostrar en la tabla */
-$columns = ['id', 'nombre', 'apellido', 'seg_apellido','id_emp', 'entrada', 'fecha', 'salida'];
+$columns = ['id', 'nombre', 'apellido', 'seg_apellido','id_emp', 'entrada', 'fecha', 'salida', 'observacion'];
 
 /* Nombre de las tablas */
 $table = "empleados";
@@ -46,25 +46,39 @@ $num_rows = $resultado->num_rows;
 $html = '';
 /* Mostramos los resultados */
 if ($num_rows > 0) {
-    while ($row = $resultado->fetch_assoc()) {
+    $cont = 0;
+    while ($row = $resultado->fetch_assoc() ){
+        if($cont <= 50){
         $html .= '<tr>';
         $html .= '<td>' . $row['id'] . '</td>';
         $html .= '<td>' . $row['nombre'] . " " . $row['apellido'] . " " . $row['seg_apellido'] . '</td>';
         $html .= '<td>' . $row['fecha'] . '</td>';
 
-        if ($row['entrada'] < '08:16:00') {         // entrada antes de las 8:15
-            $html .= '<td>' . $row['entrada'] . '</td>';
-        } else {                                    // Entrada despues de las 8:15
-            $html .= '<td style="background-color: rgba(255, 0, 0, 0.6)" >' . $row['entrada'] . '</td>';
+        
+        if( $row['observacion'] != NULL && $row['entrada'] == '00:00:00' && $row['salida'] == '00:00:00'){
+
+            $html .= '<td>' . "Justificada" . '</td>';
+            $html .= '<td>' . "Justificada" . '</td>';
+            $html .= '<td>' . $row['observacion'] . '</td>';
+        }else{
+
+            if ($row['entrada'] < '08:16:00') {         // entrada antes de las 8:15
+                $html .= '<td>' . $row['entrada'] . '</td>';
+            } else {                                    // Entrada despues de las 8:15
+                $html .= '<td style="background-color: rgba(255, 0, 0, 0.6)" >' . $row['entrada'] . '</td>';
+            }
+            $html .= '<td>' . $row['salida'] . '</td>';
+            $html .= '<td> -- </td>';
+           
         }
 
-        $html .= '<td>' . $row['salida'] . '</td>';
-
         $html .= '</tr>';
+        $cont++;
+    }
     }
 } else {
     $html .= '<tr>';
-    $html .= '<td colspan="5">Sin resultados</td>';
+    $html .= '<td colspan="6">Sin resultados</td>';
     $html .= '</tr>';
 }
 

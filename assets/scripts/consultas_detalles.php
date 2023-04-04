@@ -11,8 +11,8 @@ $query ="SELECT * FROM tipo_empleado";
 $resultado = $link->query($query); 
 $conexion = $link;
 
-$area = $asig_area = $err_area= '';
-$name = $tel = $fecha_r = $id_huella = $area = $id_huella = $f_reg = $status_huella = $area = "";
+$area = $asig_area = $err_area = $motivo = $motivo_err = '';
+$name = $tel = $fecha_r = $id_huella = $area = $id_huella = $f_reg = $status_huella = $area = $jornada = "";
 // Detalles empleado 
 $sql_dato = "SELECT * FROM empleados LEFT JOIN tipo_empleado ON empleados.tipo=tipo_empleado.tipo  LEFT JOIN huella ON huella.id_emp=empleados.id Where empleados.id = '$id_emp'";
 $result = mysqli_query($link, $sql_dato);
@@ -23,6 +23,7 @@ while($mostrar = mysqli_fetch_array($result)) {
   $f_reg = $mostrar['f_registro'];
   $area = $mostrar['t_nombre'];
   $id_huella  = $mostrar['id_huella'];
+  $jornada = $mostrar['jornada'];
 }
 // Aun no tiene ID de huella en el sensor 
 if($status_huella == 0){
