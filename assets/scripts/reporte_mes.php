@@ -28,6 +28,8 @@ while ($mostrar = mysqli_fetch_array($result_datos)) {
     $id_huella = $mostrar['id_huella'];
     $a_laboral = $mostrar['t_nombre'];
     $f_ingreso = $mostrar['f_registro'];
+    $jornada = $mostrar['jornada'];
+
 }
 
 date_default_timezone_set('America/Mexico_City');
@@ -166,9 +168,9 @@ $pdf->Cell(28, 8, utf8_decode("Área laboral:"), 0, 0, 'L');
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(90, 8, $a_laboral, 0, 1, 'L');
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(40, 8, utf8_decode("Jornada laboral: "), 0, 0, 'L');
+$pdf->Cell(35, 8, utf8_decode("Jornada laboral: "), 0, 0, 'L');
 $pdf->SetFont('Arial', '', 12);
-$pdf->Cell(20, 8, ("xxxx"), 0, 0, 'L');
+$pdf->Cell(20, 8, "$jornada hrs.", 0, 0, 'L');
 $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(26, 8, utf8_decode("Antiguedad: "), 0, 0, 'L');
 $pdf->SetFont('Arial', '', 12);
@@ -379,13 +381,23 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where id_emp= '$id' 
                 $pdf->SetFont('Arial', 'B', 11);
                 $pdf->Cell(23, 6, "  T. retardo: ", 0, 0, 'L', 0); // Tiempo tarde
                 $pdf->SetFont('Arial', '', 11);
+                
                 $pdf->Cell(31, 6, "$mins_tarde mins.", 0, 0, 'L', 0);
 
                 $pdf->SetFont('Arial', 'B', 11);
                 $pdf->Cell(36, 6, " Jornada semanal: ", 0, 0, 'L', 0); // Horas que se trabajaron 
                 $pdf->SetFont('Arial', '', 11);
                 //$jornada_sem esta en minutos 
-                $pdf->Cell(39, 6, "Agregar campo a DB", 0, 1, 'L', 0);
+                if($hours < $jornada ){
+                    $pdf->SetTextColor(255,0,0);
+                    $pdf->Cell(39, 6, "$jornada hrs", 0, 1, 'L', 0);
+                    $pdf->SetTextColor(0,0,0);
+                }else{
+                    $pdf->SetTextColor(0,0,255);
+                    $pdf->Cell(39, 6, "$jornada hrs", 0, 1, 'L', 0);
+                    $pdf->SetTextColor(0,0,0);
+
+                }
 
 
                 $pdf->Cell(180, 4, "", 0, 1, 'L', 0);

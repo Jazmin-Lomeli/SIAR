@@ -38,18 +38,11 @@ if ($mode_sensor_huella == "REGISTER") {
     $id_manipular = "-"; // Mandamos ID como - 
 } elseif ($mode_sensor_huella == "ENROLL") {
     // Si el modo es ENROLL  
-   
     // Extraemos el id_a_manipular de la tabla auxiliar
     $consulta = "SELECT id_a_manipular AS id FROM huella_auxiliar";
     $resultado = mysqli_query($link, $consulta);
     $linea = mysqli_fetch_array($resultado);
     $id_manipular = $linea['id']; //   Se mandará a la esp32
-
-// Limpiamos tabla auxiliar
-    $huella_aux_reset = mysqli_query($link, "DELETE FROM huella_auxiliar");
-    if ($huella_aux_reset == FALSE){
-        echo "ERROR";
-    }
 
 }
 
@@ -131,11 +124,11 @@ if ($confirmacion == "add" && $finger_err == "Todo_bien") {
                     } else {
                         // REGISTER/si/listado de avisos
                         $aux_aviso = 1;
-                        echo "AVISO/".$nu_avisos."/";
+                        echo "AVISO/" . $nu_avisos . "/";
 
-                        $mode_sensor_huella ="AVISO";
+                        $mode_sensor_huella = "AVISO";
                         $cont = 0;
-                       
+
 
                         /* Avisos particulares */
                         $query_avisos = "SELECT * FROM recordatorios LEFT JOIN tipo_empleado ON recordatorios.r_tipo=tipo_empleado.tipo  WHERE tipo_empleado.tipo= 1 OR tipo_empleado.tipo = '$tipo_emp'";
@@ -177,8 +170,8 @@ if ($confirmacion == "add" && $finger_err == "Todo_bien") {
                 } else {
                     // REGISTER/si/listado de avisos
 
-                    echo "AVISO/".$nu_avisos."/";
-                    $mode_sensor_huella ="AVISO";
+                    echo "AVISO/" . $nu_avisos . "/";
+                    $mode_sensor_huella = "AVISO";
                     $cont = 0;
                     /* Avisos particulares */
                     $query_avisos = "SELECT tipo_empleado.t_nombre, recordatorios.descripcion, recordatorios.r_nombre, recordatorios.inicio, recordatorios.fin, recordatorios.caracter from recordatorios INNER JOIN tipo_empleado ON ( recordatorios.r_tipo = tipo_empleado.tipo OR recordatorios.r_tipo= 18)INNER JOIN empleados ON empleados.tipo = tipo_empleado.tipo WHERE empleados.id = '$id_emp'";
@@ -221,8 +214,18 @@ if ($id_manipular == "-" && $mode_sensor_huella == "REGISTER" && $aux_aviso == 0
     echo $mode_sensor_huella . "/-";
 } elseif ($mode_sensor_huella == "ENROLL") {
     echo $mode_sensor_huella . "/" . $id_manipular;
-}elseif ($mode_sensor_huella == "AVISO"){
+} elseif ($mode_sensor_huella == "AVISO") {
 
 }
- 
+
+ // Limpiamos tabla auxiliar
+ $NEW = 0;
+ $huella_aux_reset = mysqli_query($link, "UPDATE huella_auxiliar SET id_a_manipular = $NEW");
+ if ($huella_aux_reset == TRUE) {
+     //echo " SIMON";
+ } else {
+     header("location: ../../admin_reg.php");
+ }
+
+
 ?>

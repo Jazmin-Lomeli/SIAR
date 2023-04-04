@@ -164,6 +164,7 @@ if ($anios == 0) {
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link rel="stylesheet" href="./assets/css/styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <link rel="shortcut icon" href="./assets/img/icono.png">
 
 <body>
   <!-- NAV BAR -->
@@ -529,9 +530,7 @@ if ($anios == 0) {
           }
           ?>
 
-
-          <h3 style="text-align: center; padding-top: 1rem;">Detalles del empleado </h3>
-
+          <h3 class = "pt-1 pb-2 text-center ">Detalles del empleado </h3>
 
           <!-- Barra de buscar -->
           <div class="pt-2 pb-3">
@@ -598,7 +597,7 @@ if ($anios == 0) {
                   <div class="container pt-3">
                     <div class="row align-items-start">
                       <div class="container">
-                        <div class="row pb-3 pt-2">
+                        <div class="row pb-2 pt-2">
 
                           <div class="col w-auto">
                             <span class="lead"> <strong> ID de empleado: </strong>
@@ -637,23 +636,32 @@ if ($anios == 0) {
 
                         </div>
 
-                        <div class="row pb-3 pt-2">
-                          <div class="col-4 pb-3 ">
+                        <div class="row pt-2">
+                          <div class="col-4 pb-2 ">
                             <span class="lead"><strong> Área laboral: </strong>
                               <?php echo $area ?>
                             </span>
                           </div>
-                          <div class="col-4 pb-3 ">
+                          <div class="col-4 pb-2 ">
                             <span class="lead"><strong> Fecha de registro: </strong>
                               <?php echo $f_reg ?>
                             </span>
                           </div>
 
-                          <div class="col-4 pb-3 ">
+                          <div class="col-4 pb-2 ">
                             <span class="lead"><strong> Antiguedad: </strong>
                               <?php echo $antiguedad ?>
                             </span>
 
+                          </div>
+                        </div>
+                        <div class="row pb-3 pt-2">
+                          <div class="col-6 pb-2 ">
+                            <span class="lead"><strong> Jornada semanal:  </strong>
+                              <?php echo $jornada . " hrs."?>
+                            </span>
+                          </div>
+                          
                           </div>
                         </div>
                       </div>
@@ -677,7 +685,7 @@ if ($anios == 0) {
                         <?php echo $h_salida ?>
                       </span>
                     </div>
-                    <div class="col-3 d-flex justify-content-end border">
+                    <div class="col-3 d-flex justify-content-end">
 
                       <abbr title='Justificar falta'>
 

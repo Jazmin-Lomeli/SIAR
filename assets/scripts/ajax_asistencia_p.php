@@ -46,7 +46,9 @@ $num_rows = $resultado->num_rows;
 $html = '';
 /* Mostramos los resultados */
 if ($num_rows > 0) {
-    while ($row = $resultado->fetch_assoc()) {
+    $cont = 0;
+    while ($row = $resultado->fetch_assoc() ){
+        if($cont <= 50){
         $html .= '<tr>';
         $html .= '<td>' . $row['id'] . '</td>';
         $html .= '<td>' . $row['nombre'] . " " . $row['apellido'] . " " . $row['seg_apellido'] . '</td>';
@@ -57,14 +59,7 @@ if ($num_rows > 0) {
 
             $html .= '<td>' . "Justificada" . '</td>';
             $html .= '<td>' . "Justificada" . '</td>';
-            $html .= "<td>
-             
-                <abbr title='$row[observacion]' >
-                    <button  class='btn btn-outline rounded-circle'> Motivo </button>
-                </abbr>
-             
-            </td>";
-
+            $html .= '<td>' . $row['observacion'] . '</td>';
         }else{
 
             if ($row['entrada'] < '08:16:00') {         // entrada antes de las 8:15
@@ -75,15 +70,15 @@ if ($num_rows > 0) {
             $html .= '<td>' . $row['salida'] . '</td>';
             $html .= '<td> -- </td>';
            
-
-            
         }
 
         $html .= '</tr>';
+        $cont++;
+    }
     }
 } else {
     $html .= '<tr>';
-    $html .= '<td colspan="5">Sin resultados</td>';
+    $html .= '<td colspan="6">Sin resultados</td>';
     $html .= '</tr>';
 }
 

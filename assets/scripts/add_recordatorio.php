@@ -113,6 +113,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="../css/styles.css">
 <link rel="stylesheet" href="../css/root.css">
+<link rel="shortcut icon" href="../img/icono.png">
+
 </head>
 
 <body>
@@ -168,7 +170,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     <style>
         body {
-            background: rgba(128, 128, 128, 0.5);
+            background: rgba(128, 128, 128, 0.2);
             height: 100%;
         }
         .cont {

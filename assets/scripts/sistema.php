@@ -18,11 +18,25 @@ while ($mostrar = mysqli_fetch_array($result)) {
     $estado = $mostrar['finger_status'];
 
 }
+$num_max_huellas = 127;
+$query = "SELECT count(*) as huellas FROM huella ";
+$result = mysqli_query($link, $query);
+$fila = mysqli_fetch_assoc($result);
+$total = $fila['huellas'];
+$num_huellas_disponibles = $num_max_huellas - $total;
+
+$query2 = "SELECT count(*) as empleados FROM empleados ";
+$result_2 = mysqli_query($link, $query2);
+$fila = mysqli_fetch_assoc($result_2);
+$emp_totales = $fila['empleados'];
+
+
+
 
 if ($estado == "ENROLL") {
-    $estado = "Registrar huella";
+    $estado = "Ageregar huella";
 } elseif ($estado == "REGISTER") {
-    $estado = "Esperando huella";
+    $estado = "Registrar Entrada/Salida";
 } else {
     $estado = "Borrar huella";
 }
@@ -52,13 +66,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <head>
     <meta charset="UTF-8">
-    <title>Cuenta</title>
+    <title>Sistema</title>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/root.css">
+    <link rel="shortcut icon" href="../img/icono.png">
+
 
 </head>
 
@@ -163,25 +179,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <table class="table table table-bordered table-hover border border-secondary">
                                     <thead>
                                         <tr>
-                                            <th>Estatus</th>
-                                            <th>Estado</th>
-                                            <th>Lector de huella</th>
-                                            <th>Display</th>
+
+                                            <th>Estado del sistema</th>
+                                            <th>Huellas disponibles</th>
+                                            <th>Num. maximo de huellas</th>
+                                            <th>Empleados registrados</th>
 
                                         </tr>
                                     </thead>
-                                    <tbody class="fw-normal">
-                                        <th>
-                                            <?php echo $estatus ?>
-                                        </th>
-                                        <th>
+                                    <tbody>
+
+                                        <th class="fw-normal">
                                             <?php echo $estado ?>
                                         </th>
-                                        <th>
-                                            <?php //echo $estado ?>
+                                        
+                                            <?php
+                                            if ($num_huellas_disponibles < 10) {
+                                                ?>
+                                                <th class="fw-normal" style="background-color: rgba(255, 0, 0, 0.6)">
+                                                <?php echo $num_huellas_disponibles ?>
+
+                                            <?php
+                                            }else{
+                                                ?> <th class="fw-normal">
+                                                <?php echo $num_huellas_disponibles ?>
+
+                                                <?php     
+                                            }                                   
+                                            ?>
                                         </th>
-                                        <th>
-                                            <?php //echo $estado ?>
+                                        <th class="fw-normal">
+                                            <?php echo $num_max_huellas ?>
+                                        </th>
+                                        <th class="fw-normal">
+                                            <?php echo $emp_totales ?>
                                         </th>
                                     </tbody>
                                 </table>

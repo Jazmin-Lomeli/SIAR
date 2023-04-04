@@ -19,7 +19,7 @@ if ($status_fingerprint == TRUE) {
     if ($status_huella == TRUE) {
 
         /* Checar si la tabla huella tiene  un hueco que para el id:huella*/
-        $id_manipular = 0;
+        $id_manipular = 0;       
         $huecos_en_huella = 0;
         $cont = 1;
 /* Extraemos todos los id´s en orden de menor a mayor */ 
@@ -31,32 +31,42 @@ if ($status_fingerprint == TRUE) {
                 $cont++; // Aumenta pues si existe
             } else {
                 $id_manipular = $cont; /* este sera el ID a agregar a la tabla (SI HAY HUECO) */
-                echo $id_manipular;
+               // echo $id_manipular;
                 $huecos_en_huella = 1;
             }
         }
 
-        /* si no hay hueco entonces genera un id nuevo con el AUTOINCREMENTAB */
-        if ($huecos_en_huella == 0) {
+        /* si no hay hueco entonces genera un id nuevo con el AUTOINCREMENTABLE */
+        if ($huecos_en_huella == 0){
             $sql = "INSERT INTO huella (id_emp) VALUES (?)";
             if ($stmt = mysqli_prepare($link, $sql)) {
                 mysqli_stmt_bind_param($stmt, "s", $id_add);
 /* como se genero eon el AuntoIncrement buscamos el id_huella mayor */ 
                 if (mysqli_stmt_execute($stmt)) {
-                     $consulta = "SELECT MAX(id_huella) AS id FROM huella";
+
+                    $consulta = "SELECT MAX(id_huella) AS id FROM huella";
                     $resultado = mysqli_query($link, $consulta);
                     $linea = mysqli_fetch_array($resultado);
                     $id_manipular = $linea['id']; //   Se mandará a la esp32
-                    $id_manipular = $id_manipular + 1;
-/* Agregamos a la tabla aux el nuevo id_huella para que el archivo arduino_rep.php lo consulte en la tabla */ 
-                    $huella_aux_reset = mysqli_query($link, "UPDATE huella_auxiliar SET id_a_manipular = '$id_manipular'");
-                    if ($huella_aux_reset == FALSE) {
-                        header("location: ../../admin_reg.php");
-                    } else {
-                        header("location: ../../admin_reg.php");
-
+                    if($id_manipular == NULL){
+                        $id_manipular = 1;
+                    }else{
+                        echo "NO HAY HUECO";
+                        $id_manipular;
                     }
 
+/* Agregamos a la tabla aux el nuevo id_huella para que el archivo arduino_rep.php lo consulte en la tabla */ 
+                   
+                    $huella_aux_reset = mysqli_query($link, "UPDATE huella_auxiliar SET id_a_manipular = $id_manipular");
+
+                     if ($huella_aux_reset == TRUE){
+                        echo $id_manipular;
+                        //header("location: ../../admin_reg.php");
+                    }else{
+                        header("location: ../../admin_reg.php");
+                    }
+
+        
                 } else {
                     header('Location: ../../admin_reg.php');
                 }
@@ -66,35 +76,24 @@ if ($status_fingerprint == TRUE) {
 
         }// hueco en tabla huella 
         else {
-            $sql_huella = "INSERT INTO huella (id_emp, id_huella) VALUES (?,?)";
-            if ($stmt = mysqli_prepare($link, $sql_huella)) {
-                /* insertamos el id_huella del hueco encontrado a tal id_emp */
-                mysqli_stmt_bind_param($stmt, "ss", $id_add, $id_manipular);
-
+            $sql = "INSERT INTO huella (id_emp, id_huella) VALUES (?,?)";
+            if ($stmt = mysqli_prepare($link, $sql)){
+                mysqli_stmt_bind_param($stmt, "ss", $id_add, $id_manipular );
                 if (mysqli_stmt_execute($stmt)){
-/* Agregamos a la tabla aux el nuevo id_huella para que el archivo arduino_rep.php lo consulte en la tabla */ 
-                    $huella_aux = "INSERT INTO huella_auxiliar (id_a_manipular) VALUES (?)";
-                    if ($stmt = mysqli_prepare($link, $huella_aux)) {
-                      /* insertamos el id_huella del hueco encontrado a tal id  */
-                      mysqli_stmt_bind_param($stmt, "s", $id_manipular);
-                  
-                      if (mysqli_stmt_execute($stmt)) {
-                         header("location: ../../admin_reg.php");
-                      } else {
+                    $huella_aux_reset = mysqli_query($link, "UPDATE huella_auxiliar SET id_a_manipular = $id_manipular");
+
+                     if ($huella_aux_reset == TRUE){
+                        echo $id_manipular;
                         header("location: ../../admin_reg.php");
-                       }
-                
+                    }else{
+                        header("location: ../../admin_reg.php");
                     }
 
-                 } else {
+                }else{
                     header('Location: ../../admin_reg.php');
+
                 }
-
             }
-
-
-
-
         }
     
     }// update status huella tabla embpleado
