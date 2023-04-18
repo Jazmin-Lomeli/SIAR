@@ -1,5 +1,6 @@
-body{
-    background-color: rgba(228, 224, 224, 0.4);
+body {
+    background: rgba(128, 128, 128, 0.2);
+    height: 100%;
 }
 header{
     background-color:  #162e97;      /* Color */ 
@@ -20,14 +21,7 @@ header nav div ul li a:hover{
     font-style: oblique; 
 }
 
-.principal{
-    background-color: rgba(240, 240, 240, 0.911);
-    border-radius: 10 px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-bottom: 2rem;
 
-}
  
 .container nav div ul li a:hover{
  text-shadow: 1px 1px 6px #666866;
@@ -40,22 +34,4 @@ header nav div ul li a:hover{
   box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
   transform: translateY(-0.25em);
 }
-
-/*
-
-
-
-<select name="area" class="form-control <?php echo (!empty($area_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $area; ?>">
-                                        <option value="select">-- Seleccionar --</option>
-                          
-                                        <?php
-                                        $query ="SELECT * FROM tipo_empleado";
-                                        $resultado = $link->query($query);
-
-                                        while ($row = $resultado->fetch_assoc()) {
-                                            echo '<option value="'.$row['tipo'].'">'.$row['t_nombre'].'</option>';
-                                        }
-                                    ?>
-                                    </select>
-
-                                    */
+ 

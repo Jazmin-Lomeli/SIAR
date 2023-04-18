@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-03-2023 a las 04:14:49
+-- Tiempo de generación: 04-04-2023 a las 02:51:26
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.1.12
 
@@ -46,19 +46,40 @@ INSERT INTO `arduino` (`finger_status`, `finger_err`) VALUES
 --
 
 CREATE TABLE `asistencia` (
-  `id_emp` int(11) NOT NULL,
   `fecha` date NOT NULL,
+  `id_emp` int(11) NOT NULL,
   `entrada` time NOT NULL,
-  `salida` time DEFAULT NULL
+  `salida` time DEFAULT NULL,
+  `observacion` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `asistencia`
 --
 
-INSERT INTO `asistencia` (`id_emp`, `fecha`, `entrada`, `salida`) VALUES
-(2, '2023-03-09', '08:13:00', '18:09:00'),
-(3, '2023-03-09', '08:16:00', NULL);
+INSERT INTO `asistencia` (`fecha`, `id_emp`, `entrada`, `salida`, `observacion`) VALUES
+('2023-01-02', 1, '08:02:00', '01:05:09', NULL),
+('2023-01-03', 1, '08:02:00', '01:05:09', NULL),
+('2023-01-04', 1, '08:02:00', '01:05:09', NULL),
+('2023-01-05', 1, '08:01:00', '01:05:09', NULL),
+('2023-01-06', 1, '08:15:00', '01:05:09', NULL),
+('2022-12-07', 1, '08:14:59', '01:05:09', NULL),
+('2022-12-27', 1, '08:14:59', '01:05:09', NULL),
+('2022-12-28', 1, '00:00:00', '00:00:00', 'Enfermedad'),
+('2022-12-29', 1, '08:20:00', '01:05:09', NULL),
+('2023-01-09', 1, '08:17:00', '01:05:09', NULL),
+('2023-01-10', 1, '08:00:00', '01:05:09', NULL),
+('2023-01-11', 1, '08:30:00', '01:05:09', NULL),
+('2023-01-12', 1, '00:00:00', '00:00:00', 'Enfermedad'),
+('2023-01-13', 1, '08:00:00', '01:05:09', NULL),
+('2023-01-16', 1, '08:08:00', '01:05:09', NULL),
+('2023-01-17', 1, '00:00:00', '01:05:09', 'Enfermedad'),
+('2023-01-20', 1, '08:12:00', '01:05:09', NULL),
+('2023-01-23', 1, '08:12:00', '01:05:09', NULL),
+('2023-03-31', 1, '02:15:18', NULL, NULL),
+('2023-03-31', 2, '02:32:51', NULL, NULL),
+('2023-03-31', 4, '02:39:13', NULL, NULL),
+('2023-04-03', 2, '08:01:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -67,23 +88,26 @@ INSERT INTO `asistencia` (`id_emp`, `fecha`, `entrada`, `salida`) VALUES
 --
 
 CREATE TABLE `empleados` (
-  `tipo` int(11) NOT NULL,
-  `nombre` varchar(25) NOT NULL,
-  `apellido` varchar(25) NOT NULL,
-  `seg_apellido` varchar(25) NOT NULL,
-  `telefono` varchar(10) NOT NULL,
-  `huella` int(11) NOT NULL DEFAULT 0,
   `id` int(11) NOT NULL,
-  `f_registro` date NOT NULL
+  `nombre` varchar(30) NOT NULL,
+  `apellido` varchar(30) NOT NULL,
+  `seg_apellido` varchar(30) NOT NULL,
+  `huella` int(11) NOT NULL DEFAULT 0,
+  `tipo` int(11) NOT NULL,
+  `f_registro` date NOT NULL,
+  `telefono` varchar(10) NOT NULL,
+  `jornada` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `empleados`
 --
 
-INSERT INTO `empleados` (`tipo`, `nombre`, `apellido`, `seg_apellido`, `telefono`, `huella`, `id`, `f_registro`) VALUES
-(2, 'Jazmin', 'Lomeli', 'Zermeño', '3781220818', 0, 2, '2023-03-09'),
-(2, 'Pepe', 'Pica', 'Papas', '3949749494', 0, 3, '2023-03-09');
+INSERT INTO `empleados` (`id`, `nombre`, `apellido`, `seg_apellido`, `huella`, `tipo`, `f_registro`, `telefono`, `jornada`) VALUES
+(1, 'Jazmin Alejandra', 'Lomeli', 'Zermeño', 1, 2, '2022-06-20', '3781220818', 25),
+(2, 'Sandra', 'lomeli', 'Zermeño', 1, 2, '2023-03-31', '3786565646', 20),
+(4, 'Jovanna', 'Lomelini', 'Zermeña', 1, 3, '2023-03-31', '3786464646', 40),
+(5, 'Pedro', 'Salcedo', 'Arambula', 0, 4, '2023-04-03', '3789564615', 15);
 
 -- --------------------------------------------------------
 
@@ -96,6 +120,32 @@ CREATE TABLE `huella` (
   `id_huella` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `huella`
+--
+
+INSERT INTO `huella` (`id_emp`, `id_huella`) VALUES
+(1, 1),
+(2, 2),
+(4, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `huella_auxiliar`
+--
+
+CREATE TABLE `huella_auxiliar` (
+  `id_a_manipular` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `huella_auxiliar`
+--
+
+INSERT INTO `huella_auxiliar` (`id_a_manipular`) VALUES
+(0);
+
 -- --------------------------------------------------------
 
 --
@@ -105,19 +155,19 @@ CREATE TABLE `huella` (
 CREATE TABLE `recordatorios` (
   `r_nombre` varchar(30) NOT NULL,
   `descripcion` varchar(50) NOT NULL,
+  `caracter` varchar(15) NOT NULL,
   `inicio` date NOT NULL,
   `fin` date NOT NULL,
-  `caracter` varchar(15) NOT NULL,
-  `r_tipo` int(11) NOT NULL,
-  `id_recordatorio` int(11) NOT NULL
+  `id_recordatorio` int(11) NOT NULL,
+  `r_tipo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `recordatorios`
 --
 
-INSERT INTO `recordatorios` (`r_nombre`, `descripcion`, `inicio`, `fin`, `caracter`, `r_tipo`, `id_recordatorio`) VALUES
-('Tanda', 'Pagarle la tanda a doña Cuca', '2023-03-08', '2023-03-10', 'Urgente', 1, 1);
+INSERT INTO `recordatorios` (`r_nombre`, `descripcion`, `caracter`, `inicio`, `fin`, `id_recordatorio`, `r_tipo`) VALUES
+('Sandra', 'Holi', 'Urgente', '2023-03-14', '2023-04-01', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -136,7 +186,9 @@ CREATE TABLE `tipo_empleado` (
 
 INSERT INTO `tipo_empleado` (`t_nombre`, `tipo`) VALUES
 ('General', 1),
-('profesor', 2);
+('Profesor', 2),
+('Administrativo', 3),
+('Limpieza', 4);
 
 -- --------------------------------------------------------
 
@@ -149,16 +201,18 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `ultimo_log` date DEFAULT NULL,
-  `f_ingreso` date DEFAULT NULL
+  `f_ingreso` date DEFAULT NULL,
+  `cambio_contrasena` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `ultimo_log`, `f_ingreso`) VALUES
-(1, 'papita', '$2y$10$3.TIRLlmZAJ3mvHhHKx9IujJZ1pNg30kcwuwnlYuPb7h6Bsp3AiFC', '2023-03-09', '2023-08-10'),
-(2, 'admin', '$2y$10$6aeBmPaqvrHE8jB7892RAe4DeEqZ/3Hii8HOO.fIEFCXfP0NRYJOa', NULL, '2023-03-09');
+INSERT INTO `users` (`id`, `username`, `password`, `ultimo_log`, `f_ingreso`, `cambio_contrasena`) VALUES
+(1, 'papita', '$2y$10$vHu94DsRAX2svpgj1V72Ge2DPPRFnMrDfi/j2I2CcQ1D4qixZ7Df2', '2023-04-03', '2023-08-10', '2023-03-30'),
+(2, 'admin', '$2y$10$kqIHhc0PJdOk.S3PawMZrO0zaqVjkh9pgEuCu9ES4wsht4FLII5kW', '2023-03-30', '2023-03-09', NULL),
+(3, 'root', '$2y$10$Z07s8b7dNkPSgwAVN.5hE.5ssU4XXda6GBSZBh5Htc/F0zeMZoRhe', NULL, '2023-03-30', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -168,36 +222,34 @@ INSERT INTO `users` (`id`, `username`, `password`, `ultimo_log`, `f_ingreso`) VA
 -- Indices de la tabla `asistencia`
 --
 ALTER TABLE `asistencia`
-  ADD KEY `user_asistencia_fk` (`id_emp`);
+  ADD KEY `asistencia_empleado` (`id_emp`);
 
 --
 -- Indices de la tabla `empleados`
 --
 ALTER TABLE `empleados`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `empleado_tipo` (`tipo`) USING BTREE,
-  ADD KEY `empleado_huella` (`tipo`);
+  ADD KEY `empleado_tipo_empleado` (`tipo`);
 
 --
 -- Indices de la tabla `huella`
 --
 ALTER TABLE `huella`
   ADD PRIMARY KEY (`id_huella`),
-  ADD KEY `fk_user_huella` (`id_emp`);
+  ADD KEY `empleado_huella` (`id_emp`);
 
 --
 -- Indices de la tabla `recordatorios`
 --
 ALTER TABLE `recordatorios`
   ADD PRIMARY KEY (`id_recordatorio`),
-  ADD KEY `recordatorio_tipo_empleado` (`r_tipo`);
+  ADD KEY `tipo_empleado_recordatorio` (`r_tipo`);
 
 --
 -- Indices de la tabla `tipo_empleado`
 --
 ALTER TABLE `tipo_empleado`
-  ADD PRIMARY KEY (`tipo`),
-  ADD KEY `tipo_empleado_empleado` (`t_nombre`);
+  ADD PRIMARY KEY (`tipo`);
 
 --
 -- Indices de la tabla `users`
@@ -213,19 +265,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `huella`
 --
 ALTER TABLE `huella`
-  MODIFY `id_huella` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_huella` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `recordatorios`
 --
 ALTER TABLE `recordatorios`
-  MODIFY `id_recordatorio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_recordatorio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_empleado`
@@ -237,7 +289,7 @@ ALTER TABLE `tipo_empleado`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
@@ -247,25 +299,25 @@ ALTER TABLE `users`
 -- Filtros para la tabla `asistencia`
 --
 ALTER TABLE `asistencia`
-  ADD CONSTRAINT `user_asistencia_fk` FOREIGN KEY (`id_emp`) REFERENCES `empleados` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `asistencia_empleado` FOREIGN KEY (`id_emp`) REFERENCES `empleados` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  ADD CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`tipo`) REFERENCES `tipo_empleado` (`tipo`) ON DELETE CASCADE;
+  ADD CONSTRAINT `empleado_tipo_empleado` FOREIGN KEY (`tipo`) REFERENCES `tipo_empleado` (`tipo`);
 
 --
 -- Filtros para la tabla `huella`
 --
 ALTER TABLE `huella`
-  ADD CONSTRAINT `fk_user_huella` FOREIGN KEY (`id_emp`) REFERENCES `empleados` (`id`);
+  ADD CONSTRAINT `empleado_huella` FOREIGN KEY (`id_emp`) REFERENCES `empleados` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `recordatorios`
 --
 ALTER TABLE `recordatorios`
-  ADD CONSTRAINT `recordatorio_tipo_empleado` FOREIGN KEY (`r_tipo`) REFERENCES `tipo_empleado` (`tipo`);
+  ADD CONSTRAINT `tipo_empleado_recordatorio` FOREIGN KEY (`r_tipo`) REFERENCES `tipo_empleado` (`tipo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

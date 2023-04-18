@@ -13,11 +13,13 @@ if ($reporte_mes < 10) {
 } else {
     $reporte = $reporte_mes;
 }
-/* estabelcer rangos de fechas para el reporte */
-$fechaActual = date('Y');
-$inicio = $fechaActual . "-" . $reporte . "-01";
-$fin_rep = $fechaActual . "-" . $reporte + 1 . "-01";
-
+/* establecer rangos de fechas para el reporte */
+$fechaActual = date('Y');     // Año actual
+ // establecemos la fecha inicial a partir de el año y el mes requerido
+$inicio = $fechaActual . "-" . $reporte . "-01";    
+// Establecemos fecha final a sumandole un mes a la fecha inicial 
+$fin_rep = date("Y-m-d", strtotime($inicio . "+ 1 month"));
+ 
 /* consulta  */
 $datos = "SELECT * FROM empleados LEFT JOIN tipo_empleado ON empleados.tipo=tipo_empleado.tipo  LEFT JOIN huella ON huella.id_emp=empleados.id Where empleados.id ='$id' LIMIT 1";
 $result_datos = mysqli_query($link, $datos);
@@ -183,7 +185,7 @@ $pdf->Ln(2);
 $dia = saber_dia($inicio);
 $pdf->SetFont('Arial', '', 14);
 $pdf->Cell(190, 0, "", 1, 1, 'C'); // Linea
-
+ 
 /* Verificampos en que dia comienza el mes, para tomar la semana desde el lunes*/
 if ($dia == "Martes") { // Le restamos un dia 
     $inicio = date("d-m-Y", strtotime($inicio . "- 1 days"));
@@ -198,7 +200,7 @@ if ($dia == "Martes") { // Le restamos un dia
 } elseif ($dia == "Domingo") { // Le restamos 5 dias
     $inicio = date("d-m-Y", strtotime($inicio . "- 6 days"));
 }
-/* Una vez que se le restaron los dias paar que sea lunes, se tomara dicha fecha como inicio */
+/* Una vez que se le restaron los dias para que sea lunes, se tomara dicha fecha como inicio */
 $dia = saber_dia($inicio);
 /* Rebertimos la fecha a Y-M-d */
 $inicio = substr($inicio, -4, ) . "-" . substr($inicio, -7, 2) . "-" . substr($inicio, 0, 2);
@@ -219,7 +221,7 @@ if ($dia_2 == "Martes") { // Le restamos un dia
 } elseif ($dia_2 == "Domingo") { // Le restamos un dia 
     $fin_rep = date("d-m-Y", strtotime($fin_rep . "- 6 days"));
 }
-
+/* Reacomodar fecha */ 
 $fin_rep = substr($fin_rep, -4, ) . "-" . substr($fin_rep, -7, 2) . "-" . substr($fin_rep, 0, 2);
 
 

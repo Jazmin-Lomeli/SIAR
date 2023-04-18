@@ -80,11 +80,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
 
-    <header>
+<header>
         <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
             <div class="container-fluid dernav">
                 <a class="navbar-brand">
-                    <img src="../img/logo.png" width="140" height="50" alt=""> <!-- Logo -->
+                    <img src="../img/logo_3.png" width="140" height="50" alt=""> <!-- Logo -->
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -110,13 +110,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
                             </a>
                             <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                        &nbsp; &nbsp;
+                                <li><a class="dropdown-item" href="cuenta.php"> &nbsp; Cuenta &nbsp;
+                                        &nbsp; &nbsp; &nbsp;
+                                        &nbsp; &nbsp; &nbsp;
                                         <i class="bi bi-person-circle"></i> </a></li>
+
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item " href="#">&nbsp; Sistema &nbsp; &nbsp; &nbsp;
+                                <li><a class="dropdown-item " href="sistema.php">&nbsp; Sistema &nbsp;
+                                        &nbsp; &nbsp;
                                         &nbsp; &nbsp; &nbsp; &nbsp;
                                         <i class="bi bi-gear"></i></a>
                                 </li>
@@ -124,10 +127,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item " href="logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
+                                <li><a class="dropdown-item " href="logout.php">&nbsp; Salir &nbsp;
+                                        &nbsp; &nbsp;
                                         &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                                         <i class="bi bi-box-arrow-right"></i></a> </li>
+
                             </ul>
+
+
                     </ul>
                     </li>
                     </ul>

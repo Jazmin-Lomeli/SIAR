@@ -1,31 +1,30 @@
 <?php
-// Initialize the session
+/* Seguridad de Sesiones */
 session_start();
-// Revisar si no se ha logeado 
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: login.php");
-  //exit;
-}
+ }
 
 require_once 'assets/config/config.php';
-// require_once 'assets/config/functions.php';
-
+ 
 $conexion = $link;
 if (!$conexion) {
   header('Location: login.php');
 }
-date_default_timezone_set("America/Mexico_City");
-
-$fecha_hoy = date("Y-m-d");
-$query = "SELECT * FROM empleados";
-$resultado = $link->query($query);
 $conexion = $link;
 
+date_default_timezone_set("America/Mexico_City");
+$fecha_hoy = date("Y-m-d");
+
+/* Consulta */ 
+$query = "SELECT * FROM empleados";
+$resultado = $link->query($query);
+/* Variables */ 
 $id = $entrada = $salida = "";
 $id_err = $entrada_err = $salida_err = "";
 
+/* Formulario */ 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
   /* Validar ID del usuario  */
   if ($_POST["id"] == "select") {
     $id_err = "ID vacio.";
@@ -45,29 +44,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($id_err) && empty($entrada_err)) {
     /* Consulta */
     $sql = "INSERT INTO asistencia (id_emp, entrada, fecha) VALUES (?,?,?)";
-
     if ($stmt = mysqli_prepare($link, $sql)) {
       /* Agregamos los parametros */
       mysqli_stmt_bind_param($stmt, "sss", $param_id, $param_entrada, $fecha_hoy);
-      // Esteblecemos los parametros en los inpus, si hay un error no se borre lo que esta correcto  
-      // si la insercion se llevo a cabo de manera correcta 
       if (mysqli_stmt_execute($stmt)) {
         // Redirect to login page
         header("location: admin_asistencia.php?mensaje=agregado");
       } else {
         header("location: admin_asistencia.php?mensaje=error");
       }
-      // Close statement
-      mysqli_stmt_close($stmt);
+       mysqli_stmt_close($stmt);
     }
   } else {
     header("location: admin_asistencia.php?mensaje=error");
   }
-  // Close connection
-  mysqli_close($link);
+   mysqli_close($link);
 
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -75,24 +68,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <head>
   <meta charset="UTF-8">
-  <title>Asistencia</title>
+  <title>Recordatorios</title>
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="./assets/css/styles.css">
   <link rel="shortcut icon" href="./assets/img/icono.png">
-
 </head>
 
 <body>
-   <!-- NAV BAR -->
-   <header>
+    <!-- NAV BAR -->
+  <header>
     <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
       <div class="container-fluid dernav">
         <a class="navbar-brand">
           <img src="./assets/img/logo_3.png" width="140" height="50" alt=""> <!-- Logo -->
         </a>
+        <!-- Barra de navegación comprimida -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -105,7 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <li class="nav-item px-2">
               <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
             </li>
-
             <li class="nav-item">
               <a class="nav-link active" href="admin_recordatorios.php" tabindex="-1"
                 aria-disabled="true">Recordatorios</a>
@@ -115,12 +107,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
               </a>
-
+              <!-- Submenu de barra de navegación -->
               <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp;
                     &nbsp; &nbsp; &nbsp;
                     <i class="bi bi-person-circle"></i> </a></li>
-
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -128,25 +119,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     &nbsp; &nbsp; &nbsp; &nbsp;
                     <i class="bi bi-gear"></i></a>
                 </li>
-
                 <li>
                   <hr class="dropdown-divider">
                 </li>
                 <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
                     &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                     <i class="bi bi-box-arrow-right"></i></a> </li>
-
               </ul>
-
             </li>
           </ul>
         </div>
       </div>
     </nav>
   </header>
-  <!-- NAV BAR -->
 
-  <!-- Modal -->
+  <!-- Modal  EDICIÓN DEL REGISTRO -->
   <div class="modal fade pt-5" id="recordatorio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -158,7 +145,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="modal-body text-center pt-2">
           <h5> ¿Estás seguro de editar el registro?</h5>
           <br>
-
           <img src="assets/img/curriculum.png" class="rounded mx-auto d-block" alt="...">
         </div>
         <div class="modal-footer justify-content-center">
@@ -170,9 +156,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
   </div>
-
   <!-- Modal -->
 
+  <style>
+        .cont {
+            background: ghostwhite;
+            height: 100%;
+            border-radius: 10px;
+            padding-bottom: 1em;
+            padding-top: 0.5em;
+            margin-top: 1em;
+        }
+    </style>
+    
   <div class="px-4 pt-3  bienvenida">
     <div class="row">
       <div class="col align-self-start">
@@ -188,7 +184,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
         <p class="d-flex">
           <?php
-
           /* Establecer la hora de Mexico por que por defecto manda la del server  */
           date_default_timezone_set("America/Mexico_City");
           echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . ".   " . date("h:i:sa"); ?>
@@ -197,13 +192,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
   </div>
-  <!-- Alertas de confirmacion o  error -->
-  <div class="container mt-2 principal rounded-3 shadow mb-4">
+
+ 
+  <div class=" cont container mt-2 rounded-3 shadow mb-4">
+     <!-- Alertas de confirmacion o  error -->
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'error') {
       ?>
       <br>
-      <div class=" alerta_error alert alert-danger alert-dismissible fade show  text-center" role="alert">
+      <div class=" alerta alert alert-danger alert-dismissible fade show  text-center" role="alert">
         <strong>¡ERROR!</strong> Vuelve a intentar.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
@@ -216,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'deleted') {
       ?>
       <br>
-      <div class=" alerta_edit alert alert-success alert-dismissible fade show text-center" role="alert">
+      <div class=" alerta alert alert-success alert-dismissible fade show text-center" role="alert">
         <strong>¡EXITO!</strong> El recordatorio de borro correctamente.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
@@ -227,7 +224,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'add') {
       ?>
       <br>
-      <div class=" alerta_delete alert alert-success alert-dismissible fade show text-center" role="alert">
+      <div class=" alerta alert alert-success alert-dismissible fade show text-center" role="alert">
         <strong>¡Exito!</strong> Recordatorio agregado correctamente.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
@@ -239,9 +236,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <h2 style="text-align: center; padding-top: 1rem; padding-bottom: 0.5rem;">Recordatorios</h2>
 
-    <?php
-    echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . "."; ?>
-    </p>
     <div class="pt-2 pb-3">
       <div class="row">
         <div class="col-md-auto align-self-start pe-2">
@@ -268,6 +262,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class="table-responsive text-center">
+      <!-- Tabla con los datos -->
       <table class="table table table-bordered table-hover border border-secondary">
         <thead>
           <tr>
@@ -279,7 +274,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <th>Opciones</th>
           </tr>
         </thead>
-        <tbody id="content">
+        <tbody id="content">   <!-- Contenido con AJAX -->
 
         </tbody>
       </table>
@@ -317,21 +312,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <script type="text/javascript">
     $(document).ready(function () {
       setTimeout(function () {
-        $(".alerta_error").fadeOut(1500);
+        $(".alerta").fadeOut(1500);
       }, 2500);
     });
 
-    $(document).ready(function () {
-      setTimeout(function () {
-        $(".alerta_edit").fadeOut(1500);
-      }, 2500);
-    });
-
-    $(document).ready(function () {
-      setTimeout(function () {
-        $(".alerta_delete").fadeOut(1500);
-      }, 2500);
-    });
+    
   </script>
 
 

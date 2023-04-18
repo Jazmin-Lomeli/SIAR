@@ -1,6 +1,7 @@
 <?php
+/* Seguridad de Sesiones */
 session_start();
-// Revisar si no se ha logeado 
+
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: ../../login.php");
     // exit;
@@ -179,11 +180,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 
     <header>
-
         <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
             <div class="container-fluid dernav">
                 <a class="navbar-brand">
-                    <img src="../img/logo.png" width="140" height="50" alt=""> <!-- Logo -->
+                    <img src="../img/logo_3.png" width="140" height="50" alt=""> <!-- Logo -->
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -209,13 +209,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
                             </a>
                             <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                        &nbsp; &nbsp;
+                                <li><a class="dropdown-item" href="cuenta.php"> &nbsp; Cuenta &nbsp;
+                                        &nbsp; &nbsp; &nbsp;
+                                        &nbsp; &nbsp; &nbsp;
                                         <i class="bi bi-person-circle"></i> </a></li>
+
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item " href="#">&nbsp; Sistema &nbsp; &nbsp; &nbsp;
+                                <li><a class="dropdown-item " href="sistema.php">&nbsp; Sistema &nbsp;
+                                        &nbsp; &nbsp;
                                         &nbsp; &nbsp; &nbsp; &nbsp;
                                         <i class="bi bi-gear"></i></a>
                                 </li>
@@ -223,10 +226,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item " href="logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
+                                <li><a class="dropdown-item " href="logout.php">&nbsp; Salir &nbsp;
+                                        &nbsp; &nbsp;
                                         &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                                         <i class="bi bi-box-arrow-right"></i></a> </li>
+
                             </ul>
+
+
                     </ul>
                     </li>
                     </ul>
@@ -234,6 +241,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </nav>
     </header>
+
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'add') {
         ?>
@@ -333,7 +341,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row text-center justify-content-center  ">
                     <div class="cont col-md-8 wrapper shadow px-5">
                         <h3 class="pt-2">Cuenta</h3>
-                        <h6  class="pb-2"> Información general se la sesión actual </h6>
+                        <h5 class="pb-2"> Información general se la sesión actual </h5>
                         <!-- Alertas -->
                         <?php
                         if ($cambio_contra == 0) {
@@ -443,19 +451,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <img src="../img/user.png" class="img-thumbnail" alt="...">
                             </div>
                             <div class="col-sm-8 col-md-8 col-lg-8 ">
-                                <h5 class="lead">
+                                <h6 class="lead">
                                     <strong>Nombre de usuario: </strong>
                                     <small class="text-muted">
                                         <?php echo $_SESSION["username"]; ?>
                                     </small>
-                                </h5>
+                                </h6>
                                 <br>
-                                <h5 class="lead">
+                                <h6 class="lead">
                                     <strong>Fecha de ingreso: </strong>
                                     <small class="text-muted">
                                         <?php echo $f_ingreso; ?>
                                     </small>
-                                </h5>
+                                </h6>
                                 <br>
                                 <h5 class="lead">
                                     <strong>Última contraseña: </strong>
@@ -465,7 +473,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </h5>
                             </div>
 
-                            <div class="d-flex align-items-end flex-column " >
+                            <div class="d-flex align-items-end flex-column ">
 
                                 <div class="mt-auto p-2 px-2 border rounded" style="background-color: ;">
                                     <div class="btn-group">
