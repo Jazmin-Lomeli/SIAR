@@ -276,7 +276,7 @@ if ($anios == 0) {
                     <!-- Cambiar botones  -->
                     <div class="col-xl-10 col-lg-10 form-group mx-2 pb-2 pt-3">
 
-                      <input type="submit" class="btn btn-outline-success px-4" value="Ingresar">
+                      <input type="submit" class="btn btn-outline-success px-4" value="Guardar">
                       &ensp;
                       <a class="btn btn-outline-danger px-5" href="admin_reg.php">
                         <i class="bi bi-x-circle"></i>
@@ -459,9 +459,19 @@ if ($anios == 0) {
         <?php
   } else {
     ?>
+     <style>
+    .cont {
+      background: ghostwhite;
+      height: 100%;
+      border-radius: 10px;
+      padding-bottom: 1em;
+      padding-top: 0.5em;
+      margin-top: 1em;
+    }
+  </style>
         <!-- NAV BAR -->
         <!-- Detalles del registro  -->
-        <div class="px-4 pt-3 bienvenida">
+        <div class=" px-4 pt-3 bienvenida">
           <div class="row">
             <div class="col align-self-start">
               <h4>Bienvenido, <b>
@@ -485,7 +495,7 @@ if ($anios == 0) {
           </div>
         </div>
         <!-- Alertas de confirmacion o  error -->
-        <div class="container mt-2 principal rounded-3 shadow mb-4">
+        <div class=" cont container mt-2 principal rounded-3 shadow mb-4">
           <br>
           <?php
           if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'area') {
@@ -691,7 +701,7 @@ if ($anios == 0) {
               <br>
               <h4 class="text-start pt-2 pb-3">Asistencias</h4>
               <div class="container border rounded pb-3"
-                style="border-color:rgb(220, 220, 220); background-color: rgba(228, 215, 215, 0.4);">
+                style="border-color:rgb(220, 220, 220);">
                 <div class="row pt-3">
                   <div class="col-sm-8">
                     <div class="card shadow">
@@ -756,7 +766,7 @@ if ($anios == 0) {
                     </div>
                   </div>
 
-                  <div class="col-sm-4">
+                  <div class=" col-sm-4">
                     <div class="card shadow">
                       <div class="card-body">
                         <h5 class="card-title text-center">Reporte mensual </h5>
@@ -806,6 +816,16 @@ if ($anios == 0) {
 
                         <div class="row">
                           <div class="col pb-4">
+                            <abbr title='Mes de Mayo'>
+                              <!-- Mandar datos por GET -->
+                              <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=5"
+                                class="btn btn-primary btn-lg ml-2 raise" target="_blank"
+                                onclick="window.open(this.href,this.target,'width=1000,height=700,top=120,left=100,toolbar=no,location=no,status=no,menubar=no');return false;">
+                                05
+                              </a>
+                            </abbr>
+                          </div>
+                          <div class="col pb-4 px-1">
                             <abbr title='Mes de Junio'>
                               <!-- Mandar datos por GET -->
                               <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=6"
@@ -815,7 +835,7 @@ if ($anios == 0) {
                               </a>
                             </abbr>
                           </div>
-                          <div class="col pb-4 px-1">
+                          <div class="col pb-3 pe-2">
                             <abbr title='Mes de Julio'>
                               <!-- Mandar datos por GET -->
                               <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=7"
@@ -825,7 +845,7 @@ if ($anios == 0) {
                               </a>
                             </abbr>
                           </div>
-                          <div class="col pb-3 pe-2">
+                          <div class="col px-0 pb-4">
                             <abbr title='Mes de Agosto'>
                               <!-- Mandar datos por GET -->
                               <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=8"
@@ -835,7 +855,10 @@ if ($anios == 0) {
                               </a>
                             </abbr>
                           </div>
-                          <div class="col px-0 pb-4">
+                        </div>
+
+                        <div class="row">
+                        <div class="col pb-4">
                             <abbr title='Mes de Septiembre'>
                               <!-- Mandar datos por GET -->
                               <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=9"
@@ -845,10 +868,7 @@ if ($anios == 0) {
                               </a>
                             </abbr>
                           </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col pb-4">
+                          <div class="col pb-4 px-1">
                             <abbr title='Mes de Octubre'>
                               <!-- Mandar datos por GET -->
                               <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=10"
@@ -858,7 +878,7 @@ if ($anios == 0) {
                               </a>
                             </abbr>
                           </div>
-                          <div class="col pb-4 px-1">
+                          <div class="col pb-3 pe-2">
                             <abbr title='Mes de Noviembre'>
                               <!-- Mandar datos por GET -->
                               <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=11"
@@ -868,7 +888,7 @@ if ($anios == 0) {
                               </a>
                             </abbr>
                           </div>
-                          <div class="col pb-3 pe-2">
+                          <div class="col px-0 pb-4">
                             <abbr title='Mes de Diciembre'>
                               <!-- Mandar datos por GET -->
                               <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=12"
@@ -878,9 +898,8 @@ if ($anios == 0) {
                               </a>
                             </abbr>
                           </div>
-                          <div class="col px-0 pb-4">
 
-                          </div>
+                           
                         </div>
                       </div>
                     </div>

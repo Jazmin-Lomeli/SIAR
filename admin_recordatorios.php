@@ -1,12 +1,12 @@
 <?php
 /* Seguridad de Sesiones */
 session_start();
- if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: login.php");
- }
+}
 
 require_once 'assets/config/config.php';
- 
+
 $conexion = $link;
 if (!$conexion) {
   header('Location: login.php');
@@ -16,14 +16,14 @@ $conexion = $link;
 date_default_timezone_set("America/Mexico_City");
 $fecha_hoy = date("Y-m-d");
 
-/* Consulta */ 
+/* Consulta */
 $query = "SELECT * FROM empleados";
 $resultado = $link->query($query);
-/* Variables */ 
+/* Variables */
 $id = $entrada = $salida = "";
 $id_err = $entrada_err = $salida_err = "";
 
-/* Formulario */ 
+/* Formulario */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   /* Validar ID del usuario  */
   if ($_POST["id"] == "select") {
@@ -53,12 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       } else {
         header("location: admin_asistencia.php?mensaje=error");
       }
-       mysqli_stmt_close($stmt);
+      mysqli_stmt_close($stmt);
     }
   } else {
     header("location: admin_asistencia.php?mensaje=error");
   }
-   mysqli_close($link);
+  mysqli_close($link);
 
 }
 ?>
@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <!-- NAV BAR -->
+  <!-- NAV BAR -->
   <header>
     <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
       <div class="container-fluid dernav">
@@ -159,16 +159,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <!-- Modal -->
 
   <style>
-        .cont {
-            background: ghostwhite;
-            height: 100%;
-            border-radius: 10px;
-            padding-bottom: 1em;
-            padding-top: 0.5em;
-            margin-top: 1em;
-        }
-    </style>
-    
+    .cont {
+      background: ghostwhite;
+      height: 100%;
+      border-radius: 10px;
+      padding-bottom: 1em;
+      padding-top: 0.5em;
+      margin-top: 1em;
+    }
+  </style>
+
   <div class="px-4 pt-3  bienvenida">
     <div class="row">
       <div class="col align-self-start">
@@ -186,16 +186,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <?php
           /* Establecer la hora de Mexico por que por defecto manda la del server  */
           date_default_timezone_set("America/Mexico_City");
-          echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . ".   " . date("h:i:sa"); ?>
-
+          $hora_actual = strtotime("-1 hour");
+          echo $dia[date('w', $hora_actual)] . " " . date("d", $hora_actual) . " de " . $mes[date("m", $hora_actual) - 1] . " de " . date("Y", $hora_actual) . ".   " . date("h:i:sa", $hora_actual); ?>
         </p>
       </div>
     </div>
   </div>
 
- 
+
   <div class=" cont container mt-2 rounded-3 shadow mb-4">
-     <!-- Alertas de confirmacion o  error -->
+    <!-- Alertas de confirmacion o  error -->
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'error') {
       ?>
@@ -274,7 +274,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <th>Opciones</th>
           </tr>
         </thead>
-        <tbody id="content">   <!-- Contenido con AJAX -->
+        <tbody id="content"> <!-- Contenido con AJAX -->
 
         </tbody>
       </table>
@@ -316,7 +316,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       }, 2500);
     });
 
-    
+
   </script>
 
 

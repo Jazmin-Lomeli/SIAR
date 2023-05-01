@@ -5,7 +5,11 @@ require_once 'assets/config/config.php';
 /* Establecemos la fecha y la hora actual */
 date_default_timezone_set("America/Mexico_City");
 $fechaActual = date('Y-m-d');
-$Hora_actual = date('h:i:s');
+
+/* Cuando cambio el horario el servidor nunca cambio la hora, entonces nos marca una hora más tarde */ 
+$hora_actual = date_create();                                            // Crea un objeto DateTime con la hora actual
+date_sub($hora_actual, date_interval_create_from_date_string('1 hour')); // Resta una hora al objeto DateTime
+$hora_actual = $hora_actual->format('H:i:s');                            // Obtiene la hora restada
 
 /*  Datos que manda el arduino por el metodo POST  */
 $confirmacion = $_POST['transaccion_hecha'];

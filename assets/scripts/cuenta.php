@@ -21,7 +21,7 @@ while ($row = mysqli_fetch_array($result_cuenta)) {
     $id = $row['id'];
 }
 if ($cambio_contra == NULL) {
-    $cambio_contra = 0;
+    $cambio_contra = "- - -";
 }
 $name = $pass = $pass2 = '';
 $name_err = $pass_err = $pass2_err = '';
@@ -258,7 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-sm-10 col-md-10 col-lg-9 wrapper pt-3 pb-4 ps-2">
                     <div class="card text-center ">
                         <div class="card-header">
-                            Featured
+                            Usuarios
                         </div>
                         <div class="m-0 row align-items-center justify-content-center">
                             <div class="row px-2 col-8  ">
@@ -311,7 +311,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
                         <div class="card-footer text-muted">
-                            2 days ago
+                            <?php
+                            $mes = array("enero", "febrero", "marzo", "abril", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "noviembre", "diciembre");
+                            $dia = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+
+                            /* Establecer la hora de Mexico por que por defecto manda la del server  */
+                            date_default_timezone_set("America/Mexico_City");
+                            echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y");
+                            ?>
                         </div>
                     </div>
 

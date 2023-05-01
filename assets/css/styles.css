@@ -1,34 +1,44 @@
+/* Color del fondo */ 
 body {
     background: rgba(128, 128, 128, 0.2);
     height: 100%;
 }
-header{
-    background-color:  #162e97;      /* Color */ 
-    font-size: 1.4em;
-    color: white;
-    font-family: 'Segoe UI', sans-serif;  
-   
-}
- 
-header nav div ul li a:hover{
-    font-weight: 500;
- /*text-shadow: 1px 1px 6px #d0dad3;*/
- font-size: 1.1em;
- font-weight: oblique;
-}
 
+/* Color de la barra de navegación */
+header {
+    background-color:  #26398b;       
+    font-size: 1.4em;
+    font-family: 'Arial', sans-serif;  
+  }
+  
+ /* Para la primera NavBar el texto es Blanco */
+ header .navbar-light .navbar-nav .nav-link {
+    color: #fff !important;
+  }
+/* Hover de la NavBar */
+    header nav div ul li a:hover{
+    font-weight: 450;
+    font-size: 1.1em;
+    font-weight: oblique;
+    color: white;
+    }
+
+
+/* Segunda NavBar en Asistencia Texto negro */
+  .dernav .navbar-nav .nav-link {
+    color: #000;
+  }
+  .container nav div ul li a:hover{
+    text-shadow: 1px 1px 6px #666866;
+    font-size: 1.2em;
+    font-weight: oblique;
+   }
+/* Nombre del usuaruio */ 
 .bienvenida{
     font-style: oblique; 
 }
 
-
- 
-.container nav div ul li a:hover{
- text-shadow: 1px 1px 6px #666866;
- font-size: 1.2em;
- font-weight: oblique;
-}
-
+/*Botones para los pdf */ 
 .raise:hover,
 .raise:focus {
   box-shadow: 0 0.5em 0.5em -0.4em var(--hover);

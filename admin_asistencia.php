@@ -214,7 +214,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
         <p class="d-flex">
           <?php
-          echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . ".   " . date("h:i:sa"); ?>
+          /* Establecer la hora de Mexico por que por defecto manda la del server  */
+          date_default_timezone_set("America/Mexico_City");
+          $hora_actual = strtotime("-1 hour");
+          echo $dia[date('w', $hora_actual)] . " " . date("d", $hora_actual) . " de " . $mes[date("m", $hora_actual) - 1] . " de " . date("Y", $hora_actual) . ".   " . date("h:i:sa", $hora_actual); ?>
         </p>
       </div>
     </div>
@@ -288,7 +291,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </button>
 
           <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 " style="color:black;">
               <li class="nav-item pe-1">
                 <a class="nav-link active" style="font-size: 1.2em;" aria-current="page"
                   href="admin_asistencia.php">Actual</a>
@@ -311,10 +314,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <!-- Navbar 2 -->
     </div>
 
-    <p class="pt-4 pb-0 mb-0 pt-4">Reporte de asistencia del dia
+  
+    <h5 class=" pt-4 pb-1 mb-0 pt-4">Reporte de asistencia del dia
       <?php
       echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . "."; ?>
-    </p>
+      </h5>
+
     <div class="pt-2 pb-3">
       <div class="row">
         <div class="col-md-auto align-self-start pe-1">
@@ -351,7 +356,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <th>Salida</th>
           </tr>
         </thead>
-        <tbody id="content">    <!-- Contenido con AJAX -->
+        <tbody id="content"> <!-- Contenido con AJAX -->
 
         </tbody>
       </table>

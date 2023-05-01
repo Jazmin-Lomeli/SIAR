@@ -1,54 +1,44 @@
 <?php
-/* Seguridad de Sesiones */
 session_start();
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: login.php");
+  exit;
 }
-$nombre = $apellido = $apellido2 = $tel = " ";
+
 require_once 'assets/config/config.php';
 
 $conexion = $link;
 if (!$conexion) {
   header('Location: login.php');
+  exit;
 }
 
-/* Variables Empleado*/
-$name = $last_name = $last_name2 = $tel = $area = "";
-$name_err = $last1_err = $last2_err = $tel_err = "";
-
-/* Variables Empleado area de trabajo */
-$area = $area_err = '';
-
-/* Formulario */
+// Formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  /* Departamento */
-  if (empty(trim($_POST["area"]))) {
-    $area_err = "error";
-  } elseif (!preg_match('/^[ a-zA-ZáéíóúñÑÁÉÍÓÚ]+$/', trim($_POST["area"]))) { // validar entrada de solo letras
-    $area_err = "error";
-  } else {
-    $param_area = trim($_POST["area"]);
-    $area = $param_area;
-  }
-  /* Ibsercion de un nuevo departamento */
-  if ($area_err != "error") {
-    $sql = "INSERT INTO tipo_empleado (t_nombre) VALUES (?)";
-    if ($stmt = mysqli_prepare($link, $sql)) {
-      mysqli_stmt_bind_param($stmt, "s", $param_area);
-      $param_area = $area;
-      if (mysqli_stmt_execute($stmt)) {
-        header("location: admin_reg.php?mensaje=area");
-      } else {
-        header("location: admin_reg.php?mensaje=error");
-      }
-      mysqli_stmt_close($stmt);
-    }
-  } else {
-    header("location: admin_reg.php");
+  $area = trim($_POST["area"]);
 
+  // Validación de entrada
+  if (empty($area) || !ctype_alpha(str_replace(' ', '', $area))) {
+    header("location: admin_reg.php");
+    exit;
+  }
+
+  // Inserción de un nuevo departamento
+  $sql = "INSERT INTO tipo_empleado (t_nombre) VALUES (?)";
+  if ($stmt = mysqli_prepare($link, $sql)) {
+    mysqli_stmt_bind_param($stmt, "s", $area);
+    if (mysqli_stmt_execute($stmt)) {
+      header("location: admin_reg.php?mensaje=area");
+      exit;
+    } else {
+      header("location: admin_reg.php?mensaje=error");
+      exit;
+    }
+    mysqli_stmt_close($stmt);
   }
 }
 
+mysqli_close($link);
 ?>
 
 <!DOCTYPE html>
@@ -64,6 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link rel="shortcut icon" href="./assets/img/icono.png">
 
+
+
 <body>
   <!-- NAV BAR -->
   <header>
@@ -77,8 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+        <div class="collapse navbar-collapse lista_items" style="color: white;" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 Texto">
             <li class="nav-item ">
               <a class="nav-link active" aria-current="page" href="admin_reg.php">Registros</a>
             </li>
@@ -148,7 +140,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <?php
           /* Establecer la hora de Mexico por que por defecto manda la del server  */
           date_default_timezone_set("America/Mexico_City");
-          echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . ".   " . date("h:i:sa"); ?>
+          $hora_actual = strtotime("-1 hour");
+          echo $dia[date('w', $hora_actual)] . " " . date("d", $hora_actual) . " de " . $mes[date("m", $hora_actual) - 1] . " de " . date("Y", $hora_actual) . ".   " . date("h:i:sa", $hora_actual); ?>
         </p>
       </div>
     </div>
@@ -254,6 +247,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
       <?php
     }
+   
+
+
+
     ?>
     <!-- Alertas de confirmacion o  error -->
     <h2 class="pb-3" style="text-align: center; padding-top: 1rem;">Empleados</h2>
@@ -312,7 +309,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <th>Opciones</th>
           </tr>
         </thead>
-        <tbody id="content">   <!-- Contenido con AJAX -->
+        <tbody id="content"> <!-- Contenido con AJAX -->
 
         </tbody>
       </table>
@@ -363,4 +360,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
 </body>
+
 </html>

@@ -93,9 +93,8 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where fecha BETWEEN 
 
             $fecha = $mostrar['fecha'];
             $observacion = $mostrar['observacion'];
-
-
             $entrada = $mostrar['entrada'];
+            
             if ($mostrar['entrada'] < "08:16:00") {
                 $observacion = "- - ";
                 $pdf->SetFont('Arial', '', 12);
@@ -115,17 +114,24 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where fecha BETWEEN 
 
             }
             $fecha_aux = $fecha;
-
-            if ($observacion != NULL) {
+/*
+            if ($observacion != NULL) {*/
                
                 $pdf->Cell(10, 8, ($mostrar['id']), 1, 0, 'C', 0);
                 $pdf->Cell(70, 8, utf8_decode($mostrar['nombre'] . " " . $mostrar['apellido'] . " " . $mostrar['seg_apellido']), 1, 0, 'L', 0);
                 $pdf->Cell(34, 8, utf8_decode($mostrar['t_nombre']), 1, 0, 'C', 0);
                 $pdf->Cell(25, 8, ($fecha), 1, 0, 'C', 0);
-                $pdf->SetFont('Arial', 'I', 12);
-                $pdf->Cell(50, 8, ($mostrar['observacion']), 1, 1, 'C', 0);
-                $pdf->SetFont('Arial', '', 12);
 
+                if($entrada == '00:00:00' && $salida == '00:00:00'){
+                    $pdf->Cell(50, 8, ($mostrar['observacion']), 1, 1, 'C', 0);
+                  
+                }else{
+                    $pdf->Cell(25, 8, ($entrada), 1, 0, 'C', 0);
+                    $pdf->Cell(25, 8, $salida, 1, 1, 'C', 0);
+                }
+               
+               
+/*
             } else {
                 $pdf->Cell(10, 8, ($mostrar['id']), 1, 0, 'C', 0);
                 $pdf->Cell(70, 8, utf8_decode($mostrar['nombre'] . " " . $mostrar['apellido'] . " " . $mostrar['seg_apellido']), 1, 0, 'L', 0);
@@ -135,7 +141,7 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where fecha BETWEEN 
                 $pdf->Cell(25, 8, $salida, 1, 1, 'C', 0);
             }
 
-
+*/
 
         }
     }

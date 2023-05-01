@@ -131,7 +131,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <?php
           /* Establecer la hora de Mexico por que por defecto manda la del server  */
           date_default_timezone_set("America/Mexico_City");
-          echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . ".   " . date("h:i:sa"); ?>
+          $hora_actual = strtotime("-1 hour");
+          echo $dia[date('w', $hora_actual)] . " " . date("d", $hora_actual) . " de " . $mes[date("m", $hora_actual) - 1] . " de " . date("Y", $hora_actual) . ".   " . date("h:i:sa", $hora_actual); ?>
         </p>
       </div>
     </div>
@@ -272,11 +273,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
       </nav>
     </div>
-
-    <p class="pt-4 pb-0 mb-0 pt-4">Reporte de asistencia de los días anteriores a
+    <h5 class=" pt-4 pb-1 mb-0 pt-4">Reporte de asistencia de los días anteriores a
       <?php
       echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . "."; ?>
-    </p>
+      </h5>
+
+   
     <!-- Barra de buscar -->
     <div class="pt-2 pb-3">
       <div class="row">
@@ -293,7 +295,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
       </div>
     </div>
-    <!-- Tabla con los datos --> 
+    <!-- Tabla con los datos -->
     <div class="table-responsive text-center">
       <table class="table table table-bordered table-hover border border-secondary">
         <thead>
@@ -306,7 +308,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <th>Justificación</th>
           </tr>
         </thead>
-        <tbody id="content">    <!-- Contenido con AJAX -->
+        <tbody id="content"> <!-- Contenido con AJAX -->
 
         </tbody>
       </table>

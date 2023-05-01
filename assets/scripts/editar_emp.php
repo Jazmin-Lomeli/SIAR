@@ -292,23 +292,18 @@ $conexion = $link;
               </span>
             </div>
             <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-4 pb-4">
-              <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
+              <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Guardar">
               <a class="btn btn-outline-danger ps-4 px-4"
                 href="../../empleado_detalles.php?id=<?php echo $id ?>&info=-"><i class="bi bi-x-circle"></i> &nbsp;
                 Cancelar</a>
             </div>
-
           </div>
         </form>
-
       </div>
     </div>
   </div>
 
-
-
   <!-- JavaScript Bundle with Popper -->
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
     crossorigin="anonymous"></script>
