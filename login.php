@@ -161,7 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <img src="./assets/img/logo_login.png" width="360" height="150" alt="" class="img-fluid ">
                     <div class="container-fluid">
                     </div>
-                    <h2 class="card-title">Bievenido</h2>
+                    <h2 class="card-title">Bienvenido</h2>
                     <div class="container pe-4 ps-4">
                         <?php
                         if (!empty($login_err)) {

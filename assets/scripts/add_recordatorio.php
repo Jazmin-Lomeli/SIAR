@@ -211,7 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </span>
                         </div>
                         <div class="col-sm-6 center mt-6 form-group">
-                            <label for="area" class="espacio">Área laboral</label>
+                            <label for="area" class="espacio">Departamento</label>
                             <select name="area"
                                 class="form-control <?php echo (!empty($area_err)) ? 'is-invalid' : ''; ?>"
                                 value="<?php echo $area; ?>">
@@ -236,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </span>
                         </div>
                         <div class="col-sm-4 center mt-4 form-group">
-                            <label for="fin" class="espacio">Fecha limite</label>
+                            <label for="fin" class="espacio">Fecha límite</label>
                             <input id="fin" type="date" name="fin"
                                 class="form-control text-center <?php echo (!empty($fin_err)) ? 'is-invalid' : ''; ?>"
                                 value="<?php echo $fin; ?>">
@@ -245,7 +245,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </span>
                         </div>
                         <div class="col-sm-4 center mt-4 form-group">
-                            <label for="caracter" class="espacio">caracter</label>
+                            <label for="caracter" class="espacio">Carácter</label>
                             <select name="caracter"
                                 class="form-control <?php echo (!empty($caracter_err)) ? 'is-invalid' : ''; ?>"
                                 value="<?php echo $caracter; ?>">
@@ -262,7 +262,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                         <div class="form-group">
-                            <label for="descripcion" class="espacio">Descripcion del recordatorio</label>
+                            <label for="descripcion" class="espacio">Descripción del recordatorio</label>
                             <textarea id="descripcion" name="descripcion" rows="3" col="5"
                                 class="form-control <?php echo (!empty($descripcion_err)) ? 'is-invalid' : ''; ?>"
                                 value="<?php echo $descripcion; ?>">

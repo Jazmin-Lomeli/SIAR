@@ -278,7 +278,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </span>
                             </div>
                             <div class="col-sm-6 center mt-6 form-group"> <!--  Joranada  -->
-                                <label for="jornada">Jornada semanal (Hrs)</label>
+                                <label for="jornada">Jornada semanal (hrs)</label>
 
                                 <input id="jornada" type="number" name="jornada" min="1" max="100" value="0"
                                     class="form-control <?php echo (!empty($jornada_err)) ? 'is-invalid' : ''; ?>"
@@ -289,9 +289,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                             <!-- Botones -->
                             <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-4">
-                                <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
+                                
                                 <a class="btn btn-outline-danger ps-4 px-4" href="../../admin_reg.php"><i
                                         class="bi bi-x-circle"></i> &nbsp; Cancelar</a>
+
+                                        <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Confirmar">
+
                             </div>
 
                         </div>
@@ -313,11 +316,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="modal-body text-center pt-2">
                         <h5>No encuentro el departemento</h5>
                         <h6>
-                            Si el dapartemento al que pertence el empleado no aparece, deberás agregarlo a la base de
+                            Si el dapartamento al que pertence el empleado no aparece, deberás agregarlo a la base de
                             datos.
                             <br>
                             <br>
-                            Para hecerlo da clic al boton de agregar y despues en el boton de
+                            Para hecerlo da clic al botón de agregar y despues en el botón de
                         </h6>
 
                         <a type="button" class="btn btn-outline-info btn-lg ml-2 mx-2">

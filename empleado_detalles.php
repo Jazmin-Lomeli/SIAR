@@ -239,7 +239,7 @@ if ($anios == 0) {
                 Jornada Laboral
               </div>
               <div class="card-body">
-                <h4 class="card-title pb-1">Agregar Hora de salida </h4>
+                <h4 class="card-title pb-1">Agregar hora de salida </h4>
                 <h5 class="pb-2 ">
                   <?php echo $name ?>
                 </h5>
@@ -648,7 +648,7 @@ if ($anios == 0) {
                           </div>
 
                           <div class="col-4 pb-2 ">
-                            <span class="lead"><strong> Antiguedad: </strong>
+                            <span class="lead"><strong> Antigüedad: </strong>
                               <?php echo $antiguedad ?>
                             </span>
 
@@ -667,7 +667,7 @@ if ($anios == 0) {
 
                   </div>
                 </div>
-                <h4 class="text-start pt- pb-3"> Estatus de asistencia Actual </h4>
+                <h4 class="text-start pt- pb-3"> Estatus de asistencia actual </h4>
                 <div class="row pb-3">
                   <div class="col-3 pt-2">
                     <span class="lead"> <strong> Asistencia:</strong>

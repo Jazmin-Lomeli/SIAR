@@ -355,7 +355,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             ?>
                             <div class="row justify-content-center pt-2 px-5">
                                 <div class="alerta alert alert-info alert-dismissible fade show text-center" role="alert">
-                                    <strong>Actualizá</strong> tu contraseña lo más pronto posible
+                                    <strong>Actualiza</strong> tu contraseña lo más pronto posible
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>

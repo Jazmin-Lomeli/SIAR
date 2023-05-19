@@ -191,7 +191,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <tr>
                                 <th>Estado del sistema</th>
                                 <th>Huellas disponibles</th>
-                                <th>Num. maximo de huellas</th>
+                                <th>Num. máximo de huellas</th>
                                 <th>Empleados registrados</th>
 
                             </tr>

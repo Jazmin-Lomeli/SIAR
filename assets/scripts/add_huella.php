@@ -33,6 +33,7 @@ if ($status_fingerprint == TRUE) {
                 $id_manipular = $cont; /* este sera el ID a agregar a la tabla (SI HAY HUECO) */
                // echo $id_manipular;
                 $huecos_en_huella = 1;
+                  header("location: ../../admin_reg.php");
             }
         }
 
@@ -51,7 +52,7 @@ if ($status_fingerprint == TRUE) {
                     if($id_manipular == NULL){
                         $id_manipular = 1;
                     }else{
-                        echo "NO HAY HUECO";
+                       // echo "NO HAY HUECO";
                         $id_manipular;
                     }
 
@@ -60,8 +61,8 @@ if ($status_fingerprint == TRUE) {
                     $huella_aux_reset = mysqli_query($link, "UPDATE huella_auxiliar SET id_a_manipular = $id_manipular");
 
                      if ($huella_aux_reset == TRUE){
-                        echo $id_manipular;
-                        //header("location: ../../admin_reg.php");
+                        //echo $id_manipular;
+                        header("location: ../../admin_reg.php");
                     }else{
                         header("location: ../../admin_reg.php");
                     }
@@ -103,33 +104,5 @@ if ($status_fingerprint == TRUE) {
     // ERROR
 
 }
-/*
-?>
-<style>
-h2, h5{
-text-align: center;
-}
-</style>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<br>
-<br>
-<br>
-<div class="contenedor">
-<h2> Error, no se puede realizar la acción</h2>
-</div>
-<br>
-<div class="contenedor">
-<h5> En este momento lector de huella no se encuentra conectado al sistema </h5>
-</div>
-<img src="../img/Error.gif" class="rounded mx-auto d-block" alt="..." style="width:25em;height:20rem">
-<br>
-<br>
-<div class="d-grid gap-2 col-2 mx-auto">
-<a href="../../admin_reg.php" type="button" class="btn btn-outline-primary btn-lg mx-3">Regresar</a>
-</div>
-<?php
-// header('Location: ../../vista_user.php?mensaje=error');
-// exit();
-}*/
+
 ?>

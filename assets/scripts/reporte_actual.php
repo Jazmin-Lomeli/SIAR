@@ -13,7 +13,7 @@ class PDF extends FPDF
     function Header()
     {
         $mes = array("enero", "febrero", "marzo", "abril", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "noviembre", "diciembre");
-        $dia = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+        $dia = array("domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sábado");
         /* Establecer la hora de Mexico por que por defecto manda la del server  */
        
         $fechaActual = $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") ;

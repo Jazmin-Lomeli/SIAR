@@ -224,7 +224,7 @@ $conexion = $link;
     <div class="row text-center justify-content-center my-4">
       <div class="cont col-md-8 wrapper shadow px-5">
         <h3 class="pt-2">Editar registro</h3>
-        <p> Por favor modifica solo los campos erroneos </p>
+        <p> Por favor modifica solo los campos erróneos </p>
         <form method="post" id="formulario" class="px-4">
 
           <div class="row g-3 pt-2">
@@ -256,7 +256,7 @@ $conexion = $link;
               </span>
             </div>
             <div class="col-sm-6 center form-group">
-              <label for="tel">Telefono</label>
+              <label for="tel">Teléfono</label>
               <input id="tel" type="text" name="tel" maxlength="10"
                 class="form-control text-center <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>"
                 value="<?php echo $tel; ?>">
@@ -282,7 +282,7 @@ $conexion = $link;
               </span>
             </div>
             <div class="col-sm-6 center mt-6 form-group"> <!--  Joranada  -->
-              <label for="jornada">Jornada semanal (Hrs)</label>
+              <label for="jornada">Jornada semanal (hrs)</label>
 
               <input id="jornada" type="number" name="jornada" min="1" max="100" value="<?php echo $jornada?>"
                 class="form-control <?php echo (!empty($jornada_err)) ? 'is-invalid' : ''; ?>"

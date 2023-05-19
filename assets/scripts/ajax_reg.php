@@ -7,7 +7,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   // exit;
 }
 
-/* Mostrar registros y hacer la busqueda en tiempo real */ 
+/* Mostrar registros y hacer la búsqueda en tiempo real */ 
 $sql = '';
 require '../config/config.php';
 
@@ -18,12 +18,11 @@ $columns = ['id', 'nombre', 'apellido', 'seg_apellido', 'telefono', 'id_huella',
 $table = "empleados";
 $table2 = "huella";
 
-
 $campo = isset($_POST['campo']) ? $link->real_escape_string($_POST['campo']) : null;
 
 /* Filtrado */
 $where = '';
- if ($campo != null) {
+if ($campo != null) {
     $where = "WHERE (";
 
     $cont = count($columns);
@@ -34,15 +33,16 @@ $where = '';
     $where .= ")";
 }
 
- /* Consulta */
+/* Consulta */
 $sql = "SELECT " . implode(", ", $columns) . " FROM ". " $table " . " LEFT JOIN ". $table2. " ON  $table.id=$table2.id_emp " .  " $where ". "ORDER BY $table.id";
+
 $resultado = $link->query($sql);
 $num_rows = $resultado->num_rows;
 
 /* Mostrado resultados */
 $html = '';
 $vacio = "-";
-/* Mostramos su nombre, telefono y el ID de la huella que se tiene an la tabla huella */ 
+/* Mostramos su nombre, teléfono y el ID de la huella que se tiene en la tabla huella */ 
 if ($num_rows > 0) {
     while ($row = $resultado->fetch_assoc()) {
         $html .= '<tr>';
@@ -50,9 +50,9 @@ if ($num_rows > 0) {
         $html .= '<td>' . $row['nombre'] . " " . $row['apellido'] . " ". $row['seg_apellido'].'</td>';
         $html .= '<td>' . $row['telefono'] . '</td>';
        
-        if(is_numeric($row['id_huella'])){
+        if (is_numeric($row['id_huella'])) {
             $html .= '<td>' . $row['id_huella'] . '</td>';
-        }else{
+        } else {
             $html .= '<td>' .$vacio .'</td>';
         }
         $html .= "<td>
@@ -63,13 +63,7 @@ if ($num_rows > 0) {
              </abbr>
         </a>
         </td>";
- 
-/*editar_emp.php?id=".$row['id']."  */ 
-        
-/*
-DELETE FROM users WHERE id=6;
-onclick="alerta()"
-*/
+
         $html .= '</tr>';
     }
 } else {
@@ -79,5 +73,4 @@ onclick="alerta()"
 }
 
 echo json_encode($html, JSON_UNESCAPED_UNICODE);
-
 ?>

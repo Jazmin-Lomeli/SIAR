@@ -147,13 +147,13 @@ mysqli_close($link);
     </div>
   </div>
 
-  <!-- Modal -->
-  <div class="modal fade pt-5" id="exampleModal" data-bs-backdrop="static" tabindex="-1"
+   <!-- Modal -->
+   <div class="modal fade pt-5" id="exampleModal" data-bs-backdrop="static" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title " id="exampleModalLabel">Agregar nueva área de trabajo </h5>
+          <h5 class="modal-title " id="exampleModalLabel">Agregar nuevo departamento </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -161,7 +161,7 @@ mysqli_close($link);
           <form method="post" id="formulario">
             <div class="row">
               <div class="col-xl-12 col-lg-6 col-12 form-group">
-                <label for="area" class="">Nombre de la nueva área</label>
+                <label for="area" class="">Nombre del nuevo departamento</label>
                 <input id="area" type="text" name="area" class="form-control">
               </div>
             </div>
@@ -170,7 +170,7 @@ mysqli_close($link);
 
             <div class="align-items-center">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-primary">Guardar cambios</button>
+              <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
           </form>
         </div>

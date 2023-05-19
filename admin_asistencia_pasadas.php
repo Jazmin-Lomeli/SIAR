@@ -125,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="col align-self-end d-flex flex-row-reverse pe-5">
         <?php
         $mes = array("enero", "febrero", "marzo", "abril", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "noviembre", "diciembre");
-        $dia = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+        $dia = array("domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado");
         ?>
         <p class="d-flex">
           <?php
