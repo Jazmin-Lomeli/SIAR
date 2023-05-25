@@ -274,9 +274,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
 
                         <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-4">
-                            <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
-                            <a class="btn btn-outline-danger ps-4 px-4" href="../../admin_recordatorios.php"><i
-                                    class="bi bi-x-circle"></i> &nbsp; Cancelar</a>
+
+                            <a class="btn btn-outline-danger ps-4 px-4 mx-3" href="../../admin_recordatorios.php"><i
+                                    class="bi bi-x-circle"></i> Cancelar</a>
+
+                            <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Guardar">
+
                         </div>
                 </form>
 

@@ -276,11 +276,12 @@ if ($anios == 0) {
                     <!-- Cambiar botones  -->
                     <div class="col-xl-10 col-lg-10 form-group mx-2 pb-2 pt-3">
 
-                      <input type="submit" class="btn btn-outline-success px-4" value="Guardar">
-                      &ensp;
-                      <a class="btn btn-outline-danger px-5" href="admin_reg.php">
-                        <i class="bi bi-x-circle"></i>
+                    
+                      <a class="btn btn-outline-danger px-4 mx-3" href="admin_reg.php">
+                        Cancelar
                       </a>
+                      <input type="submit" class="btn btn-outline-success px-4" value="Guardar">
+
 
 
                     </div>
@@ -340,7 +341,7 @@ if ($anios == 0) {
 
                     <div class="col-1 d-flex justify-content-end">
                       <abbr title='Motivos'>
-                        <a class="btn btn-outline-info btn-sm rounded-circle" data-bs-toggle="modal"
+                        <a class="btn btn-outline-warning btn-sm rounded-circle" data-bs-toggle="modal"
                           data-bs-target="#exampleModal">
                           <i class="bi bi-info"></i>
                         </a>
@@ -370,8 +371,9 @@ if ($anios == 0) {
 
                       <div class="col-xl-8 col-lg-8 col-8 form-group pb-2">
 
-
+                        <abbr title='Escribe un motivo corto'>
                         <label for="descripcion" class="espacio">Motivo de la falta</label>
+                        </abbr>
                         <textarea id="motivo" name="motivo" rows="2" col="5"
                           class="form-control <?php echo (!empty($motivo_err)) ? 'is-invalid' : ''; ?>"
                           value="<?php echo $motivo; ?>">
@@ -383,12 +385,14 @@ if ($anios == 0) {
 
 
                         <!-- Botones -->
-                        <div class="col-xl-10 col-lg-10 form-group mx-2 pb-2 pt-3">
-                          <input type="submit" class="btn btn-outline-success px-4" value="Ingresar">
-                          &ensp;
-                          <a class="btn btn-outline-danger px-5" href="admin_reg.php">
-                            <i class="bi bi-x-circle"></i>
-                          </a>
+                        <div class="col-xl-10 col-lg-10 form-group mx-2 pb-2 pt-3 align-items-center">
+                         
+                          <a class="btn btn-outline-danger px-3 mx-3" href="admin_reg.php">
+                            <i class="bi bi-x-circle"> Cancelar</i>
+                            </a>
+                        <input type="submit" class="btn btn-outline-success px-4" value="Ingresar"> 
+
+                           
                         </div>
 
                       </div>
@@ -440,13 +444,11 @@ if ($anios == 0) {
                   <div class="col-6">
                     <ul>
                       <li> Problemas con el auto.</li>
-                      <li> Cita medica</li>
-                      <li> Emergencia familiar</li>
+                      <li> Cita medica.</li>
+                      <li> Emergencia familiar.</li>
                     </ul>
                   </div>
                 </div>
-
-                ...
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
@@ -637,7 +639,7 @@ if ($anios == 0) {
 
                         <div class="row pt-2">
                           <div class="col-4 pb-2 ">
-                            <span class="lead"><strong> Área laboral: </strong>
+                            <span class="lead"><strong> Departamento: </strong>
                               <?php echo $area ?>
                             </span>
                           </div>
@@ -924,10 +926,10 @@ if ($anios == 0) {
                       <img src="assets/img/pregunta.png" class="rounded mx-auto d-block" alt="...">
                     </div>
                     <div class="modal-footer justify-content-center">
-                      <a href="assets/scripts/eliminar_emp.php?id=<?php echo $id_emp ?>">
+                      <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
+                       <a href="assets/scripts/eliminar_emp.php?id=<?php echo $id_emp ?>">
                         <button type="button" class="btn btn-success px-4 mx-3">Confirmar</button>
                       </a>
-                      <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                   </div>
                 </div>
@@ -949,10 +951,10 @@ if ($anios == 0) {
                       <img src="assets/img/curriculum.png" class="rounded mx-auto d-block" alt="...">
                     </div>
                     <div class="modal-footer justify-content-center">
-                      <a href="assets/scripts/editar_emp.php?id=<?php echo $id_emp ?>">
+                      <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
+                       <a href="assets/scripts/editar_emp.php?id=<?php echo $id_emp ?>">
                         <button type="button" class="btn btn-success px-4 mx-3">Confirmar</button>
                       </a>
-                      <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                   </div>
                 </div>
@@ -978,10 +980,12 @@ if ($anios == 0) {
 
                     </div>
                     <div class="modal-footer justify-content-center">
-                      <a href="assets/scripts/add_huella.php?id_add=<?php echo $id_emp ?>">
+                     
+                      <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
+                       <a href="assets/scripts/add_huella.php?id_add=<?php echo $id_emp ?>">
                         <button type="button" class="btn btn-success px-4 mx-3">Registrar</button>
                       </a>
-                      <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
+                      
                     </div>
                   </div>
                 </div>

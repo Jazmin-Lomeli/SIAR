@@ -19,13 +19,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Checa si el username esta vacio
     if (empty(trim($_POST["username"]))) { // si esta vacio  manda error
-        $username_err = "Porfavor ingrese su nombre de usuario.";
+        $username_err = "Por favor ingrese su nombre de usuario.";
     } else {
         $username = trim($_POST["username"]); // si es correcto guardarlo en username 
     }
     // Checa si la contraseña esta vacia
     if (empty(trim($_POST["password"]))) { // checa que la contraseña no este vacia 
-        $password_err = "Porfavor ingrese su contraseña";
+        $password_err = "Por favor ingrese su contraseña";
     } else {
         $password = trim($_POST["password"]); // si es correcta la guarda en password 
     }
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             header("location: assets/scripts/welcome.php");
                         } else {
                             // Password is not valid, display a generic error message
-                            $login_err = "Invalid username or password."; // aquiii
+                            $login_err = "Contraseña o usuario invalidos."; // aquiii
                         }
                     }
                 } else {
@@ -172,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"
                                 class="col-11">
                                 <div class="form-group">
-                                    <label>Usuario</label>
+                                    <label  >Usuario</label>
                                     <input type="text" name="username"
                                         class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>"
                                         value="<?php echo $username; ?>">
@@ -220,9 +220,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
                 crossorigin="anonymous"></script>
 
-            <!-- <div class="footer text-center">
-        <small class="text-muted">Footer</small>
-    </div> -->
+           
 
 </body>
 

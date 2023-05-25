@@ -17,6 +17,7 @@ if ($reporte_mes < 10) {
 $fechaActual = date('Y');     // Año actual
  // establecemos la fecha inicial a partir de el año y el mes requerido
 $inicio = $fechaActual . "-" . $reporte . "-01";    
+
 // Establecemos fecha final a sumandole un mes a la fecha inicial 
 $fin_rep = date("Y-m-d", strtotime($inicio . "+ 1 month"));
  
@@ -125,6 +126,7 @@ class PDF extends FPDF
         $this->Cell(200, 5, utf8_decode('SIAR'), 0, 1, 'C');
         $this->SetFont('Arial', 'I', 8);
         $this->Cell(200, 5, utf8_decode("Sistema de Asistencias y Rcordatorios"), 0, 1, 'C');
+
     }
 
 }
@@ -133,8 +135,7 @@ $pdf = new PDF();
 $pdf->AliasNbPages(); // Generar pagina
 $pdf->AddPage();
 $pdf->Ln(7);
-
-
+ 
 $meses = array("", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
 $pdf->SetFont('Arial', 'B', 13);
 $pdf->Cell(130, 5, ("Reporte del mes de $meses[$reporte_mes]"), 0, 1, 'L', 0);
@@ -187,7 +188,10 @@ $pdf->SetFont('Arial', '', 14);
 $pdf->Cell(190, 0, "", 1, 1, 'C'); // Linea
  
 /* Verificampos en que dia comienza el mes, para tomar la semana desde el lunes*/
-if ($dia == "Martes") { // Le restamos un dia 
+
+if ($dia == "Lunes") { // Le restamos un dia 
+    $inicio = date("d-m-Y", strtotime($inicio . "- 0 days"));
+}elseif ($dia == "Martes") { // Le restamos un dia 
     $inicio = date("d-m-Y", strtotime($inicio . "- 1 days"));
 } elseif ($dia == "Miercoles") { // Le restamos un dia 
     $inicio = date("d-m-Y", strtotime($inicio . "- 2 days"));
@@ -200,12 +204,23 @@ if ($dia == "Martes") { // Le restamos un dia
 } elseif ($dia == "Domingo") { // Le restamos 5 dias
     $inicio = date("d-m-Y", strtotime($inicio . "- 6 days"));
 }
+
 /* Una vez que se le restaron los dias para que sea lunes, se tomara dicha fecha como inicio */
 $dia = saber_dia($inicio);
 /* Rebertimos la fecha a Y-M-d */
+$pdf->Cell(130, 5, ("Reporte del mes de $inicio"), 0, 1, 'L', 0);
+$pdf->Cell(130, 5, ("REVEWRTIMOS LA FECHA "), 0, 1, 'L', 0);
+$pdf->Cell(130, 5, (substr($inicio, -4, )), 0, 1, 'L', 0);
+
+
+
 $inicio = substr($inicio, -4, ) . "-" . substr($inicio, -7, 2) . "-" . substr($inicio, 0, 2);
 
 $dia_2 = saber_dia($fin_rep);
+
+$pdf->Cell(130, 5, ("Reporte del mes de $inicio"), 0, 1, 'L', 0);
+
+
 //    $dias_arr = array('Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado');
 /* Vericampos en que dia comienza el mes, para tomar la semana desde el lunes*/
 if ($dia_2 == "Martes") { // Le restamos un dia 

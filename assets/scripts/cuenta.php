@@ -245,14 +245,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'add') {
         ?>
-        <!--
-                                            <div class="d-flex align-items-end flex-column ">
-                                                <div class="mt-auto p-2">
-                                                    <a class="btn" data-bs-toggle="modal" data-bs-target="#password">
-                                                        <img src="../img/pregunta.png" width="50px">
-                                                    </a>
-                                                </div>
-                                        -->
+        
         <div class="container rounded mt-5">
             <div class="row justify-content-center">
                 <div class="col-sm-10 col-md-10 col-lg-9 wrapper pt-3 pb-4 ps-2">
@@ -300,10 +293,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                             </div>
                                             <div class="col-xl-12 col-lg-12 col-12 form-group pt-4">
-                                                <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2"
-                                                    value="Crear">
+                                               
                                                 <a class="btn btn-outline-danger ps-4 px-4" href="cuenta.php"><i
                                                         class="bi bi-x-circle"></i> Cancelar</a>
+
+                                                <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2"
+                                                    value="Guardar">
                                             </div>
                                         </form>
                                     </div>
@@ -326,11 +321,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
         </div>
-
-
-
-
-
 
         <?php
     } else {
@@ -578,7 +568,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <div class="col-xl-10 col-lg-10 col-sm-8 form-group pt-3 pb-4">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cerrar</button>
-                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
                                         </div>
                                 </form>
                             </div>

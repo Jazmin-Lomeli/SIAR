@@ -48,11 +48,11 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where fecha = '$fech
     if(  $asistencias  == 0){  // No arroja registros 
 
         $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(12, 10, utf8_decode('ID'), 1, 0, 'C', 0);
-        $pdf->Cell(60, 10, utf8_decode('Nombre'), 1, 0, 'C', 0);
+        $pdf->Cell(10, 10, utf8_decode('ID'), 1, 0, 'C', 0);
+        $pdf->Cell(73, 10, utf8_decode('Nombre'), 1, 0, 'C', 0);
         $pdf->Cell(30,10,utf8_decode('Área laboral'),1,0,'C',0);
-        $pdf->Cell(30, 10, 'H. entrada', 1, 0, 'C', 0);
-        $pdf->Cell(30, 10, 'H. salida', 1, 0, 'C', 0);
+        $pdf->Cell(23, 10, 'H. entrada', 1, 0, 'C', 0);
+        $pdf->Cell(23, 10, 'H. salida', 1, 0, 'C', 0);
         $pdf->Cell(30, 10, utf8_decode('Observación'), 1, 1, 'C', 0);
 
     $pdf->SetFont('Arial','',12);
@@ -62,14 +62,14 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where fecha = '$fech
     } else {   // Si hay registros
         
         $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(12, 10, utf8_decode('ID'), 1, 0, 'C', 0);
-        $pdf->Cell(60, 10, utf8_decode('Nombre'), 1, 0, 'C', 0);
-        $pdf->Cell(34,10,utf8_decode('Área laboral'),1,0,'C',0);
-        $pdf->Cell(28, 10, 'H. entrada', 1, 0, 'C', 0);
-        $pdf->Cell(28, 10, 'H. salida', 1, 0, 'C', 0);
+        $pdf->Cell(10, 10, utf8_decode('ID'), 1, 0, 'C', 0);
+        $pdf->Cell(73, 10, utf8_decode('Nombre'), 1, 0, 'C', 0);
+        $pdf->Cell(34,10,utf8_decode('Departamento'),1,0,'C',0);
+        $pdf->Cell(23, 10, 'H. entrada', 1, 0, 'C', 0);
+        $pdf->Cell(23, 10, 'H. salida', 1, 0, 'C', 0);
         $pdf->Cell(30, 10, utf8_decode('Observación'), 1, 1, 'C', 0);
 
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Arial', '', 11);
 /* extarer asistencias */ 
 $query = "SELECT * FROM asistencia LEFT JOIN empleados ON asistencia.id_emp=empleados.id INNER JOIN tipo_empleado ON tipo_empleado.tipo = empleados.tipo Where tipo_empleado.tipo > 1 AND fecha = '$fecha_rep' ORDER BY entrada ASC";
 $result = mysqli_query($link, $query);
@@ -89,11 +89,11 @@ while ($mostrar = mysqli_fetch_array($result)) {
     } else {
         $salida = $mostrar['salida'];
     }
-    $pdf->Cell(12, 8.,utf8_decode($mostrar['id']), 1, 0, 'C', 0);
-    $pdf->Cell(60, 8, utf8_decode($mostrar['nombre']." ".$mostrar['apellido']." ".$mostrar['seg_apellido'] ), 1, 0, 'L', 0);
+    $pdf->Cell(10, 8.,utf8_decode($mostrar['id']), 1, 0, 'C', 0);
+    $pdf->Cell(73, 8, utf8_decode($mostrar['nombre']." ".$mostrar['apellido']." ".$mostrar['seg_apellido'] ), 1, 0, 'L', 0);
     $pdf->Cell(34, 8.,utf8_decode($mostrar['t_nombre']), 1, 0, 'C', 0);
-    $pdf->Cell(28, 8,utf8_decode($entrada), 1, 0, 'C', 0);
-    $pdf->Cell(28, 8, $salida, 1, 0, 'C', 0);
+    $pdf->Cell(23, 8,utf8_decode($entrada), 1, 0, 'C', 0);
+    $pdf->Cell(23, 8, $salida, 1, 0, 'C', 0);
     $pdf->Cell(30, 8, $observacion, 1, 1, 'C', 0);
 }
     } 
