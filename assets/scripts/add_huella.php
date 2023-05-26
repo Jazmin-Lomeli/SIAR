@@ -1,5 +1,7 @@
 <?php
 
+
+
 require '../config/config.php';
 /* Id que manda el boton de agregar huella de la vista reg_huella.php */
 $id_add = $_GET['id_add'];

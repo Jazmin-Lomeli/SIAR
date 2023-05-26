@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_stmt_close($stmt);
       }
     }
-    /* Vista es egregar salida */
+    /* Vista es agregar salida */
   } else {
     /* Validar datos */
     if (empty(trim($_POST["h_salida"]))) {
@@ -67,15 +67,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
       }
     }
-  } 
+  }
 } // METHOD POST
 
 date_default_timezone_set('America/Mexico_City');
 $fin = date("Y-m-d");
 $antiguedad = "";
+/* Funcion para calcular la antiguedad en meses */
 function meses($fecha1, $fecha2)
 {
-
   $datetime1 = new DateTime($fecha1);
   $datetime2 = new DateTime($fecha2);
 
@@ -88,7 +88,6 @@ function meses($fecha1, $fecha2)
   $intervalAnos = $interval->format("%y") * 12;
   return $intervalMeses + $intervalAnos;
 }
-
 
 
 /* Calculamos los meses */
@@ -113,9 +112,6 @@ if ($anios == 0) {
   } else {
     $antiguedad = $meses . " meses.";
   }
-
-  //  $pdf->Cell(40, 8, utf8_decode( $imprime), 1, 1, 'C', 0);
-
 } else {
   if ($anios == 1) {
     if ($meses == 1) {
@@ -135,10 +131,7 @@ if ($anios == 0) {
     }
   }
 
-  //$pdf->Cell(40, 8, utf8_decode( $imprime), 1, 1, 'C', 0);
-
 }
-
 
 ?>
 
@@ -215,6 +208,7 @@ if ($anios == 0) {
     </nav>
   </header>
   <!-- NAV BAR -->
+
   <!-- Vista para agregar la salida de algun empleado -->
   <?php
   /* Agregar salida de un empleado */
@@ -273,24 +267,17 @@ if ($anios == 0) {
                     </div>
 
                     <br>
-                    <!-- Cambiar botones  -->
+                    <!--  Botones  -->
                     <div class="col-xl-10 col-lg-10 form-group mx-2 pb-2 pt-3">
-
-                    
                       <a class="btn btn-outline-danger px-4 mx-3" href="admin_reg.php">
                         Cancelar
                       </a>
                       <input type="submit" class="btn btn-outline-success px-4" value="Guardar">
-
-
-
                     </div>
-
                   </div>
                 </form>
-
-
               </div>
+
               <div class="card-footer text-muted">
                 <?php
                 $mes = array("enero", "febrero", "marzo", "abril", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "noviembre", "diciembre");
@@ -307,6 +294,7 @@ if ($anios == 0) {
           </div>
         </div>
       </div>
+
       <!-- Ventana para agregar salida  -->
 
       <?php
@@ -372,29 +360,26 @@ if ($anios == 0) {
                       <div class="col-xl-8 col-lg-8 col-8 form-group pb-2">
 
                         <abbr title='Escribe un motivo corto'>
-                        <label for="descripcion" class="espacio">Motivo de la falta</label>
+                          <label for="descripcion" class="espacio">Motivo de la falta</label>
                         </abbr>
                         <textarea id="motivo" name="motivo" rows="2" col="5"
                           class="form-control <?php echo (!empty($motivo_err)) ? 'is-invalid' : ''; ?>"
                           value="<?php echo $motivo; ?>">
-                                                    </textarea>
+                                                            </textarea>
                         <span class="invalid-feedback">
                           <?php echo $motivo_err; ?>
                         </span>
                         </textarea>
 
-
                         <!-- Botones -->
                         <div class="col-xl-10 col-lg-10 form-group mx-2 pb-2 pt-3 align-items-center">
-                         
+
                           <a class="btn btn-outline-danger px-3 mx-3" href="admin_reg.php">
                             <i class="bi bi-x-circle"> Cancelar</i>
-                            </a>
-                        <input type="submit" class="btn btn-outline-success px-4" value="Ingresar"> 
+                          </a>
+                          <input type="submit" class="btn btn-outline-success px-4" value="Ingresar">
 
-                           
                         </div>
-
                       </div>
                     </div>
                   </form>
@@ -456,21 +441,22 @@ if ($anios == 0) {
             </div>
           </div>
         </div>
-
+        <!-- Modal informativo -->
 
         <?php
   } else {
     ?>
-     <style>
-    .cont {
-      background: ghostwhite;
-      height: 100%;
-      border-radius: 10px;
-      padding-bottom: 1em;
-      padding-top: 0.5em;
-      margin-top: 1em;
-    }
-  </style>
+        <!-- Ver detalles de un empleado -->
+        <style>
+          .cont {
+            background: ghostwhite;
+            height: 100%;
+            border-radius: 10px;
+            padding-bottom: 1em;
+            padding-top: 0.5em;
+            margin-top: 1em;
+          }
+        </style>
         <!-- NAV BAR -->
         <!-- Detalles del registro  -->
         <div class=" px-4 pt-3 bienvenida">
@@ -530,6 +516,7 @@ if ($anios == 0) {
             <?php
           }
           ?>
+          <!-- Alertas de confirmacion o  error -->
 
           <h3 class="pt-1 pb-2 text-center ">Detalles del empleado </h3>
 
@@ -587,8 +574,6 @@ if ($anios == 0) {
                   }
                   ?>
                 </div>
-
-
               </div>
             </div>
 
@@ -599,6 +584,7 @@ if ($anios == 0) {
                     <div class="row align-items-start">
                       <div class="container">
                         <div class="row pb-2 pt-2">
+                          <!-- DATOS -->
 
                           <div class="col w-auto">
                             <span class="lead"> <strong> ID de empleado: </strong>
@@ -697,13 +683,14 @@ if ($anios == 0) {
                     </abbr>
                   </div>
                 </div>
+                <!-- DATOS -->
+
               </div>
-
-
               <br>
+              <!-- Asistencias de lo 10 dias habiles  -->
+
               <h4 class="text-start pt-2 pb-3">Asistencias</h4>
-              <div class="container border rounded pb-3"
-                style="border-color:rgb(220, 220, 220);">
+              <div class="container border rounded pb-3" style="border-color:rgb(220, 220, 220);">
                 <div class="row pt-3">
                   <div class="col-sm-8">
                     <div class="card shadow">
@@ -767,6 +754,7 @@ if ($anios == 0) {
                       </div>
                     </div>
                   </div>
+              <!-- Asistencias de lo 10 dias habiles  -->
 
                   <div class=" col-sm-4">
                     <div class="card shadow">
@@ -860,7 +848,7 @@ if ($anios == 0) {
                         </div>
 
                         <div class="row">
-                        <div class="col pb-4">
+                          <div class="col pb-4">
                             <abbr title='Mes de Septiembre'>
                               <!-- Mandar datos por GET -->
                               <a href="assets/scripts/reporte_mes.php?id=<?php echo $id_emp ?>&mes=9"
@@ -901,13 +889,15 @@ if ($anios == 0) {
                             </abbr>
                           </div>
 
-                           
+
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <!-- MODALES -->
 
               <!-- Modal ELIMINAR REGISTRO-->
               <div class="modal fade pt-5" id="delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -927,7 +917,7 @@ if ($anios == 0) {
                     </div>
                     <div class="modal-footer justify-content-center">
                       <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
-                       <a href="assets/scripts/eliminar_emp.php?id=<?php echo $id_emp ?>">
+                      <a href="assets/scripts/eliminar_emp.php?id=<?php echo $id_emp ?>">
                         <button type="button" class="btn btn-success px-4 mx-3">Confirmar</button>
                       </a>
                     </div>
@@ -935,6 +925,7 @@ if ($anios == 0) {
                 </div>
               </div>
               <!-- Modal ELIMINAR REGISTRO-->
+
               <!-- Modal editar REGISTRO-->
               <div class="modal fade pt-5" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -952,7 +943,7 @@ if ($anios == 0) {
                     </div>
                     <div class="modal-footer justify-content-center">
                       <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
-                       <a href="assets/scripts/editar_emp.php?id=<?php echo $id_emp ?>">
+                      <a href="assets/scripts/editar_emp.php?id=<?php echo $id_emp ?>">
                         <button type="button" class="btn btn-success px-4 mx-3">Confirmar</button>
                       </a>
                     </div>
@@ -960,6 +951,7 @@ if ($anios == 0) {
                 </div>
               </div>
               <!-- Modal ELIMINAR REGISTRO-->
+              
               <!-- Modal registrar huella -->
               <div class="modal fade pt-5" id="huella" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -980,12 +972,12 @@ if ($anios == 0) {
 
                     </div>
                     <div class="modal-footer justify-content-center">
-                     
+
                       <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">Cancelar</button>
-                       <a href="assets/scripts/add_huella.php?id_add=<?php echo $id_emp ?>">
+                      <a href="assets/scripts/add_huella.php?id_add=<?php echo $id_emp ?>">
                         <button type="button" class="btn btn-success px-4 mx-3">Registrar</button>
                       </a>
-                      
+
                     </div>
                   </div>
                 </div>

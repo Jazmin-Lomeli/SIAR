@@ -1,10 +1,12 @@
 <?php
+/* Seguridad de Sesiones */
 session_start();
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: login.php");
   exit;
 }
 
+/* Llamar a los archivos */
 require_once 'assets/config/config.php';
 
 $conexion = $link;
@@ -53,9 +55,6 @@ mysqli_close($link);
   <link rel="stylesheet" href="./assets/css/styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link rel="shortcut icon" href="./assets/img/icono.png">
-
-
-
 <body>
   <!-- NAV BAR -->
   <header>
@@ -247,10 +246,6 @@ mysqli_close($link);
       </div>
       <?php
     }
-   
-
-
-
     ?>
     <!-- Alertas de confirmacion o  error -->
     <h2 class="pb-3" style="text-align: center; padding-top: 1rem;">Empleados</h2>

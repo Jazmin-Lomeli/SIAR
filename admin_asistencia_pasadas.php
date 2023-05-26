@@ -7,6 +7,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
 }
 
+/* Llamar a los archivos */
 require_once 'assets/config/config.php';
 
 $conexion = $link;
@@ -151,6 +152,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
   <div class="container mt-2  cont rounded-3 shadow mb-4">
+        <!-- Alertas de confirmacion o error -->
+
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'error') {
       ?>
@@ -231,7 +234,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class="container w-auto shadow pt-0 pb-0">
-
       <nav class="navbar navbar-expand-lg navbar-light pl-4 rounded-4">
         <div class="container-fluid dernav">
           <a class="navbar-brand">

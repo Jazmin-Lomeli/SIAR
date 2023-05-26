@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: login.php");
 }
-
+/* Llamar a los archivos */
 require_once 'assets/config/config.php';
 
 $conexion = $link;
@@ -13,6 +13,7 @@ if (!$conexion) {
 }
 $conexion = $link;
 
+/* Establecer fecha y hora de La Ciudad de Mexico */
 date_default_timezone_set("America/Mexico_City");
 $fecha_hoy = date("Y-m-d");
 
@@ -132,6 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </nav>
   </header>
+  <!-- NAV BAR -->
 
   <!-- Modal  EDICIÓN DEL REGISTRO -->
   <div class="modal fade pt-5" id="recordatorio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -180,13 +182,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="col align-self-end d-flex flex-row-reverse pe-5">
         <?php
         $mes = array("enero", "febrero", "marzo", "abril", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "noviembre", "diciembre");
-        $dia = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+        $dia = array("domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado");
         ?>
         <p class="d-flex">
           <?php
           /* Establecer la hora de Mexico por que por defecto manda la del server  */
           date_default_timezone_set("America/Mexico_City");
-          $hora_actual = strtotime("-1 hour");
+          $hora_actual = strtotime("-1 hour");    /* Le restamos una hora ya se vio afectado por el cambio de horario */ 
           echo $dia[date('w', $hora_actual)] . " " . date("d", $hora_actual) . " de " . $mes[date("m", $hora_actual) - 1] . " de " . date("Y", $hora_actual) . ".   " . date("h:i:sa", $hora_actual); ?>
         </p>
       </div>

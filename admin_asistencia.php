@@ -5,6 +5,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: login.php");
 }
 
+/* Llamar a los archivos */
 require_once 'assets/config/config.php';
 
 $conexion = $link;
@@ -19,6 +20,7 @@ $query = "SELECT * FROM empleados";
 $resultado = $link->query($query);
 $conexion = $link;
 
+/* Declarar variables  */
 $id = $entrada = $salida = $fecha = "";
 $id_err = $entrada_err = $salida_err = $fecha_err = "";
 
@@ -152,6 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </nav>
   </header>
   <!-- NAV BAR -->
+
   <!-- Modal AGREGAR ASISTENCIA -->
   <div class="modal fade pt-5" id="exampleModal" data-bs-backdrop="static" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -273,7 +276,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <?php
     }
     ?>
-    <!-- Alertas de confirmacion o  error -->
+    <!-- Alertas de confirmacion o error -->
 
     <!-- Contenido -->
     <h2 style="text-align: center; padding-top: 1rem; padding-bottom: 0.5rem;">Asistencia</h2>

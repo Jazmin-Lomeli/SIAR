@@ -1,13 +1,21 @@
 <?php
+/* Seguridad de Sesiones */
 session_start();
 // Revisar si no se ha logeado 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: ../../login.php");
   // exit;
 }
+
+require '../config/config.php';
+
+$conexion = $link;
+if (!$conexion) {
+  header('Location: ../../login.php');
+}
+
  /* Mostrar registros y hacer la busqueda en tiempo real */ 
 $sql = $id = '';
-require '../config/config.php';
 
 /* Un arreglo de las columnas a mostrar en la tabla */
 $columns = ['t_nombre', 'r_nombre', 'descripcion', 'inicio','fin', 'caracter', 'id_recordatorio'];

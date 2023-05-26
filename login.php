@@ -120,7 +120,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <style>
         body {
-            background-image: url("./assets/img/login_fondo.png");%;
+            background-image: url("./assets/img/login_fondo.png");
+            %;
             height: 100%;
             background-color: rgba(128, 128, 128, 0.1);
             background-size: cover;
@@ -172,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"
                                 class="col-11">
                                 <div class="form-group">
-                                    <label  >Usuario</label>
+                                    <label>Usuario</label>
                                     <input type="text" name="username"
                                         class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>"
                                         value="<?php echo $username; ?>">
@@ -212,15 +213,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Sistema de Asistencias y Recordatorios
             </footer>
 
-
-
-
             <!-- JavaScript Bundle with Popper -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
                 crossorigin="anonymous"></script>
-
-           
 
 </body>
 

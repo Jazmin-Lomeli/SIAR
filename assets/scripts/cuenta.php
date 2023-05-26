@@ -245,7 +245,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'add') {
         ?>
-        
+
         <div class="container rounded mt-5">
             <div class="row justify-content-center">
                 <div class="col-sm-10 col-md-10 col-lg-9 wrapper pt-3 pb-4 ps-2">
@@ -293,7 +293,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                             </div>
                                             <div class="col-xl-12 col-lg-12 col-12 form-group pt-4">
-                                               
+
                                                 <a class="btn btn-outline-danger ps-4 px-4" href="cuenta.php"><i
                                                         class="bi bi-x-circle"></i> Cancelar</a>
 
