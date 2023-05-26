@@ -1,6 +1,7 @@
 <?php
+/* Seguridad de Sesiones */
 session_start();
-// Revisar si no se ha logeado 
+
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: ../../login.php");
     // exit;
@@ -20,7 +21,7 @@ while ($row = mysqli_fetch_array($result_cuenta)) {
     $id = $row['id'];
 }
 if ($cambio_contra == NULL) {
-    $cambio_contra = 0;
+    $cambio_contra = "- - -";
 }
 $name = $pass = $pass2 = '';
 $name_err = $pass_err = $pass2_err = '';
@@ -179,11 +180,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 
     <header>
-
         <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
             <div class="container-fluid dernav">
                 <a class="navbar-brand">
-                    <img src="../img/logo.png" width="140" height="50" alt=""> <!-- Logo -->
+                    <img src="../img/logo_3.png" width="140" height="50" alt=""> <!-- Logo -->
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -209,13 +209,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
                             </a>
                             <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                        &nbsp; &nbsp;
+                                <li><a class="dropdown-item" href="cuenta.php"> &nbsp; Cuenta &nbsp;
+                                        &nbsp; &nbsp; &nbsp;
+                                        &nbsp; &nbsp; &nbsp;
                                         <i class="bi bi-person-circle"></i> </a></li>
+
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item " href="#">&nbsp; Sistema &nbsp; &nbsp; &nbsp;
+                                <li><a class="dropdown-item " href="sistema.php">&nbsp; Sistema &nbsp;
+                                        &nbsp; &nbsp;
                                         &nbsp; &nbsp; &nbsp; &nbsp;
                                         <i class="bi bi-gear"></i></a>
                                 </li>
@@ -223,10 +226,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item " href="logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
+                                <li><a class="dropdown-item " href="logout.php">&nbsp; Salir &nbsp;
+                                        &nbsp; &nbsp;
                                         &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                                         <i class="bi bi-box-arrow-right"></i></a> </li>
+
                             </ul>
+
+
                     </ul>
                     </li>
                     </ul>
@@ -234,23 +241,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </nav>
     </header>
+
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'add') {
         ?>
-        <!--
-                                            <div class="d-flex align-items-end flex-column ">
-                                                <div class="mt-auto p-2">
-                                                    <a class="btn" data-bs-toggle="modal" data-bs-target="#password">
-                                                        <img src="../img/pregunta.png" width="50px">
-                                                    </a>
-                                                </div>
-                                        -->
+
         <div class="container rounded mt-5">
             <div class="row justify-content-center">
                 <div class="col-sm-10 col-md-10 col-lg-9 wrapper pt-3 pb-4 ps-2">
                     <div class="card text-center ">
                         <div class="card-header">
-                            Featured
+                            Usuarios
                         </div>
                         <div class="m-0 row align-items-center justify-content-center">
                             <div class="row px-2 col-8  ">
@@ -292,10 +293,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                             </div>
                                             <div class="col-xl-12 col-lg-12 col-12 form-group pt-4">
-                                                <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2"
-                                                    value="Crear">
+
                                                 <a class="btn btn-outline-danger ps-4 px-4" href="cuenta.php"><i
                                                         class="bi bi-x-circle"></i> Cancelar</a>
+
+                                                <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2"
+                                                    value="Guardar">
                                             </div>
                                         </form>
                                     </div>
@@ -303,7 +306,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
                         <div class="card-footer text-muted">
-                            2 days ago
+                            <?php
+                            $mes = array("enero", "febrero", "marzo", "abril", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "noviembre", "diciembre");
+                            $dia = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+
+                            /* Establecer la hora de Mexico por que por defecto manda la del server  */
+                            date_default_timezone_set("America/Mexico_City");
+                            echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y");
+                            ?>
                         </div>
                     </div>
 
@@ -311,11 +321,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
         </div>
-
-
-
-
-
 
         <?php
     } else {
@@ -333,14 +338,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row text-center justify-content-center  ">
                     <div class="cont col-md-8 wrapper shadow px-5">
                         <h3 class="pt-2">Cuenta</h3>
-                        <h6  class="pb-2"> Información general se la sesión actual </h6>
+                        <h5 class="pb-2"> Información general se la sesión actual </h5>
                         <!-- Alertas -->
                         <?php
                         if ($cambio_contra == 0) {
                             ?>
                             <div class="row justify-content-center pt-2 px-5">
                                 <div class="alerta alert alert-info alert-dismissible fade show text-center" role="alert">
-                                    <strong>Actualizá</strong> tu contraseña lo más pronto posible
+                                    <strong>Actualiza</strong> tu contraseña lo más pronto posible
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>
@@ -443,19 +448,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <img src="../img/user.png" class="img-thumbnail" alt="...">
                             </div>
                             <div class="col-sm-8 col-md-8 col-lg-8 ">
-                                <h5 class="lead">
+                                <h6 class="lead">
                                     <strong>Nombre de usuario: </strong>
                                     <small class="text-muted">
                                         <?php echo $_SESSION["username"]; ?>
                                     </small>
-                                </h5>
+                                </h6>
                                 <br>
-                                <h5 class="lead">
+                                <h6 class="lead">
                                     <strong>Fecha de ingreso: </strong>
                                     <small class="text-muted">
                                         <?php echo $f_ingreso; ?>
                                     </small>
-                                </h5>
+                                </h6>
                                 <br>
                                 <h5 class="lead">
                                     <strong>Última contraseña: </strong>
@@ -465,7 +470,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </h5>
                             </div>
 
-                            <div class="d-flex align-items-end flex-column " >
+                            <div class="d-flex align-items-end flex-column ">
 
                                 <div class="mt-auto p-2 px-2 border rounded" style="background-color: ;">
                                     <div class="btn-group">
@@ -563,7 +568,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <div class="col-xl-10 col-lg-10 col-sm-8 form-group pt-3 pb-4">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cerrar</button>
-                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
                                         </div>
                                 </form>
                             </div>

@@ -77,12 +77,12 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where fecha BETWEEN 
 
         $pdf->Cell(10, 10, utf8_decode('ID'), 1, 0, 'C', 0);
         $pdf->Cell(70, 10, utf8_decode('Nombre'), 1, 0, 'C', 0);
-        $pdf->Cell(34, 10, utf8_decode('Área laboral'), 1, 0, 'C', 0);
+        $pdf->Cell(34, 10, utf8_decode('Departamento'), 1, 0, 'C', 0);
         $pdf->Cell(25, 10, 'Fecha', 1, 0, 'C', 0);
         $pdf->Cell(25, 10, 'H. entrada', 1, 0, 'C', 0);
         $pdf->Cell(25, 10, 'H. salida', 1, 1, 'C', 0);
 
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Arial', '', 11);
         /* extarer asistencias */
         $fecha_aux = " ";
         $query = "SELECT * FROM empleados INNER JOIN tipo_empleado ON tipo_empleado.tipo = empleados.tipo INNER JOIN asistencia ON empleados.id = asistencia.id_emp WHERE fecha BETWEEN '$inicio_fe' AND '$fin_fe'  ORDER BY fecha ASC";
@@ -93,12 +93,11 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where fecha BETWEEN 
 
             $fecha = $mostrar['fecha'];
             $observacion = $mostrar['observacion'];
-
-
             $entrada = $mostrar['entrada'];
+            
             if ($mostrar['entrada'] < "08:16:00") {
                 $observacion = "- - ";
-                $pdf->SetFont('Arial', '', 12);
+                $pdf->SetFont('Arial', '', 11);
 
             } else {
                 $observacion = "Retardo";
@@ -109,33 +108,28 @@ if ($result = mysqli_query($link, "SELECT * FROM asistencia Where fecha BETWEEN 
                 $salida = $mostrar['salida'];
             }
             if ($fecha_aux != $fecha) {
-                $pdf->SetFont('Arial', 'I', 12);
+                $pdf->SetFont('Arial', 'I', 11);
                 $pdf->Cell(189, 8, ($fecha), 1, 1, 'C', 0);
-                $pdf->SetFont('Arial', '', 12);
+                $pdf->SetFont('Arial', '', 11);
 
             }
             $fecha_aux = $fecha;
+/*
+            if ($observacion != NULL) {*/
+            $pdf->SetFont('Arial', '', 11);
 
-            if ($observacion != NULL) {
-               
                 $pdf->Cell(10, 8, ($mostrar['id']), 1, 0, 'C', 0);
                 $pdf->Cell(70, 8, utf8_decode($mostrar['nombre'] . " " . $mostrar['apellido'] . " " . $mostrar['seg_apellido']), 1, 0, 'L', 0);
                 $pdf->Cell(34, 8, utf8_decode($mostrar['t_nombre']), 1, 0, 'C', 0);
                 $pdf->Cell(25, 8, ($fecha), 1, 0, 'C', 0);
-                $pdf->SetFont('Arial', 'I', 12);
-                $pdf->Cell(50, 8, ($mostrar['observacion']), 1, 1, 'C', 0);
-                $pdf->SetFont('Arial', '', 12);
 
-            } else {
-                $pdf->Cell(10, 8, ($mostrar['id']), 1, 0, 'C', 0);
-                $pdf->Cell(70, 8, utf8_decode($mostrar['nombre'] . " " . $mostrar['apellido'] . " " . $mostrar['seg_apellido']), 1, 0, 'L', 0);
-                $pdf->Cell(34, 8, utf8_decode($mostrar['t_nombre']), 1, 0, 'C', 0);
-                $pdf->Cell(25, 8, ($fecha), 1, 0, 'C', 0);
-                $pdf->Cell(25, 8, ($entrada), 1, 0, 'C', 0);
-                $pdf->Cell(25, 8, $salida, 1, 1, 'C', 0);
-            }
-
-
+                if($entrada == '00:00:00' && $salida == '00:00:00'){
+                    $pdf->Cell(50, 8, ($mostrar['observacion']), 1, 1, 'C', 0);
+                  
+                }else{
+                    $pdf->Cell(25, 8, ($entrada), 1, 0, 'C', 0);
+                    $pdf->Cell(25, 8, $salida, 1, 1, 'C', 0);
+                }
 
         }
     }

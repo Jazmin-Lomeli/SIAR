@@ -5,7 +5,10 @@ require_once 'assets/config/config.php';
 /* Establecemos la fecha y la hora actual */
 date_default_timezone_set("America/Mexico_City");
 $fechaActual = date('Y-m-d');
-$Hora_actual = date('h:i:s');
+$Hora_actual = date('h:i:s'); // Obtener la hora actual
+// Restar una hora
+$Hora_resta = date('h:i:s', strtotime('-1 hour', strtotime($Hora_actual)));
+ 
 
 /*  Datos que manda el arduino por el metodo POST  */
 $confirmacion = $_POST['transaccion_hecha'];
@@ -58,7 +61,7 @@ ID                --> ID que se manipulo
 error             --> Si lan transaccion se realizo de manera correcta 
 */
 
-/* Si agrego una nueva heulla */
+/* Si agrego una nueva huella */
 if ($confirmacion == "add" && $finger_err == "Todo_bien") {
     if ($confirma_transaccion == "correcto") {
         /* Cambio de status */
@@ -67,7 +70,7 @@ if ($confirmacion == "add" && $finger_err == "Todo_bien") {
         /* Cambioamos modo de EROLL a REGISTER */
         $a = mysqli_query($link, "UPDATE arduino SET finger_status = '$cambio' ");
         if ($a == TRUE) {
-            /* SE  registro la huella, hacer el cmabio del status del sensor */
+            /* SE  registro la huella, hacer el cambio del status del sensor */
             $id_manipular = "-";
             echo "REGISTER" . "/-";
 
@@ -129,12 +132,11 @@ if ($confirmacion == "add" && $finger_err == "Todo_bien") {
                         $mode_sensor_huella = "AVISO";
                         $cont = 0;
 
-
                         /* Avisos particulares */
                         $query_avisos = "SELECT * FROM recordatorios LEFT JOIN tipo_empleado ON recordatorios.r_tipo=tipo_empleado.tipo  WHERE tipo_empleado.tipo= 1 OR tipo_empleado.tipo = '$tipo_emp'";
                         $res = mysqli_query($link, $query_avisos);
                         foreach ($res as $datos) {
-                            if ($datos['tipo'] == $tipo_emp || $datos['tipo'] == 1) {
+                            if ($datos['tipo'] == 1 || $datos['tipo'] == $tipo_emp) {
                                 $cont++;
                                 echo $datos['r_nombre'] . "#" . $datos['descripcion'] . "#" . $datos['inicio'] . "#" . $datos['fin'] . "#" . $datos['caracter'] . "$";
                             }
@@ -159,29 +161,43 @@ if ($confirmacion == "add" && $finger_err == "Todo_bien") {
             $add_salida = mysqli_query($link, "UPDATE asistencia SET salida = '$Hora_actual' WHERE id_emp = '$empleado_asistencia'");
             if ($add_salida == TRUE) {
 
-                //  CAMBIAR EL 18  POR EL GENERAL
-                $recordatorios = "SELECT COUNT(*) AS num_avisos FROM recordatorios Where recordatorios.r_tipo = 18 OR recordatorios.r_tipo = '$id_emp'";
-                $cont = mysqli_query($link, $recordatorios);
-                $res = mysqli_fetch_array($cont);
-                $nu_avisos = $res['num_avisos']; //   Se mandará a la esp32
-
-                if ($nu_avisos == NULL) {
-                    $aviso = 0;
-                } else {
-                    // REGISTER/si/listado de avisos
-
-                    echo "AVISO/" . $nu_avisos . "/";
-                    $mode_sensor_huella = "AVISO";
-                    $cont = 0;
-                    /* Avisos particulares */
-                    $query_avisos = "SELECT tipo_empleado.t_nombre, recordatorios.descripcion, recordatorios.r_nombre, recordatorios.inicio, recordatorios.fin, recordatorios.caracter from recordatorios INNER JOIN tipo_empleado ON ( recordatorios.r_tipo = tipo_empleado.tipo OR recordatorios.r_tipo= 18)INNER JOIN empleados ON empleados.tipo = tipo_empleado.tipo WHERE empleados.id = '$id_emp'";
-                    $res = mysqli_query($link, $query_avisos);
-                    foreach ($res as $datos) {
-                        $cont++;
-                        echo $datos['r_nombre'] . "#" . $datos['descripcion'] . "#" . $datos['inicio'] . "#" . $datos['fin'] . "#" . $datos['caracter'] . "$" . $cont . "$";
+               
+                    $tipo_emp = "";
+                    $query = "SELECT tipo FROM empleados WHERE id = '$empleado_asistencia'";
+                    $resultado = mysqli_query($link, $query);
+                    foreach ($resultado as $row) {
+                        $tipo_emp = $row['tipo'];
                     }
 
-                }
+                    $nu_avisos = 0;
+                    //  CAMBIAR EL 18  POR EL GENERAL
+                    $recordatorios = "SELECT COUNT(*) FROM recordatorios Where recordatorios.r_tipo = 1 OR recordatorios.r_tipo = '$tipo_emp'";
+                    $cont = mysqli_query($link, $recordatorios);
+                    $res = mysqli_fetch_array($cont);
+                    $nu_avisos = $res['COUNT(*)']; //   Se mandará a la esp32
+
+
+                    if ($nu_avisos == NULL) {
+                        $aviso = 0;
+                    } else {
+                        // REGISTER/si/listado de avisos
+                        $aux_aviso = 1;
+                        echo "AVISO/" . $nu_avisos . "/";
+
+                        $mode_sensor_huella = "AVISO";
+                        $cont = 0;
+
+                        /* Avisos particulares */
+                        $query_avisos = "SELECT * FROM recordatorios LEFT JOIN tipo_empleado ON recordatorios.r_tipo=tipo_empleado.tipo  WHERE tipo_empleado.tipo= 1 OR tipo_empleado.tipo = '$tipo_emp'";
+                        $res = mysqli_query($link, $query_avisos);
+                        foreach ($res as $datos) {
+                            if ($datos['tipo'] == 1 || $datos['tipo'] == $tipo_emp) {
+                                $cont++;
+                                echo $datos['r_nombre'] . "#" . $datos['descripcion'] . "#" . $datos['inicio'] . "#" . $datos['fin'] . "#" . $datos['caracter'] . "$";
+                            }
+
+                        }
+                    }
 
 
 

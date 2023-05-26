@@ -1,29 +1,30 @@
 <?php
-// Initialize the session
+/* Seguridad de Sesiones */
 session_start();
-// Revisar si no se ha logeado 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: login.php");
-  //exit;
 }
 
+/* Llamar a los archivos */
 require_once 'assets/config/config.php';
-// require_once 'assets/config/functions.php';
 
 $conexion = $link;
 if (!$conexion) {
   header('Location: login.php');
 }
-date_default_timezone_set("America/Mexico_City");
 
+date_default_timezone_set("America/Mexico_City");
 $fecha_hoy = date("Y-m-d");
+/* Consulta  para asistencias*/
 $query = "SELECT * FROM empleados";
 $resultado = $link->query($query);
 $conexion = $link;
 
-$id = $entrada = $salida = "";
-$id_err = $entrada_err = $salida_err = "";
+/* Declarar variables  */
+$id = $entrada = $salida = $fecha = "";
+$id_err = $entrada_err = $salida_err = $fecha_err = "";
 
+/* Formulario */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   /* Validar ID del usuario  */
@@ -40,30 +41,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $param_entrada = trim($_POST["hora"]);
     $entrada = $param_entrada;
   }
+  /* Validar Fecha del registro  */
+  if (empty(trim($_POST["fecha"])) || $_POST["fecha"] > date('Y-m-d')) {
+    $fecha_err = "Error";
+  } else {
+    $fecha = $_POST["fecha"];
+  }
 
   // Si no hay errores proseguimos a hacer la insercion en la tabla de aisistencia
-  if (empty($id_err) && empty($entrada_err)) {
-    /* Consulta */
+  if (empty($id_err) && empty($entrada_err) && empty($fecha_err)) {
+    /* Inserción  */
     $sql = "INSERT INTO asistencia (id_emp, entrada, fecha) VALUES (?,?,?)";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
-      /* Agregamos los parametros */
-      mysqli_stmt_bind_param($stmt, "sss", $param_id, $param_entrada, $fecha_hoy);
-      // Esteblecemos los parametros en los inpus, si hay un error no se borre lo que esta correcto  
-      // si la insercion se llevo a cabo de manera correcta 
+      mysqli_stmt_bind_param($stmt, "sss", $id, $entrada, $fecha);
+
       if (mysqli_stmt_execute($stmt)) {
-        // Redirect to login page
-        header("location: admin_asistencia.php?mensaje=agregado");
+        header("location: admin_asistencia.php?mensaje=agregado"); // Correcto 
       } else {
-        header("location: admin_asistencia.php?mensaje=error");
+        header("location: admin_asistencia.php?mensaje=error"); // Algo salio mal 
       }
-      // Close statement
+
       mysqli_stmt_close($stmt);
     }
   } else {
     header("location: admin_asistencia.php?mensaje=error");
   }
-  // Close connection
   mysqli_close($link);
 }
 
@@ -83,6 +86,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <link rel="shortcut icon" href="./assets/img/icono.png">
 
 </head>
+<style>
+  .cont {
+    background: ghostwhite;
+    height: 100%;
+    border-radius: 10px;
+    padding-bottom: 1em;
+    padding-top: 0.5em;
+    margin-top: 1em;
+  }
+</style>
 
 <body>
   <!-- NAV BAR -->
@@ -92,6 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a class="navbar-brand">
           <img src="./assets/img/logo_3.png" width="140" height="50" alt=""> <!-- Logo -->
         </a>
+        <!-- Barra de navegación comprimida -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -114,12 +128,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
               </a>
-
+              <!-- Submenu de barra de navegación -->
               <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp;
                     &nbsp; &nbsp; &nbsp;
                     <i class="bi bi-person-circle"></i> </a></li>
-
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -127,16 +140,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     &nbsp; &nbsp; &nbsp; &nbsp;
                     <i class="bi bi-gear"></i></a>
                 </li>
-
                 <li>
                   <hr class="dropdown-divider">
                 </li>
                 <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
                     &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                     <i class="bi bi-box-arrow-right"></i></a> </li>
-
               </ul>
-
             </li>
           </ul>
         </div>
@@ -144,7 +154,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </nav>
   </header>
   <!-- NAV BAR -->
-  <!-- Modal -->
+
+  <!-- Modal AGREGAR ASISTENCIA -->
   <div class="modal fade pt-5" id="exampleModal" data-bs-backdrop="static" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -156,9 +167,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="modal-body">
           <form method="post" id="formulario">
             <div class="row">
-
               <div class="col-xl-6 col-lg-6 col-6 form-group text-center">
                 <label for="id">ID de empleado</label>
+                <!-- Desplega lista de los empleados con su ID -->
                 <select name="id" class="form-control <?php echo (!empty($area_err)) ? 'is-invalid' : ''; ?>"
                   value="<?php echo $area; ?>">
                   <option value="select">-- Seleccionar --</option>
@@ -168,12 +179,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   }
                   ?>
                 </select>
-                <!--<input id="id" type="text" name="id" class="form-control">-->
               </div>
               <div class="col-xl-6 col-lg-6 col-6 form-group text-center">
                 <label for="fecha">Fecha</label>
-                <input id="fecha" type="date" name="fecha" class="form-control" value="<?php echo $fecha_hoy; ?>"
-                  >
+                <input id="fecha" type="date" name="fecha" class="form-control" value="<?php echo $fecha_hoy; ?>">
               </div>
               <div class="col-xl-4 col-lg-4 col-4 form-group"></div>
               <div class="col-xl-4 col-lg-4 col-4 form-group text-center">
@@ -185,7 +194,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <br>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-primary">Guardar cambios</button>
-
           </form>
         </div>
       </div>
@@ -193,7 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
   <!-- Modal -->
 
-
+  <!-- Bienvenida  -->
   <div class="px-4 pt-3  bienvenida">
     <div class="row">
       <div class="col align-self-start">
@@ -205,40 +213,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="col align-self-end d-flex flex-row-reverse pe-5">
         <?php
         $mes = array("enero", "febrero", "marzo", "abril", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "noviembre", "diciembre");
-        $dia = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+        $dia = array("domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado");
         ?>
         <p class="d-flex">
           <?php
-
           /* Establecer la hora de Mexico por que por defecto manda la del server  */
           date_default_timezone_set("America/Mexico_City");
-          echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . ".   " . date("h:i:sa"); ?>
-
+          $hora_actual = strtotime("-1 hour");
+          echo $dia[date('w', $hora_actual)] . " " . date("d", $hora_actual) . " de " . $mes[date("m", $hora_actual) - 1] . " de " . date("Y", $hora_actual) . ".   " . date("h:i:sa", $hora_actual); ?>
         </p>
       </div>
     </div>
   </div>
-  <!-- Alertas de confirmacion o  error -->
-  <div class="container mt-2 principal rounded-3 shadow mb-4">
+  <!-- Bienvenida  -->
+
+
+  <div class="cont container mt-2 rounded-3 shadow mb-4">
+    <!-- Alertas de confirmaciòn o  error -->
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'error') {
       ?>
       <br>
-      <div class=" alerta_error alert alert-danger alert-dismissible fade show  text-center" role="alert">
+      <div class=" alerta alert alert-danger alert-dismissible fade show  text-center" role="alert">
         <strong>¡ERROR!</strong> Vuelve a intentar.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
       </div>
       <?php
     }
     ?>
-
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'editado') {
       ?>
       <br>
-      <div class=" alerta_edit alert alert-success alert-dismissible fade show text-center" role="alert">
-        <strong>¡EXITO!</strong> La hora de SALIDA fue registrada
+      <div class=" alerta alert alert-success alert-dismissible fade show text-center" role="alert">
+        <strong>¡EXITO!</strong> La hora de SALIDA fue registrada.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
       <?php
@@ -248,8 +256,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'agregado') {
       ?>
       <br>
-      <div class=" alerta_delete alert alert-success alert-dismissible fade show text-center" role="alert">
-        <strong>¡Exito!</strong> La hora de ENTRADA fue registrada
+      <div class=" alerta alert alert-success alert-dismissible fade show text-center" role="alert">
+        <strong>¡Exito!</strong> La hora de ENTRADA fue registrada.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
       </div>
@@ -257,22 +265,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     ?>
     <?php
-    if (isset($_GET['justificada']) and $_GET['mensaje'] == 'justificada') {
+    if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'justificada') {
       ?>
       <br>
-      <div class=" alerta_delete alert alert-success alert-dismissible fade show text-center" role="alert">
-        <strong>¡Exito!</strong> Falta jistificada agregada con exito
+      <div class=" alerta alert alert-success alert-dismissible fade show text-center" role="alert">
+        <strong>¡Exito!</strong> La falta justificada fue agregada con exito
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
       </div>
       <?php
     }
     ?>
-    <!-- Alertas de confirmacion o  error -->
+    <!-- Alertas de confirmacion o error -->
 
+    <!-- Contenido -->
     <h2 style="text-align: center; padding-top: 1rem; padding-bottom: 0.5rem;">Asistencia</h2>
     <div class="container w-auto shadow pt-0 pb-0">
-
+      <!-- Navbar 2 -->
       <nav class="navbar navbar-expand-lg navbar-light pl-4 rounded-4">
         <div class="container-fluid dernav">
           <a class="navbar-brand">
@@ -285,7 +294,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </button>
 
           <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 " style="color:black;">
               <li class="nav-item pe-1">
                 <a class="nav-link active" style="font-size: 1.2em;" aria-current="page"
                   href="admin_asistencia.php">Actual</a>
@@ -305,13 +314,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </div>
         </div>
       </nav>
+      <!-- Navbar 2 -->
     </div>
 
-
-    <p class="pt-4 pb-0 mb-0 pt-4">Reporte de asistencia del dia
+  
+    <h5 class=" pt-4 pb-1 mb-0 pt-4">Reporte de asistencia del dia
       <?php
       echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . "."; ?>
-    </p>
+      </h5>
+
     <div class="pt-2 pb-3">
       <div class="row">
         <div class="col-md-auto align-self-start pe-1">
@@ -323,9 +334,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </a>
           </abbr>
         </div>
-
-        
-
         <div class="col align-self-center">
         </div>
         <!-- Barra de buscar -->
@@ -339,6 +347,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class="table-responsive text-center">
+      <!-- Tabla con los datos -->
       <table class="table table table-bordered table-hover border border-secondary">
         <thead>
           <tr>
@@ -350,65 +359,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <th>Salida</th>
           </tr>
         </thead>
-        <tbody id="content">
+        <tbody id="content"> <!-- Contenido con AJAX -->
 
         </tbody>
       </table>
     </div>
   </div>
-
-  <?php/*
-   $id_manipular = 0;       
-   $huecos_en_huella = 0;
-  $cont = 0;
-$query_avisos = "SELECT id_huella FROM huella ORDER by id_huella ASC";
-$res = mysqli_query($link, $query_avisos);
-foreach ($res as $datos) {
-
-    if ($datos['id_huella'] == $cont) {
-        $cont++;            // Aumenta pues si existe
-    } else {
-        $id_manipular = $cont; /* este sera el ID a agregar a la tabla (SI HAY HUECO) 
-        echo $id_manipular;
-        $huecos_en_huella = 1;
-    }
-}
-$id_add = 1;
-$sql = "INSERT INTO huella (id_emp) VALUES (?)";
-if ($stmt = mysqli_prepare($link, $sql)) {
-    mysqli_stmt_bind_param($stmt, "s", $id_add);
-    echo " Se inserto el $id_add";
-/* como se genero eon el AuntoIncrement buscamos el id_huella mayor 
-    if (mysqli_stmt_execute($stmt)) {
-
-        $consulta = "SELECT MAX(id_huella) AS id FROM huella";
-        $resultado = mysqli_query($link, $consulta);
-        $linea = mysqli_fetch_array($resultado);
-        $id_manipular = $linea['id']; //   Se mandará a la esp32
-
-        echo "Uñtimo Id $id_manipular";
-        if($id_manipular == NULL){
-            $id_manipular = 1;
-        }else{
-            $id_manipular = $id_manipular + 1;
-        }
-
-
-
-
-    } else {
-        //header('Location: ../../admin_reg.php');
-        echo "error";
-    }
-
-
-}
-
-*/
-
-
-  ?>
-
 
   <!--Funcion de JS para buscar en tiempo real  -->
   <script>
@@ -435,29 +391,14 @@ if ($stmt = mysqli_prepare($link, $sql)) {
 
   <!--Funcion de JS para borrar la alerta automaticamente  -->
   <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-  <!-- Alertas de edicion, borrado y error
-  -->
+  <!-- Alertas de edicion, borrado y error -->
   <script type="text/javascript">
     $(document).ready(function () {
       setTimeout(function () {
-        $(".alerta_error").fadeOut(1500);
-      }, 2500);
-    });
-
-    $(document).ready(function () {
-      setTimeout(function () {
-        $(".alerta_edit").fadeOut(1500);
-      }, 2500);
-    });
-
-    $(document).ready(function () {
-      setTimeout(function () {
-        $(".alerta_delete").fadeOut(1500);
+        $(".alerta").fadeOut(1500);
       }, 2500);
     });
   </script>
-
-
 
   <!-- JavaScript Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"

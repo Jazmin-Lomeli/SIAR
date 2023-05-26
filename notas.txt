@@ -1,9 +1,0 @@
-CONFIGURACION DE XAMPP COMO SERVIDOR LOCAL
---> https://youtu.be/eWozquQyFRE
-
-SELECT empleados.nombre, tipo_empleado.t_nombre, recordatorios.r_nombre, recordatorios.descripcion
-FROM (empleados INNER JOIN tipo_empleado ON empleados.tipo = tipo_empleado.tipo) INNER JOIN recordatorios ON recordatorios.r_tipo = empleados.tipo
-
-
-
-

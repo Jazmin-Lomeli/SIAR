@@ -1,51 +1,45 @@
 <?php
-// Initialize the session
+/* Seguridad de Sesiones */
 session_start();
-// Revisar si no se ha logeado 
+
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   header("location: login.php");
-  // exit;
+
 }
 
+/* Llamar a los archivos */
 require_once 'assets/config/config.php';
-// require_once 'assets/config/functions.php';
 
 $conexion = $link;
 if (!$conexion) {
-  header('Location: assets/scripts/reporte_actual.php');
+  header('Location: login.php');
 }
 
-
+/* Variables */
 $fecha_final = $fecha_inicial = "  --  ";
 $fecha_final_err = $fecha_inicial_err = "";
 
+/* Formulario */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Validar primer apellido
-  if (empty(trim($_POST["fecha_i"]))) {
+  /* Validar campos */
+  if (empty(trim($_POST["fecha_i"]))) { // No vacia 
     $fecha_inicial_err = "Por favor una fecha inicial ";
-  } elseif (trim($_POST["fecha_i"]) > date('Y-m-d')) { // Letras mayusculas y min
+  } elseif (trim($_POST["fecha_i"]) > date('Y-m-d')) { // Fecha no valida
     $fecha_inicial_err = "Fecha inicial no valida.";
   } else {
     $fecha_inicial = $_POST["fecha_i"];
   }
-
-  if (empty(trim($_POST["fecha_f"]))) {
+  if (empty(trim($_POST["fecha_f"]))) { // No vacia 
     $fecha_final_err = "Por favor una fecha final ";
-  } elseif (trim($_POST["fecha_f"]) == $fecha_inicial) { // Letras mayusculas y min
+  } elseif (trim($_POST["fecha_f"]) == $fecha_inicial) { // Fecha no valida 
     $fecha_final_err = "Fecha final no valida.";
     $fecha_inicial_err = "Fecha inicial no valida.";
-  } elseif (trim($_POST["fecha_f"]) < $fecha_inicial) {
+  } elseif (trim($_POST["fecha_f"]) < $fecha_inicial) { // Fecha no valida 
     $fecha_final_err = "Fecha final no valida.";
   } else {
     $fecha_final = $_POST["fecha_f"];
-
   }
-
-
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -59,15 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="./assets/css/styles.css">
-  <link rel="stylesheet" href="./assets/css/rootes.css">
+  <link rel="stylesheet" href="./assets/css/root.css">
   <link rel="shortcut icon" href="./assets/img/icono.png">
-
-
-
-  <style>
-    
-
-  </style>
 </head>
 
 <body>
@@ -79,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a class="navbar-brand">
           <img src="./assets/img/logo_3.png" width="140" height="50" alt=""> <!-- Logo -->
         </a>
+        <!-- Barra de navegación comprimida -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -91,7 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <li class="nav-item px-2">
               <a class="nav-link active" href="admin_asistencia.php">Asistencia</a>
             </li>
-
             <li class="nav-item">
               <a class="nav-link active" href="admin_recordatorios.php" tabindex="-1"
                 aria-disabled="true">Recordatorios</a>
@@ -101,12 +88,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <?php echo htmlspecialchars($_SESSION["username"]); ?>
               </a>
-
+              <!-- Submenu de barra de navegación -->
               <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="assets/scripts/cuenta.php"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp;
                     &nbsp; &nbsp; &nbsp;
                     <i class="bi bi-person-circle"></i> </a></li>
-
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -114,16 +100,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     &nbsp; &nbsp; &nbsp; &nbsp;
                     <i class="bi bi-gear"></i></a>
                 </li>
-
                 <li>
                   <hr class="dropdown-divider">
                 </li>
                 <li><a class="dropdown-item " href="./assets/scripts/logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp;
                     &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                     <i class="bi bi-box-arrow-right"></i></a> </li>
-
               </ul>
-
             </li>
           </ul>
         </div>
@@ -143,21 +126,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="col align-self-end d-flex flex-row-reverse pe-5">
         <?php
         $mes = array("enero", "febrero", "marzo", "abril", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "noviembre", "diciembre");
-        $dia = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+        $dia = array("domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado");
         ?>
         <p class="d-flex">
           <?php
           /* Establecer la hora de Mexico por que por defecto manda la del server  */
           date_default_timezone_set("America/Mexico_City");
-          echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . ".   " . date("h:i:sa"); ?>
+          $hora_actual = strtotime("-1 hour");
+          echo $dia[date('w', $hora_actual)] . " " . date("d", $hora_actual) . " de " . $mes[date("m", $hora_actual) - 1] . " de " . date("Y", $hora_actual) . ".   " . date("h:i:sa", $hora_actual); ?>
         </p>
       </div>
     </div>
   </div>
 
+  <style>
+    .cont {
+      background: ghostwhite;
+      height: 100%;
+      border-radius: 10px;
+      padding-bottom: 1em;
+      padding-top: 0.5em;
+      margin-top: 1em;
+    }
+  </style>
 
 
-  <div class="container mt-2 principal rounded-3 shadow mb-4">
+  <div class="container mt-2  cont rounded-3 shadow mb-4">
+        <!-- Alertas de confirmacion o error -->
+
     <?php
     if (isset($_GET['mensaje']) and $_GET['mensaje'] == 'error') {
       ?>
@@ -238,7 +234,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class="container w-auto shadow pt-0 pb-0">
-
       <nav class="navbar navbar-expand-lg navbar-light pl-4 rounded-4">
         <div class="container-fluid dernav">
           <a class="navbar-brand">
@@ -280,18 +275,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
       </nav>
     </div>
-
-    <p class="pt-4 pb-0 mb-0 pt-4">Reporte de asistencia de los días anteriores a
+    <h5 class=" pt-4 pb-1 mb-0 pt-4">Reporte de asistencia de los días anteriores a
       <?php
       echo $dia[date('w')] . " " . date("d") . " de " . $mes[date("m") - 1] . " de " . date("Y") . "."; ?>
-    </p>
+      </h5>
+
+   
     <!-- Barra de buscar -->
     <div class="pt-2 pb-3">
       <div class="row">
         <div class="col-md-auto align-self-start pe-2">
-
         </div>
-
         <div class="col align-self-center">
         </div>
         <!-- Barra de buscar -->
@@ -303,6 +297,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
       </div>
     </div>
+    <!-- Tabla con los datos -->
     <div class="table-responsive text-center">
       <table class="table table table-bordered table-hover border border-secondary">
         <thead>
@@ -315,14 +310,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <th>Justificación</th>
           </tr>
         </thead>
-        <tbody id="content">
+        <tbody id="content"> <!-- Contenido con AJAX -->
 
         </tbody>
       </table>
     </div>
 
   </div>
-
 
   <!--Funcion de JS para buscar en tiempo real  -->
   <script>

@@ -133,7 +133,6 @@ $conexion = $link;
     }
 
     body {
-      font: 14px sans-serif;
       background: rgb(247, 245, 245);
     }
 
@@ -142,63 +141,68 @@ $conexion = $link;
     }
   </style>
 </head>
+<header>
+        <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
+            <div class="container-fluid dernav">
+                <a class="navbar-brand">
+                    <img src="../img/logo_3.png" width="140" height="50" alt=""> <!-- Logo -->
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                        <li class="nav-item ">
+                            <a class="nav-link active" aria-current="page" href="../../admin_reg.php">Registros</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link active" href="../../admin_asistencia.php">Asistencia</a>
+                        </li>
 
-<body>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="../../admin_recordatorios.php" tabindex="-1"
+                                aria-disabled="true">Recoradatorios</a>
+                        </li>
+                        <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
+                            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <?php echo htmlspecialchars($_SESSION["username"]); ?>
+                            </a>
+                            <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="cuenta.php"> &nbsp; Cuenta &nbsp;
+                                        &nbsp; &nbsp; &nbsp;
+                                        &nbsp; &nbsp; &nbsp;
+                                        <i class="bi bi-person-circle"></i> </a></li>
 
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-light pl-5 shadow ">
-      <div class="container-fluid dernav">
-        <a class="navbar-brand">
-          <img src="../img/logo.png" width="140" height="50" alt=""> <!-- Logo -->
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse lista_items" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-            <li class="nav-item ">
-              <a class="nav-link active" aria-current="page" href="../../admin_reg.php">Registros</a>
-            </li>
-            <li class="nav-item px-2">
-              <a class="nav-link active" href="../../admin_asistencia.php">Asistencia</a>
-            </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item " href="sistema.php">&nbsp; Sistema &nbsp;
+                                        &nbsp; &nbsp;
+                                        &nbsp; &nbsp; &nbsp; &nbsp;
+                                        <i class="bi bi-gear"></i></a>
+                                </li>
 
-            <li class="nav-item">
-              <a class="nav-link active" href="../../admin_recordatorios.php" tabindex="-1"
-                aria-disabled="true">Recoradatorios</a>
-            </li>
-            <li class="navbar-nav position-absolute end-0 " style="padding-right: 6rem;">
-              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <?php echo htmlspecialchars($_SESSION["username"]); ?>
-              </a>
-              <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#"> &nbsp; Cuenta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp;
-                    <i class="bi bi-person-circle"></i> </a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item " href="#">&nbsp; Sistema &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp; &nbsp; &nbsp;
-                    <i class="bi bi-gear"></i></a>
-                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item " href="logout.php">&nbsp; Salir &nbsp;
+                                        &nbsp; &nbsp;
+                                        &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+                                        <i class="bi bi-box-arrow-right"></i></a> </li>
 
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item " href="logout.php">&nbsp; Salir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-                    &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-                    <i class="bi bi-box-arrow-right"></i></a> </li>
-              </ul>
-          </ul>
-          </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+                            </ul>
+
+
+                    </ul>
+                    </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
   <style>
     body {
@@ -220,7 +224,7 @@ $conexion = $link;
     <div class="row text-center justify-content-center my-4">
       <div class="cont col-md-8 wrapper shadow px-5">
         <h3 class="pt-2">Editar registro</h3>
-        <p> Por favor modifica solo los campos erroneos </p>
+        <p> Por favor modifica solo los campos erróneos </p>
         <form method="post" id="formulario" class="px-4">
 
           <div class="row g-3 pt-2">
@@ -252,7 +256,7 @@ $conexion = $link;
               </span>
             </div>
             <div class="col-sm-6 center form-group">
-              <label for="tel">Telefono</label>
+              <label for="tel">Teléfono</label>
               <input id="tel" type="text" name="tel" maxlength="10"
                 class="form-control text-center <?php echo (!empty($tel_err)) ? 'is-invalid' : ''; ?>"
                 value="<?php echo $tel; ?>">
@@ -278,7 +282,7 @@ $conexion = $link;
               </span>
             </div>
             <div class="col-sm-6 center mt-6 form-group"> <!--  Joranada  -->
-              <label for="jornada">Jornada semanal (Hrs)</label>
+              <label for="jornada">Jornada semanal (hrs)</label>
 
               <input id="jornada" type="number" name="jornada" min="1" max="100" value="<?php echo $jornada?>"
                 class="form-control <?php echo (!empty($jornada_err)) ? 'is-invalid' : ''; ?>"
@@ -288,23 +292,18 @@ $conexion = $link;
               </span>
             </div>
             <div class="col-xl-12 col-lg-12 col-12 form-group Botnones pt-4 pb-4">
-              <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Crear">
+              <input type="submit" class="btn btn-outline-success ps-5 px-5 mx-2" value="Guardar">
               <a class="btn btn-outline-danger ps-4 px-4"
                 href="../../empleado_detalles.php?id=<?php echo $id ?>&info=-"><i class="bi bi-x-circle"></i> &nbsp;
                 Cancelar</a>
             </div>
-
           </div>
         </form>
-
       </div>
     </div>
   </div>
 
-
-
   <!-- JavaScript Bundle with Popper -->
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
     crossorigin="anonymous"></script>

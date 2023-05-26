@@ -48,7 +48,7 @@ $pdf->Cell(170, 10, utf8_decode("Fecha de emisión: $fechaActual"), 0, 1, 'R', 0
 $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(13, 10, utf8_decode('ID'), 1, 0, 'C', 0);
 
-$pdf->Cell(70, 10, utf8_decode('Área laboral'), 1, 0, 'C', 0);
+$pdf->Cell(70, 10, utf8_decode('Departamento'), 1, 0, 'C', 0);
 $pdf->Cell(95, 10, 'Nombre completo', 1, 1, 'C', 0);
 
 $query = "SELECT * FROM empleados INNER JOIN tipo_empleado ON empleados.tipo=tipo_empleado.tipo  Order BY tipo_empleado.t_nombre";
@@ -63,23 +63,6 @@ while ($mostrar = mysqli_fetch_array($result)) {
     $pdf->Cell(13, 8, utf8_decode($mostrar['id']), 1, 0, 'C', 0);
     $pdf->Cell(70, 8, utf8_decode($mostrar['t_nombre']), 1, 0, 'L', 0);
     $pdf->Cell(95, 8, utf8_decode($mostrar['nombre'] . " " . $mostrar['apellido'] . " " . $mostrar['seg_apellido']), 1, 1, 'L', 0);
-
-    
-/*
-if($meses == 1 && $anios == 1){
-            $imprime = $anios . " año ". $meses . " mes.";
-
-        }elseif($anios > 1 && $meses == 1){
-            $imprime = $anios . " años ". $meses . " mes.";
-        }else{
-            $imprime = $anios . " años ". $meses . " meses.";
-
-        }
-        $pdf->Cell(40, 8, utf8_decode( $imprime), 1, 1, 'C', 0);
-*/
-
-    /* $area = $mostrar['t_nombre'];
-    $nombre = $mostrar['entrada'];*/
 }
 $pdf->Output();
  
